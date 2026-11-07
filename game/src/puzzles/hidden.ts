@@ -1,6 +1,7 @@
 // Hidden object: find the listed items in a cluttered scene. Placeholder art uses emoji glyphs;
 // the art pass replaces them with a painted scene and invisible tap regions at the same positions.
 
+import { SCENE_ART } from '../assets/manifest';
 import { placeholderSvg } from '../core/art';
 import { h } from '../core/dom';
 import { rng } from '../core/rng';
@@ -25,7 +26,10 @@ export const mountHidden: PuzzleMount<HiddenDef> = (def, ctx) => {
   let done = false;
 
   const scene = h('div', { class: 'hidden-scene' });
-  scene.innerHTML = placeholderSvg(def.scene, 300, 400);
+  // Painted scene as a backdrop when available, dimmed so the items read. Not a hidden-object painting yet.
+  const art = SCENE_ART[def.scene];
+  if (art) scene.append(h('img', { class: 'ho-backdrop', src: art, alt: '', draggable: 'false' }));
+  else scene.innerHTML = placeholderSvg(def.scene, 300, 400);
 
   // Clutter first, kept a little away from targets so targets are never fully covered.
   for (let n = 0, tries = 0; n < def.clutter && tries < def.clutter * 20; tries++) {

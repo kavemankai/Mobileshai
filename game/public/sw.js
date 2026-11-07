@@ -1,5 +1,5 @@
 // Offline cache for the installed PWA. Network-first for the page, cache-first for hashed assets.
-const CACHE = 'last-check-in-v2';
+const CACHE = 'last-check-in-v3';
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then((c) => c.addAll(['./', './index.html', './manifest.webmanifest', './icon.svg'])).then(() => self.skipWaiting()));
 });

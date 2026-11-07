@@ -1,8 +1,8 @@
-# The Last Check-In (v0.2, code complete, placeholder art)
+# The Last Check-In (v0.3, WIP art and audio integrated)
 
 A 28-puzzle crime mystery for phones. This folder is the rebuilt game. The old single-file prototype is in `../The_Last_Check_In/` for reference only.
 
-Art and sound are placeholders. Everything you need for the art and sound pass is listed in [ASSETS.md](ASSETS.md).
+All nine locations have painted backdrops, Nina and Claire have expression portraits, and every sound plays from a file: 22 effects, 9 room tones, 5 music cues, 3 stingers. All of it is draft quality. Escape-room and hidden-object scenes, most puzzle boards and recorded audio are still to come. [ASSETS.md](ASSETS.md) has the status of every asset and what's left.
 
 ## Run it
 
@@ -33,7 +33,7 @@ npm run check          # everything above
 
 The solver tests replay each puzzle's solution through the same rule functions the UI uses (zip paths, panel arrangements, water pours, card sorts, maze tilts, logic-grid uniqueness, room item chains, lever minimum presses). Change a level's data and the tests tell you if you broke it.
 
-The browser test plays all 28 levels through the real UI (tapping every dialogue line), checks every puzzle at 360 px and 390 px widths, solves eight mechanics with real taps (zip, escape room, keypad, logic grid, accusation, cryptex, puzzle box, tilt maze), and checks hints, skips, save and resume.
+The browser test also checks that music, room tone, effects and stingers play from files (not the synth fallback), that every image loads, and that mood portraits show. It plays all 28 levels through the real UI (tapping every dialogue line), checks every puzzle at 360 px and 390 px widths, solves eight mechanics with real taps (zip, escape room, keypad, logic grid, accusation, cryptex, puzzle box, tilt maze), and checks hints, skips, save and resume.
 
 ## Where things live
 
@@ -77,7 +77,8 @@ A new mechanic is one file in `src/puzzles/` exporting a `PuzzleMount`, plus a l
 
 ## Known limits of this build
 
-- Placeholder art and synthesised sound throughout (see ASSETS.md).
+- Art and audio are drafts (see ASSETS.md). The audio is synthesised, not recorded.
+- The single-file build is about 8 MB because assets are inlined. Use the PWA build for her phone.
 - Progress saves at every dialogue line and phase change. A puzzle in progress restarts from the beginning after a reload.
 - Phone checks are Chromium emulation. It still needs a session on her actual phone: real touch feel, audio on the speaker, tilt permission on iPhone.
 - Board animation is CSS only. If the match-3 or sort boards feel flat after the art pass, those two are the candidates for PixiJS.

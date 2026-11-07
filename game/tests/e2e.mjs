@@ -206,6 +206,61 @@ async function solved(page) {
   await page.context().close();
 }
 
+// ---------- 5: assets: audio plays from files, every image loads ----------
+{
+  const page = await newPage();
+  await page.goto(FILE + '?debug=1');
+  await page.getByRole('button', { name: /Begin your shift/ }).click(); // first tap unlocks audio
+  await page.waitForTimeout(1500);
+  let a = await hook(page, 'audio');
+  ok('title plays file music and room tone', a.music === 'title' && a.ambience === 'exterior', JSON.stringify({ music: a.music, ambience: a.ambience, state: a.state }));
+  ok('all effects and stingers decoded', a.effectsDecoded === a.files.sfx && a.stingersDecoded === a.files.stingers && a.files.sfx === 22, `${a.effectsDecoded}/${a.files.sfx} sfx, ${a.stingersDecoded}/${a.files.stingers} stingers`);
+  await page.locator('.name-input').fill('Jo');
+  await page.getByRole('button', { name: 'Start the shift' }).click();
+  await page.waitForTimeout(2000);
+  a = await hook(page, 'audio');
+  ok('chapter 1 switches to investigation score and reception tone', a.music === 'investigation' && a.ambience === 'reception', JSON.stringify({ music: a.music, ambience: a.ambience }));
+  await hook(page, 'jump', 23);
+  await page.waitForTimeout(2000);
+  a = await hook(page, 'audio');
+  ok('chapter 4 laundry uses pressure score and laundry tone', a.music === 'pressure' && a.ambience === 'laundry', JSON.stringify({ music: a.music, ambience: a.ambience }));
+
+  const broken = [];
+  for (let i = 0; i < 28; i++) {
+    await hook(page, 'jump', i);
+    await page.waitForTimeout(80);
+    const bad = await page.evaluate(async () => {
+      const imgs = [...document.querySelectorAll('img')];
+      await Promise.all(imgs.map((im) => (im.complete ? 0 : new Promise((r) => { im.onload = im.onerror = r; }))));
+      return imgs.filter((im) => !im.naturalWidth).map((im) => im.className || im.src.slice(0, 40));
+    });
+    if (bad.length) broken.push(`${i + 1}: ${bad.join(',')}`);
+  }
+  ok('every image on every puzzle loads', broken.length === 0, broken.join(' | '));
+  for (const [i, n] of [[1, 'hidden-reception'], [3, 'panels-cctv'], [4, 'room-items'], [6, 'match3-tiles']]) {
+    await hook(page, 'jump', i);
+    if (i === 4) { await page.getByRole('button', { name: 'Fuse cupboard' }).click(); }
+    await page.waitForTimeout(150);
+    await page.screenshot({ path: `${SHOTS}/asset-${n}.png` });
+  }
+  ok('no JS errors with assets', page.errors.length === 0, page.errors.slice(0, 3).join(' | '));
+  await page.context().close();
+}
+
+// Story screens with portraits (moods)
+{
+  const page = await newPage();
+  await page.goto(FILE + '?debug=1');
+  await page.evaluate(() => { localStorage.setItem('last-check-in-save-v2', JSON.stringify({ v: 2, name: 'Jo', level: 24, phase: 'intro', line: 1, clues: [], hints: {}, finished: false })); });
+  await page.reload();
+  await page.getByRole('button', { name: /Continue/ }).click();
+  await page.waitForTimeout(400);
+  const src = await page.evaluate(() => document.querySelector('.portrait')?.className);
+  ok('mood portrait shown as a cutout', /cutout/.test(src ?? ''), src ?? 'no portrait');
+  await page.screenshot({ path: `${SHOTS}/story-nina-relieved.png` });
+  await page.context().close();
+}
+
 // Title screenshot
 {
   const page = await newPage();
