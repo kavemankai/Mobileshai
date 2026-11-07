@@ -20,7 +20,9 @@ npm run build          # installable web app (PWA) in dist/
 npm run build:single   # one self-contained HTML file in dist-single/index.html
 ```
 
-- **To put it on her phone:** host `dist/` on any static host (GitHub Pages, Netlify, Cloudflare Pages), open it in the phone browser, then "Add to Home Screen". It installs like an app, runs full screen in portrait and works offline after the first load.
+- **To put it on her phone:** it's published to GitHub Pages at **https://kavemankai.github.io/Mobileshai/**. Open that in the phone browser, then "Add to Home Screen" (Safari: Share → Add to Home Screen; Chrome: ⋮ → Add to Home screen / Install app). It installs like an app, runs full screen in portrait, and works offline once it has loaded once.
+- **How publishing works:** `.github/workflows/pages.yml` runs on every push to `main` that touches `game/`. It installs, runs `npm test`, builds, and deploys `dist/`. If the tests fail, nothing is published. You can also run it by hand from the Actions tab (Deploy game to GitHub Pages → Run workflow).
+- **One-time setup:** repo Settings → Pages → Build and deployment → Source: **GitHub Actions**. And set the default branch to `main` (Settings → General), because Pages only deploys from the default branch unless you change the `github-pages` environment rules.
 - **To send it as a file:** `dist-single/index.html` is everything in one file. Some Android browsers block local HTML files, so hosting is more reliable.
 
 ## Test it
