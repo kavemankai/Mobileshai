@@ -51,8 +51,6 @@ import cctv02w from './cctv/panel_02_wide.webp';
 import cctv02c from './cctv/panel_02_close.webp';
 import cctv05w from './cctv/panel_05_wide.webp';
 import cctv05c from './cctv/panel_05_close.webp';
-import cctv06w from './cctv/panel_06_wide.webp';
-import cctv06c from './cctv/panel_06_close.webp';
 
 export const SCENE_ART: Partial<Record<SceneKey, string>> = {
   exterior, reception, security, room17, service, corridor17, yard, records, laundry,
@@ -83,15 +81,31 @@ export const CUTOUT_PORTRAITS = new Set([ninaNeutral, ninaFrightened, ninaReliev
 /** Inventory icons by item id (room puzzles). Missing ids use the emoji in levels.ts. */
 export const ITEM_ICONS: Record<string, string> = { torch, screwdriver, coin, gloves };
 
+/** Frames revealed when a match-3 board is cleared. Placeholders: the yard painting and Daniel's portrait. */
+export const REVEAL_ART: Record<string, string> = { van: yard, driver: daniel };
+
 /** Match-3 tile sprites, one per colour index. */
 export const MATCH_TILES: string[] = [tile1, tile2, tile3, tile4, tile5];
 
-/** CCTV footage behind the frames puzzle, by `${panelId}_${viewName}`. Level 4 only for now. */
-export const PANEL_ART: Record<string, string> = {
-  a_wide: cctv02w, a_close: cctv02c,
-  b_wide: cctv01w, b_close: cctv01c,
-  c_wide: cctv05w, c_close: cctv05c,
-  d_wide: cctv06w, d_close: cctv06c,
+/** A frame's picture: a file, or a file with crop and zoom (x, y pan 0 to 1; focus picks the band of a tall image). */
+export type PanelArt = string | { src: string; zoom?: number; x?: number; y?: number; focus?: 'top' | 'mid' | 'bottom' };
+
+/**
+ * Footage behind the frames puzzle, by `${panelId}_${viewName}`.
+ * Level 4 uses the pack's CCTV stills where they match the caption, and the yard painting for the van.
+ * Level 13 uses crops of the yard and laundry paintings. All placeholders for real frames.
+ */
+export const PANEL_ART: Record<string, PanelArt> = {
+  a_wide: cctv02w, a_close: cctv02c, // 11:12 corridor: Nina
+  b_wide: cctv01w, b_close: cctv01c, // 11:18 reception: the jacket
+  c_wide: cctv05w, c_close: cctv05c, // 11:26 staff door
+  d_wide: { src: yard, focus: 'bottom' }, d_close: { src: yard, zoom: 2.2, x: 0.85, y: 0.8, focus: 'bottom' }, // 11:34 rear yard: the van
+  p_wide: { src: yard, focus: 'top' }, p_close: { src: yard, zoom: 2.4, x: 0.3, y: 0.2, focus: 'top' },
+  q_wide: { src: yard, focus: 'mid' }, q_close: { src: yard, zoom: 2, x: 0.6, y: 0.6, focus: 'mid' },
+  g_wide: { src: yard, zoom: 1.4, x: 0.1, y: 0.7, focus: 'mid' }, g_close: { src: yard, zoom: 2.6, x: 0.05, y: 0.75, focus: 'mid' },
+  r_wide: { src: laundry, focus: 'mid' }, r_close: { src: laundry, zoom: 2.2, x: 0.7, y: 0.6, focus: 'mid' },
+  t_wide: { src: yard, zoom: 1.2, x: 0.5, y: 1, focus: 'bottom' }, t_close: { src: yard, zoom: 2.4, x: 0.7, y: 0.9, focus: 'bottom' },
+  l_wide: { src: yard, zoom: 1.3, x: 0.9, y: 0.5, focus: 'mid' }, l_close: { src: yard, zoom: 2.4, x: 0.95, y: 0.6, focus: 'mid' },
 };
 
 const pick = (g: Record<string, unknown>): Record<string, string> =>

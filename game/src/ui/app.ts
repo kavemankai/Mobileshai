@@ -233,7 +233,7 @@ function renderPuzzle() {
       reducedMotion: settings.reducedMotion,
       sfx, haptic,
       status: (m) => { status.textContent = m; },
-      solved: () => { if (solved) return; solved = true; haptic(30); solvedTimer = window.setTimeout(() => win(false), settings.reducedMotion ? 300 : 900); },
+      solved: (holdMs) => { if (solved) return; solved = true; haptic(30); solvedTimer = window.setTimeout(() => win(false), holdMs ?? (settings.reducedMotion ? 300 : 900)); },
       clues: earned(),
     });
   };
@@ -378,6 +378,7 @@ function exposeHooks() {
     finishScene: () => { if (game && (game.phase === 'intro' || game.phase === 'reveal')) finishLines(); else if (game?.phase === 'chapter') { game.phase = 'intro'; render(); } },
     closeOverlay: () => { closeOverlay(); render(); },
     audio: () => audioStatus(),
+    level: (i: number) => LEVELS[i].puzzle,
     jump: (i: number) => { debug.sandbox = true; game = { ...(game ?? newSave(DEFAULT_NAME)), level: i, phase: 'puzzle', line: 0, clues: LEVELS.slice(0, i).map((_, k) => k) }; closeOverlay(); render(); },
   };
 }

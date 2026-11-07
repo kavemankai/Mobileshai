@@ -24,6 +24,7 @@
     "tests/**/*.ts"
   ],
   "exclude": [
-    "tests/playthrough.ts"
+    "tests/playthrough.ts",
+    "tests/sim/generate.test.ts"
   ]
 }

@@ -27,10 +27,16 @@ describe('art', () => {
   it('has one match-3 tile per colour', () => {
     for (const l of LEVELS) if (l.puzzle.kind === 'match3') expect(MATCH_TILES.length).toBeGreaterThanOrEqual(l.puzzle.colors);
   });
-  it('has CCTV art for both views of every level 4 frame', () => {
-    const p = LEVELS[3].puzzle;
-    if (p.kind !== 'panels') throw new Error('level 4 should be panels');
-    p.panels.forEach((pn) => pn.views.forEach((v) => expect(PANEL_ART[`${pn.id}_${v.name}`], `${pn.id}_${v.name}`).toBeTruthy()));
+  it('has footage for both views of every frame in both frame puzzles', () => {
+    for (const idx of [3, 12]) {
+      const p = LEVELS[idx].puzzle;
+      if (p.kind !== 'panels') throw new Error(`level ${idx + 1} should be panels`);
+      p.panels.forEach((pn) => pn.views.forEach((v) => expect(PANEL_ART[`${pn.id}_${v.name}`], `level ${idx + 1} ${pn.id}_${v.name}`).toBeTruthy()));
+    }
+  });
+  it('uses a distinct frame id in each frame puzzle, so footage never collides', () => {
+    const ids = [3, 12].map((i) => { const p = LEVELS[i].puzzle; return p.kind === 'panels' ? p.panels.map((x) => x.id) : []; });
+    expect(ids[0].filter((id) => ids[1].includes(id))).toEqual([]);
   });
 });
 

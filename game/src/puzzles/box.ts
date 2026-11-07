@@ -2,6 +2,7 @@
 
 import { h, wait } from '../core/dom';
 import type { BoxDef, BoxStage, PuzzleCtx, PuzzleMount } from '../core/types';
+import { evidencePeek } from './peek';
 import { tiltWidget } from './tilt';
 
 export function leverToggle(state: number[], i: number): number[] {
@@ -28,7 +29,7 @@ export function leverSolve(start: number[]): number {
   return best;
 }
 
-type StageCtx = Pick<PuzzleCtx, 'sfx' | 'haptic' | 'status' | 'reducedMotion'>;
+type StageCtx = Pick<PuzzleCtx, 'sfx' | 'haptic' | 'status' | 'reducedMotion' | 'clues'>;
 type StageView = (stage: BoxStage, ctx: StageCtx, done: () => void) => HTMLElement;
 
 const screws: StageView = (st, ctx, done) => {
@@ -90,14 +91,14 @@ const dials: StageView = (st, ctx, done) => {
   };
   draw();
   ctx.status(st.clue);
-  return h('div', null, h('p', { class: 'bx-clue', text: st.clue }), wrap);
+  return h('div', null, h('p', { class: 'bx-clue', text: st.clue }), wrap, st.evidence ? evidencePeek(ctx.clues) : null);
 };
 
 const levers: StageView = (st, ctx, done) => {
   if (st.type !== 'levers') throw new Error();
   let s = st.start.slice();
   const n = Math.round(Math.sqrt(s.length));
-  const wrap = h('div', { class: 'bx-levers', style: { gridTemplateColumns: `repeat(${n}, 1fr)` } });
+  const wrap = h('div', { class: 'bx-levers', style: { gridTemplateColumns: `repeat(${n}, 1fr)`, maxWidth: `${Math.max(240, n * 66)}px` } });
   let fin = false;
   const draw = () => {
     wrap.innerHTML = '';

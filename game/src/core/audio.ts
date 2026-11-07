@@ -29,6 +29,9 @@ interface Engine {
 const FADE = 1.6; // seconds for loop crossfades
 const FILE_GAIN = { effects: 0.8, music: 0.9, ambience: 0.9, stinger: 0.85 };
 const LONG_CACHE = 4; // decoded music/ambience buffers kept in memory
+// Music plays one pass, then rests with only room tone. The cues are short (32 s), and a rest is
+// what keeps a cue from wearing out over a 90-minute story. Longer recorded cues can shrink this.
+const MUSIC_REST_SECONDS: [number, number] = [20, 45];
 
 let eng: Engine | null = null;
 const buffers = new Map<string, Promise<AudioBuffer | null>>(); // by url
@@ -37,6 +40,8 @@ const ready = new Map<string, AudioBuffer>(); // decoded sfx/stingers by url
 const want: { music: string | null; ambience: string | null } = { music: null, ambience: null };
 const req = { music: 0, ambience: 0 };
 let synthScene: SceneKey | '' = '';
+let musicKey = ''; // the cue we want, whether it is playing or resting
+let restTimer = 0;
 /** Recent sounds, for tests and the debug panel: name and whether a file or the synth played it. */
 const played: { name: string; from: 'file' | 'synth' }[] = [];
 const logPlay = (name: string, from: 'file' | 'synth') => { played.push({ name, from }); if (played.length > 5000) played.shift(); };
@@ -143,7 +148,11 @@ function playLoop(kind: 'music' | 'ambience', key: string) {
   const files = kind === 'music' ? MUSIC_FILES : AMBIENCE_FILES;
   const url = files[key];
   const cur = eng.loops[kind];
-  if (cur?.key === url && url) return;
+  if (kind === 'music') {
+    if (musicKey === key) return; // already playing, or resting before its next pass
+    musicKey = key;
+    clearTimeout(restTimer);
+  } else if (cur?.key === url && url) return;
   const id = ++req[kind];
   const fadeOut = () => {
     const c = eng!.loops[kind];
@@ -163,13 +172,27 @@ function playLoop(kind: 'music' | 'ambience', key: string) {
     synthLayer(kind, false);
     const { ctx } = eng;
     const src = ctx.createBufferSource();
-    src.buffer = buf; src.loop = true;
+    src.buffer = buf; src.loop = kind === 'ambience';
     const gain = ctx.createGain();
-    gain.gain.setValueAtTime(0, ctx.currentTime);
-    gain.gain.linearRampToValueAtTime(FILE_GAIN[kind], ctx.currentTime + FADE);
+    const t0 = ctx.currentTime;
+    gain.gain.setValueAtTime(0, t0);
+    gain.gain.linearRampToValueAtTime(FILE_GAIN[kind], t0 + FADE);
+    if (kind === 'music') {
+      gain.gain.setValueAtTime(FILE_GAIN[kind], t0 + Math.max(FADE, buf.duration - FADE));
+      gain.gain.linearRampToValueAtTime(0, t0 + buf.duration);
+    }
     src.connect(gain).connect(eng.buses[kind]);
     src.start();
     eng.loops[kind] = { key: url, src, gain };
+    if (kind === 'music') {
+      src.onended = () => {
+        // A crossfade stops the old source too; only a natural end (still the current loop) rests.
+        if (!eng || eng.loops.music?.src !== src) return;
+        eng.loops.music = null;
+        const [lo, hi] = MUSIC_REST_SECONDS;
+        restTimer = window.setTimeout(() => { if (musicKey === key) { musicKey = ''; playLoop('music', key); } }, (lo + Math.random() * (hi - lo)) * 1000);
+      };
+    }
   });
 }
 
@@ -291,6 +314,7 @@ export function audioStatus() {
     unlocked: !!eng,
     state: eng?.ctx.state ?? 'none',
     music: name(eng?.loops.music?.key),
+    cue: musicKey || null,
     ambience: name(eng?.loops.ambience?.key),
     effectsDecoded: [...ready.keys()].filter((u) => Object.values(AUDIO_FILES).includes(u)).length,
     stingersDecoded: [...ready.keys()].filter((u) => Object.values(STINGER_FILES).includes(u)).length,

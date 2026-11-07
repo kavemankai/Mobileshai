@@ -1,6 +1,7 @@
 // Goods sort: move cards between racks. Three matching cards on a rack lock and clear.
 // The case is solved when only the leftover card remains.
 
+import { inkFor } from '../core/color';
 import { h, wait } from '../core/dom';
 import type { GoodsDef, PuzzleMount } from '../core/types';
 
@@ -39,7 +40,7 @@ export const mountGoods: PuzzleMount<GoodsDef> = (def, ctx) => {
           const t = def.types[id];
           const card = h('span', {
             class: `gs-card${sel && sel[0] === ri && sel[1] === s ? ' sel' : ''}`, role: 'button', tabindex: 0,
-            style: { background: t.color }, text: t.label, 'aria-label': `${t.label} card`,
+            style: { background: t.color, color: inkFor(t.color) }, text: t.label, 'aria-label': `${t.label} card`,
           });
           card.addEventListener('click', (e) => { e.stopPropagation(); pickCard(ri, s); });
           rack.append(card);
@@ -78,7 +79,7 @@ export const mountGoods: PuzzleMount<GoodsDef> = (def, ctx) => {
     if (goodsSolved(def, racks)) { done = true; wrap.classList.add('solved'); ctx.sfx('solve'); ctx.solved(); }
   };
 
-  const legend = h('div', { class: 'gs-legend' }, ...Object.values(def.types).map((t) => h('span', { style: { background: t.color }, text: t.label })));
+  const legend = h('div', { class: 'gs-legend' }, ...Object.values(def.types).map((t) => h('span', { style: { background: t.color, color: inkFor(t.color) }, text: t.label })));
   ctx.root.append(h('div', { class: 'board-frame' }, h('p', { class: 'board-caption', text: 'Tap a card, then tap a rack with space. Three of a kind lock away.' }), wrap, legend));
   draw();
   return {};

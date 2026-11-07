@@ -2,6 +2,7 @@
 
 import { h } from '../core/dom';
 import { rng } from '../core/rng';
+import { evidencePeek } from './peek';
 import type { CryptexDef, PuzzleMount } from '../core/types';
 
 export const cryptexWord = (def: CryptexDef, pos: number[]) => pos.map((p, i) => def.rings[i][p]).join('');
@@ -46,8 +47,7 @@ export const mountCryptex: PuzzleMount<CryptexDef> = (def, ctx) => {
     }
   };
 
-  const peek = h('details', { class: 'cx-peek' }, h('summary', { text: 'Check the case file' }),
-    ...ctx.clues.map((c) => h('p', null, h('strong', { text: c.title + ': ' }), c.text)));
+  const peek = evidencePeek(ctx.clues);
 
   ctx.root.append(h('div', { class: 'board-frame cx-frame' }, h('p', { class: 'board-caption', text: def.clue }), body, peek));
   draw();

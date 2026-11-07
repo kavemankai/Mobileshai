@@ -46,7 +46,8 @@ function panelPlan(def: PanelsDef) {
 }
 
 function waterPlan(def: WaterDef): [number, number][] {
-  const key = (t: string[]) => t.join('|');
+  // Canonical key (tank order ignored). Each stored state is a real one, so replaying the moves is consistent.
+  const key = (t: string[]) => t.slice().sort().join('|');
   const prev = new Map<string, [string, [number, number]]>();
   let frontier = [def.tubes];
   const seen = new Set([key(def.tubes)]);
@@ -204,35 +205,48 @@ async function solve(page: Page, rep: Report, l: Level, i: number) {
       break;
     }
     case 'match3': {
-      // Greedy bot reading the board from the DOM: first legal move each turn.
+      // A reasonable player: reads the board from the page and picks the swap that wipes the most
+      // static, falling back to any legal swap. Plays through the real UI, one swap at a time.
       let moves = 0;
-      while (moves < 400) {
-        if (await page.locator('.clue-card').count()) break;
-        const board = await page.locator('.m3-tile').evaluateAll((els) => els.map((e) => (e.getAttribute('aria-label') ?? '').split(',')[0]));
-        const n = p.size;
-        if (board.length !== n * n) { await page.waitForTimeout(150); continue; }
-        const cell = (r: number, c: number) => (r >= 0 && c >= 0 && r < n && c < n ? board[r * n + c].replace(' line clearer', '') : '?');
-        let mv: [number, number] | null = null;
-        const matches = (b: string[], i2: number) => {
-          const r = Math.floor(i2 / n), c = i2 % n, t = b[i2];
+      const n = p.size;
+      while (moves < 300) {
+        // Once the static is gone the board holds the finished frame and stops taking taps.
+        if ((await page.locator('.clue-card').count()) || (await page.locator('.m3-stack.cleared').count())) break;
+        const labels: string[] = await page.locator('.m3-tile').evaluateAll((els: Element[]) => els.map((e) => (e.getAttribute('aria-label') ?? '').split(',')[0].replace(' line clearer', '')));
+        const isStatic: boolean[] = await page.locator('.m3-cell').evaluateAll((els: Element[]) => els.map((e) => e.classList.contains('static')));
+        if (labels.length !== n * n || isStatic.length !== n * n) { await page.waitForTimeout(150); continue; }
+        const runsAt = (b: string[], i2: number): number[] => {
+          const r = Math.floor(i2 / n), c = i2 % n, t = b[i2], cells: number[] = [];
           const g = (rr: number, cc: number) => (rr >= 0 && cc >= 0 && rr < n && cc < n ? b[rr * n + cc] : '?');
-          let h = 1; for (let k = 1; g(r, c - k) === t; k++) h++; for (let k = 1; g(r, c + k) === t; k++) h++;
-          let v = 1; for (let k = 1; g(r - k, c) === t; k++) v++; for (let k = 1; g(r + k, c) === t; k++) v++;
-          return h >= 3 || v >= 3;
+          let h = [i2]; for (let k = 1; g(r, c - k) === t; k++) h.push(r * n + c - k); for (let k = 1; g(r, c + k) === t; k++) h.push(r * n + c + k);
+          if (h.length >= 3) cells.push(...h);
+          let v = [i2]; for (let k = 1; g(r - k, c) === t; k++) v.push((r - k) * n + c); for (let k = 1; g(r + k, c) === t; k++) v.push((r + k) * n + c);
+          if (v.length >= 3) cells.push(...v);
+          h = []; v = [];
+          return cells;
         };
-        const plain = board.map((_, k) => cell(Math.floor(k / n), k % n));
-        outer: for (let a = 0; a < n * n; a++) for (const b of [a + 1, a + n]) {
+        let best: [number, number] | null = null, bestScore = -1;
+        for (let a = 0; a < n * n; a++) for (const b of [a + 1, a + n]) {
           if (b >= n * n || (b === a + 1 && b % n === 0)) continue;
-          const t = plain.slice(); [t[a], t[b]] = [t[b], t[a]];
-          if (matches(t, a) || matches(t, b)) { mv = [a, b]; break outer; }
+          const t = labels.slice(); [t[a], t[b]] = [t[b], t[a]];
+          const cleared = new Set([...runsAt(t, a), ...runsAt(t, b)]);
+          if (!cleared.size) continue;
+          const score = [...cleared].filter((i2) => isStatic[i2]).length * 3 + cleared.size;
+          if (score > bestScore) { bestScore = score; best = [a, b]; }
         }
-        if (!mv) { await page.waitForTimeout(300); moves++; continue; }
-        await act(page, rep, () => page.locator('.m3-tile').nth(mv![0]).click());
-        await act(page, rep, () => page.locator('.m3-tile').nth(mv![1]).click());
+        if (!best) { await page.waitForTimeout(300); moves++; continue; }
+        try {
+          await act(page, rep, () => page.locator('.m3-tile').nth(best![0]).click({ timeout: 3000 }));
+          await act(page, rep, () => page.locator('.m3-tile').nth(best![1]).click({ timeout: 3000 }));
+        } catch (e) {
+          // The final cascade can finish between reading the board and tapping; then the board is done.
+          if (await page.locator('.m3-stack.cleared').count()) break;
+          throw e;
+        }
         moves++;
-        await page.waitForTimeout(700);
+        await page.waitForTimeout(650);
       }
-      rep.minSolution = `${moves} swaps (greedy bot)`;
+      rep.minSolution = `${moves} swaps (aims at static)`;
       break;
     }
     case 'timeline': {
@@ -356,7 +370,7 @@ for (let i = 0; i < LEVELS.length; i++) {
     await page.locator('.clue-card').waitFor({ timeout: 5000 });
     rep.solved = true;
   } catch (e) {
-    rep.note = String(e).slice(0, 300);
+    rep.note = String(e).slice(0, 1500);
   }
   rep.ms = Date.now() - t0;
   await page.waitForTimeout(450);

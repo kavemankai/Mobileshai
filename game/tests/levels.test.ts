@@ -126,9 +126,10 @@ function check(p: PuzzleDef) {
     case 'panels': {
       const sols = panelSolutions(p);
       expect(sols.length).toBeGreaterThan(0);
-      // Every full connection must also be in story order, so there is exactly one answer.
-      expect(sols.filter((s) => panelsSolved(p, s)).length).toBe(sols.length);
-      expect(sols.length).toBe(1);
+      // Exactly one arrangement is both fully connected and in story order. Others that connect but
+      // run out of order are allowed (the game tells the player), but only a few.
+      expect(sols.filter((s) => panelsSolved(p, s)).length).toBe(1);
+      expect(sols.length).toBeLessThanOrEqual(4);
       break;
     }
     case 'match3': {

@@ -28,14 +28,20 @@ npm run build:single   # one self-contained HTML file in dist-single/index.html
 ## Test it
 
 ```bash
-npm test               # solver tests: every one of the 28 puzzles is proven solvable
+npm test               # solver, asset and difficulty-budget tests (about 70 checks)
 npm run build:single && npm run e2e   # browser walkthrough in Chromium, screenshots in artifacts/
 npm run check          # everything above
+
+npm run build:single && npx vite-node tests/playthrough.ts   # solves all 28 puzzles by tapping the real UI
+ONLY=7,26 npx vite-node tests/playthrough.ts                 # just some levels
+GEN=1 npx vitest run tests/sim/generate.test.ts              # search for new puzzle designs (not part of the suite)
 ```
 
 The solver tests replay each puzzle's solution through the same rule functions the UI uses (zip paths, panel arrangements, water pours, card sorts, maze tilts, logic-grid uniqueness, room item chains, lever minimum presses). Change a level's data and the tests tell you if you broke it.
 
-The browser test also checks that music, room tone, effects and stingers play from files (not the synth fallback), that every image loads, and that mood portraits show. It plays all 28 levels through the real UI (tapping every dialogue line), checks every puzzle at 360 px and 390 px widths, solves eight mechanics with real taps (zip, escape room, keypad, logic grid, accusation, cryptex, puzzle box, tilt maze), and checks hints, skips, save and resume.
+**Difficulty budget** (`tests/balance.test.ts`). The puzzle data is measured, not eyeballed: match-3 is simulated with a casual player (random legal swaps) and a good one, the path boards are counted for how many solutions they have, logic clues are checked one by one for being needed, mazes and lever grids for their shortest solution, and within each kind of puzzle a later level must never be smaller than an earlier one. Change a level and a failing test says which number moved.
+
+The browser test also checks that music, room tone, effects and stingers play from files (not the synth fallback), that every image loads, and that mood portraits show. It plays all 28 levels through the real UI (tapping every dialogue line), checks every puzzle at 360 px and 390 px widths, solves the mechanics with real taps (path boards, escape room, keypad, logic grids, accusation, cryptex, puzzle box, tilt maze, match-3), and checks hints, skips, save and resume. It also guards the bugs found in the audit: readable button text on paper boards, taps landing on the right square all the way down a path board, timeline cards scrolling the page, and the match-3 reveal being shown before the evidence card.
 
 ## Where things live
 

@@ -113,7 +113,7 @@ export const LEVELS: Level[] = [
   ['Tap things to search them. Some things need something from your pockets first.', 'Torch from the fuse cupboard, use it on the dark alcove, then use the screwdriver on the reader.'],
   { kind: 'room', scene: 'service', goal: 'readerOpen', items: { torch: { label: 'Torch', icon: '🔦' }, screwdriver: { label: 'Screwdriver', icon: '🪛' } }, hotspots: [
     { id: 'fuse', label: 'Fuse cupboard', icon: '🗄️', x: 4, y: 6, w: 30, h: 18, text: 'The door sticks, then gives. A torch is clipped inside.', doneText: 'Fuses. One empty slot where the reception fuse should be.', gives: 'torch' },
-    { id: 'alcove', label: 'Dark alcove', icon: '🌑', x: 62, y: 8, w: 32, h: 20, needs: 'torch', needsText: 'Too dark to see what’s back there.', text: 'The torch finds a toolbox shoved under the pipes. Inside: a flat screwdriver.', doneText: 'An empty toolbox.', gives: 'screwdriver' },
+    { id: 'alcove', label: 'Dark alcove', icon: '🕸️', x: 62, y: 8, w: 32, h: 20, needs: 'torch', needsText: 'Too dark to see what’s back there.', text: 'The torch finds a toolbox shoved under the pipes. Inside: a flat screwdriver.', doneText: 'An empty toolbox.', gives: 'screwdriver' },
     { id: 'door', label: 'Staff door', icon: '🚪', x: 36, y: 30, w: 26, h: 22, text: 'Locked from this side. Fresh scuffs at the bottom, like something heavy was dragged through.' },
     { id: 'bucket', label: 'Mop bucket', icon: '🪣', x: 6, y: 58, w: 28, h: 16, text: 'Grey water. Someone mopped this floor tonight. Nobody mops the service corridor.' },
     { id: 'reader', label: 'Access reader', icon: '📟', x: 60, y: 56, w: 32, h: 20, needs: 'screwdriver', needsText: 'The casing is hanging off one screw. You need something to undo it.', text: 'Two turns and the casing swings open. The memory unit is intact.', sets: 'readerOpen' },
@@ -141,9 +141,8 @@ export const LEVELS: Level[] = [
     'NARRATOR|The plate is half in shadow. It ends in 61.',
     'YOU|The south gate camera would have caught it leaving. That camera’s “out of order”. Of course it is.',
   ], ['Two figures in the van', 'At 11:34 PM a grey van, plate ending 61, moved toward the rear gate. Two people in the cab; one not moving.'],
-  ['Matches only clear the static under the tiles that match. Work the edges too.', 'Four in a row makes a line clearer. Line up a match with a line clearer to wipe a whole row or column.'],
-  { kind: 'match3', size: 7, colors: 5, mask: ['.......', '.#####.', '.#####.', '.#####.', '.#####.', '.#####.', '.......'], reveal: { title: 'REAR CAM · 11:34 PM', lines: ['Grey van, lights off', 'Two in the cab', 'Plate: ••• •61'] } }),
-
+  ['A match also wipes one square of static past each end of the run. Work the edges.', 'Four in a row makes a line clearer. Match one next to it to wipe a whole row or column.'],
+  { kind: 'match3', size: 7, colors: 5, mask: ['.......', '.#####.', '.#####.', '.#####.', '.#####.', '.#####.', '.......'], reveal: { title: 'REAR CAM · 11:34 PM', art: 'van', lines: ['Grey van, lights off', 'Two in the cab', 'Plate: ••• •61'] } }),
   L(0, 'The Contradiction', 'security', 'Put tonight’s events in order. No times on the cards: use what you know.', [
     'NARRATOR|You pin everything you have to the corkboard beside the monitors.',
     'YOU|Owen says she went home. Nothing here says that. Let me lay it out properly.',
@@ -195,16 +194,16 @@ export const LEVELS: Level[] = [
     'YOU|Seven years ago. What does a seven-year-old date have to do with tonight?',
     'NARRATOR|Outside, an engine idles in the car park. When you look through the curtain, it cuts out.',
   ], ['The WARD memory card', 'Nina hid a microSD card marked “WARD · 18 OCT 2019” in Room 17’s air vent. Whoever searched the room missed it.'],
-  ['Nina leaves marks. Look at the window.', 'The windowsill scratch shows you the vent. The drawer has a coin; use the coin on the vent screws.'],
-  { kind: 'room', scene: 'room17', goal: 'ventOpen', items: { coin: { label: '50c coin', icon: '🪙' } }, hotspots: [
+  ['Nina leaves marks. Look at the window, then find something to open the vent with.', 'The windowsill scratch points at the vent. The coin from the drawer turns the screws. The grille is painted shut: the bathroom cabinet has something to lever it.'],
+  { kind: 'room', scene: 'room17', goal: 'ventOpen', items: { coin: { label: '50c coin', icon: '🪙' }, screwdriver: { label: 'Screwdriver', icon: '🪛' } }, hotspots: [
     { id: 'drawer', label: 'Bedside drawer', icon: '🗄️', x: 4, y: 6, w: 28, h: 16, text: 'Pulled out and dumped on the carpet. In the mess, a fifty-cent coin.', doneText: 'Hotel notepad, a pen, a Bible with the bookmark ripped out.', gives: 'coin' },
     { id: 'sill', label: 'Windowsill', icon: '🪟', x: 36, y: 6, w: 28, h: 16, text: 'A pale scratch in the paint. Fresh. A tiny arrow pointing down and to the right.', sets: 'arrow' },
     { id: 'bed', label: 'Bed', icon: '🛏️', x: 66, y: 6, w: 30, h: 18, text: 'Mattress half off. They checked under it, inside the pillowcases, under the base.' },
     { id: 'bin', label: 'Bin', icon: '🗑️', x: 4, y: 56, w: 26, h: 16, text: 'Empty, fresh liner. Someone cleaned this room before someone else wrecked it.' },
-    { id: 'bath', label: 'Bathroom', icon: '🚿', x: 34, y: 56, w: 26, h: 16, text: 'Shower still dripping. Bleach smell. The cabinet hangs open, empty.' },
-    { id: 'vent', label: 'Air vent', icon: '🌀', x: 64, y: 56, w: 30, h: 16, visibleIf: 'arrow', needs: 'coin', needsText: 'The vent screws are slotted, painted over. A coin would turn them.', text: 'The screws give. Behind the grille, taped to the duct wall, a waterproof sleeve.', sets: 'ventOpen' },
+    { id: 'bath', label: 'Bathroom cabinet', icon: '🚿', x: 34, y: 56, w: 26, h: 16, text: 'Bleach smell. The cabinet hangs open, empty except for a maintenance screwdriver taped under the shelf.', doneText: 'Bleach and an empty shelf.', gives: 'screwdriver' },
+    { id: 'vent', label: 'Air vent', icon: '🌀', x: 64, y: 56, w: 30, h: 16, visibleIf: 'arrow', needs: 'coin', needsText: 'The vent screws are slotted, painted over. A coin would turn them.', text: 'The screws give. The grille is still stuck, painted shut along every edge.', sets: 'ventScrews' },
+    { id: 'grille', label: 'Vent grille', icon: '🔳', x: 64, y: 34, w: 30, h: 16, visibleIf: 'ventScrews', needs: 'screwdriver', needsText: 'Painted shut. You need something thin to lever it.', text: 'The paint cracks and the grille swings open. Taped to the duct wall, a waterproof sleeve.', sets: 'ventOpen' },
   ] }),
-
   L(1, 'The Guest of Record', 'room17', 'Work out who stayed where and how they paid. Then you’ll know who paid for Room 17.', [
     'NARRATOR|In the desk drawer, carbon copies of tonight’s bookings. Three guests. The names and payments have been torn apart and mixed.',
     'YOU|Martin Hale booked 17 and never slept in it. Somebody paid for that room.',
@@ -217,19 +216,18 @@ export const LEVELS: Level[] = [
     'OWEN|Contractors use that account. Half the trades on this coast use it. That proves nothing.',
     'NARRATOR|He looks at the torn-up room for a long moment and doesn’t ask what happened to it.',
   ], ['A false guest identity', 'The Room 17 booking under “Martin Hale” was paid with a prepaid card topped up from the motel’s maintenance account. Owen controls it, though he says contractors use it too.'],
-  ['Okafor’s company paid for his room. Hale never touched cash.', 'Okafor: Room 04, company account. Hale: Room 17, prepaid card. Bennett: Room 12, cash.'],
+  ['Start with Room 04: two of the three guests are ruled out of it.', 'That leaves Okafor in Room 04. Room 12 took the cash, so Room 04 is the company account, and Room 17 is the prepaid one.'],
   { kind: 'logic',
     categories: [{ name: 'Guest', items: ['Martin Hale', 'Claire Bennett', 'R. Okafor'] }, { name: 'Room', items: ['17', '12', '04'] }, { name: 'Payment', items: ['Prepaid', 'Cash', 'Company'] }],
     clues: [
-      { text: 'R. Okafor’s stay was billed to his employer.', rule: { t: 'same', a: [0, 2], b: [2, 2] } },
-      { text: 'Martin Hale never handled cash.', rule: { t: 'diff', a: [0, 0], b: [2, 1] } },
-      { text: 'Whoever paid by prepaid card had the room Nina flagged.', rule: { t: 'same', a: [2, 0], b: [1, 0] } },
-      { text: 'The guest in Room 04 didn’t pay in cash.', rule: { t: 'diff', a: [1, 2], b: [2, 1] } },
-      { text: 'Claire Bennett asked for the room next to 17.' },
+      { text: 'Booking sheet: Claire Bennett isn’t in Room 04.', rule: { t: 'diff', a: [0, 1], b: [1, 2] } },
+      { text: 'Till roll: Room 12 was paid in cash.', rule: { t: 'same', a: [1, 1], b: [2, 1] } },
+      { text: 'Till roll: Room 04 wasn’t paid by prepaid card.', rule: { t: 'diff', a: [1, 2], b: [2, 0] } },
+      { text: 'Receipts: Claire Bennett didn’t pay by prepaid card.', rule: { t: 'diff', a: [0, 1], b: [2, 0] } },
+      { text: 'Booking sheet: Martin Hale isn’t in Room 04.', rule: { t: 'diff', a: [0, 0], b: [1, 2] } },
     ],
     solution: [[0, 0], [1, 1], [2, 2]] }),
-
-  L(1, 'The Vehicle Trace', 'yard', 'Trace the van through the yard cameras, in order, filling every square. Where does it end?', [
+  L(1, 'The Vehicle Trace', 'yard', 'Trace the van through the yard cameras, in order, filling every free square. Where does it end?', [
     'NARRATOR|Owen follows you to the security office, dripping, saying nothing.',
     'YOU|The van went toward the rear gate at 11:34. The gate camera’s dead. But the yard cameras each caught a sliver.',
     'OWEN|You’re wasting your time. The van left. Everyone leaves.',
@@ -244,7 +242,7 @@ export const LEVELS: Level[] = [
   ['The gate cells are chained. The route has to end on the last number.', 'From the rear lot go up the left side, then weave right; finish along the bottom row at the loading bay.'],
   { kind: 'zip', rows: 5, cols: 6, start: [4, 0], moves: 'UUUURDDDRUUURRDLDRRDDLULDLL', marks: [0, 8, 14, 20, 27], markLabels: ['REAR LOT', 'CAM A', 'CAM B', 'CAM C', 'LOADING BAY'], wallLabels: { '0,5': 'GATE', '1,5': 'CHAIN' } }),
 
-  L(1, 'The Dashcam Fragment', 'yard', 'Line up the dashcam frames with the yard map until the van’s route joins up, in order.', [
+  L(1, 'The Dashcam Fragment', 'yard', 'Six frames from the yard and the van’s dashcam. Join them into one route, in time order.', [
     'NARRATOR|In the loading bay, a dashcam sync box blinks on the wall. The van parked close enough to upload.',
     'NARRATOR|Claire is there, standing in the dark, as if she’s been waiting for you.',
     'CLAIRE|Nina texted me at 11:25. “Loading bay. Now.” By the time I got here, nobody was here.',
@@ -257,14 +255,15 @@ export const LEVELS: Level[] = [
     'YOU|How do you know that?',
     'CLAIRE|Because I’ve been coming here for years.',
   ], ['The rear-laundry turn', 'The dashcam puts the van behind the disused laundry block at 11:36 PM. Claire says Nina texted her at 11:25 to meet at the loading bay.'],
-  ['The path enters the top-left frame from the left and leaves the top-right frame from the top.', 'Dashcam top left (wide), yard map bottom left (wide), laundry wall bottom right (wide), the turn top right (wide).'],
-  { kind: 'panels', rows: 2, cols: 2, start: { slot: 0, edge: 'W' }, end: { slot: 1, edge: 'N' }, order: ['p', 'q', 'r', 't'], panels: [
-    { id: 'p', label: 'DASHCAM 11:35', views: [{ name: 'wide', exits: ['W', 'S'], caption: 'Wipers, rear lot' }, { name: 'close', exits: ['W', 'E'], caption: 'Rain on glass' }] },
-    { id: 'q', label: 'YARD MAP', views: [{ name: 'wide', exits: ['N', 'E'], caption: 'Lane past the bins' }, { name: 'close', exits: ['N', 'S'], caption: 'Bay markings' }] },
-    { id: 'r', label: 'LAUNDRY WALL', views: [{ name: 'wide', exits: ['W', 'N'], caption: 'Brick, a chained door' }, { name: 'close', exits: ['E', 'S'], caption: 'Fresh tyre marks' }] },
-    { id: 't', label: 'DASHCAM 11:36', views: [{ name: 'wide', exits: ['N', 'S'], caption: 'Hard left turn' }, { name: 'close', exits: ['W', 'S'], caption: 'Brake lights' }] },
+  ['More than one arrangement joins up. The right one also runs in time order, earliest first.', 'The gold marker is on the left of the middle-left frame; the red one is on the left of the bottom-left frame. Order: 11:34:10, 11:34:40, 11:35:05, 11:35:30, 11:36:02, 11:36:20.'],
+  { kind: 'panels', rows: 3, cols: 2, start: { slot: 2, edge: 'W' }, end: { slot: 4, edge: 'W' }, order: ['p', 'q', 'g', 'l', 'r', 't'], panels: [
+    { id: 'p', label: 'YARD 11:34:10', views: [{ name: 'wide', exits: ['S', 'W'], caption: 'Rain on the lens, the van pulling out' }, { name: 'close', exits: ['W', 'N'], caption: 'Wiper blade, wet glass' }] },
+    { id: 'q', label: 'DASH 11:34:40', views: [{ name: 'wide', exits: ['S', 'W'], caption: 'The lane past the bins' }, { name: 'close', exits: ['S', 'E'], caption: 'Painted bay markings' }] },
+    { id: 'g', label: 'GATE 11:35:05', views: [{ name: 'wide', exits: ['E', 'W'], caption: 'Padlock and chain, untouched' }, { name: 'close', exits: ['W', 'S'], caption: 'The chain, close up' }] },
+    { id: 'l', label: 'BAY 11:35:30', views: [{ name: 'wide', exits: ['N', 'S'], caption: 'Roller door half open' }, { name: 'close', exits: ['N', 'W'], caption: 'Fresh tyre marks' }] },
+    { id: 'r', label: 'WALL 11:36:02', views: [{ name: 'wide', exits: ['N', 'W'], caption: 'Brick wall, a chained door' }, { name: 'close', exits: ['E', 'W'], caption: 'Scuffed paint at the latch' }] },
+    { id: 't', label: 'DASH 11:36:20', views: [{ name: 'wide', exits: ['N', 'E'], caption: 'Hard left behind the laundry' }, { name: 'close', exits: ['E', 'W'], caption: 'Brake lights on brick' }] },
   ] }),
-
   L(1, 'The Ward File', 'records', 'Search the records office for the five documents on Nina’s memory card list.', [
     'NARRATOR|The memory card holds a single text file. A list in Nina’s words: “Records office. Police report, insurance claim, maintenance request, archive log, the photo.”',
     'NARRATOR|The records office is a cupboard of boxes nobody has opened in years. Nearly nobody.',
@@ -323,7 +322,7 @@ export const LEVELS: Level[] = [
     types: { N: { label: 'NIGHT', color: '#e8b877' }, O: { label: 'OWNER', color: '#c8665a' }, H: { label: 'HOUSE', color: '#7fb7ad' }, C: { label: 'CONTR.', color: '#9a8fc9' }, G: { label: 'GUEST', color: '#d9d2c2' } },
     racks: [['N', 'O', 'H'], ['C', 'G', 'N'], ['O', 'C', 'H'], ['G', 'N', 'C'], ['H', 'G', 'O'], ['N', '', ''], ['', '', '']] }),
 
-  L(2, 'The Flooded Corridor', 'service', 'Separate the floodwater, oil, sludge and rust into their own tanks so the pump will start.', [
+  L(2, 'The Flooded Corridor', 'service', 'Separate the floodwater, oil, sludge, rust and grease into their own tanks so the pump will start.', [
     'NARRATOR|The corridor to the service wing is under ankle-deep water. The sump pump’s filter tanks are clogged with everything the storm brought in.',
     'YOU|Daniel went this way. He didn’t come back.',
   ], [
@@ -332,11 +331,10 @@ export const LEVELS: Level[] = [
     'YOU|This is how they brought her in.',
     'NARRATOR|Wet boot prints on top of the scuff marks, fresher. Heading the same way.',
   ], ['A trail to the laundry', 'The drained corridor shows drag marks toward the laundry, with fresh boot prints over them.'],
-  ['You can only pour onto the same liquid or into an empty tank. Use the empty tanks as holding space.', 'Undo is free. Fill one tank with one liquid at a time, starting with whatever is on top most often.'],
+  ['You can only pour onto the same liquid or into an empty tank. Keep the two empty tanks free for as long as you can.', 'Uncover each liquid in turn: pour the top layers of mixed tanks into the empty ones, then collect each colour onto its own tank.'],
   { kind: 'water', capacity: 4,
-    colors: { W: { label: 'Water', color: '#4f86a8' }, O: { label: 'Oil', color: '#2b2b2b' }, S: { label: 'Sludge', color: '#7a6a4a' }, R: { label: 'Rust', color: '#b0563a' } },
-    tubes: ['WOSR', 'RSWO', 'OWRS', 'SROW', '', ''] }),
-
+    colors: { W: { label: 'Water', color: '#4f86a8' }, O: { label: 'Oil', color: '#4a4752' }, S: { label: 'Sludge', color: '#7a6a4a' }, R: { label: 'Rust', color: '#b0563a' }, G: { label: 'Grease', color: '#8c9a4b' } },
+    tubes: ['SRGO', 'GROR', 'WGOW', 'OGWS', 'RSWS', '', ''] }),
   L(2, 'The Archived Film', 'records', 'Order the surviving frames from the 2019 road camera.', [
     'NARRATOR|Back in the records office, a second copy of the destroyed archive. Owen kept it. Of course he did.',
     'OWEN|It’s in the bottom box. I couldn’t throw it away.',
@@ -383,13 +381,12 @@ export const LEVELS: Level[] = [
     'NINA · INTERCOM~frightened|He thinks you have my card. He’s coming back for you.',
     'NARRATOR|The line dies. Somewhere in the wing, a door closes softly.',
   ], ['Nina is in the laundry', 'Nina, over the intercom: she is locked behind the laundry past the boiler. Daniel has the key and thinks you have her memory card.'],
-  ['Every lever flips its neighbours too. Then follow the patch chart exactly.', 'Patch speaker to line 3, mic to line 1, relay to emergency. Dial 4 7.'],
+  ['Every lever flips its neighbours too. Then read the torn chart: it gives you the rest by elimination.', 'Speaker on line 3, so the mic has to take line 1. Relay on emergency, lamp on aux. Then dial the speaker line, then the mic line: 3 1.'],
   { kind: 'box', name: 'Laundry switchboard', stages: [
-    { type: 'levers', start: [1, 0, 0, 0, 1, 1, 0, 1, 0], clue: 'Emergency breakers. All nine have to be up. Each lever flips its neighbours too.', note: 'The board hums. A patch chart is taped inside the door.' },
-    { type: 'patch', left: ['SPEAKER', 'MIC', 'RELAY'], right: ['LINE 1', 'LINE 3', 'EMERGENCY'], pairs: [1, 0, 2], clue: 'Chart: “Laundry intercom. Speaker on line 3, mic on line 1, relay to emergency.”', note: 'A channel readout flickers: LAUNDRY · CH 4-7.' },
-    { type: 'dials', code: '47', clue: 'Tune the channel dial.', note: 'The line opens.' },
+    { type: 'levers', start: [0, 1, 1, 0, 1, 0, 0, 1, 0], clue: 'Emergency breakers. All nine have to be up. Each lever flips its neighbours too.', note: 'The board hums. A patch chart is taped inside the door, half torn away.' },
+    { type: 'patch', left: ['SPEAKER', 'MIC', 'RELAY', 'LAMP'], right: ['LINE 1', 'LINE 3', 'EMERGENCY', 'AUX'], pairs: [1, 0, 2, 3], clue: 'The chart, half torn: “Speaker on line 3. The mic is not on emergency or aux. The relay is on emergency. The lamp takes whatever is left.”', note: 'A channel readout flickers: “CHANNEL = SPEAKER LINE, THEN MIC LINE.”' },
+    { type: 'dials', code: '31', clue: 'Tune the channel dial.', note: 'The line opens.' },
   ] }),
-
   L(2, 'The Contractor’s Case', 'service', 'Get into Daniel’s tool case.', [
     'NARRATOR|Behind the switchboard, a hard case with a Price Security sticker. Left where only a contractor would look.',
     'YOU|He was here. Whatever he’s carrying around tonight, the rest of it is in this.',
@@ -398,13 +395,12 @@ export const LEVELS: Level[] = [
     'NARRATOR|And a laundry override tag, warped by the heat from the boiler pipe it was stuffed behind.',
     'YOU|He cloned my card with this. Checked out 17 in Nina’s name. Searched 17 with my card. Every bit of it, him.',
   ], ['Daniel’s cloning equipment', 'Daniel’s case holds the encoder calibrated at 22:57, an empty evidence sleeve, and a heat-damaged laundry override tag.'],
-  ['The bearing only stops at walls. The note from the maze is the combination.', 'Unscrew all five. Roll the bearing right, down, right, down. Then dial 2 2 5 7.'],
+  ['Roll the bearing into the release, then look in the case file for when the card was cloned.', 'Down, right, down, right, down, left, up. The card was cloned at 10:57 PM, which on a 24-hour clock is 2 2 5 7.'],
   { kind: 'box', name: 'Price Security tool case', stages: [
-    { type: 'screws', count: 5, plate: 'ANTI-TAMPER PLATE', note: 'Under the plate, a ball-bearing maze. The lid release is in the far corner.' },
-    { type: 'tilt', rows: ['######', '#S.#O#', '#....#', '#....#', '#.#.G#', '######'], clue: 'Roll the bearing into the release.', note: 'Click. Engraved under the inner lid: “Encoder calibrated 22:57.”' },
-    { type: 'dials', code: '2257', clue: 'Four-digit wheel on the inner lid.', note: 'The case opens.' },
+    { type: 'screws', count: 5, plate: 'ANTI-TAMPER PLATE', note: 'Under the plate, a ball-bearing maze. The lid release is the valve in the far corner.' },
+    { type: 'tilt', rows: ['######', '#S.O##', '#..#O#', '##.G.#', '#.#..#', '######'], clue: 'Roll the bearing into the release.', note: 'Click. Engraved under the inner lid: “Calibrated the minute it cloned the card.” Four digits, 24-hour clock.' },
+    { type: 'dials', code: '2257', evidence: true, clue: 'Four-digit wheel on the inner lid. The case file says when the card was cloned.', note: 'The case opens.' },
   ] }),
-
   L(2, 'The Only Explanation', 'security', 'Work out where everyone was at 11:26 and what they had. Then say who took Nina.', [
     'NARRATOR|Back in the security office. Owen in one corner, Claire in the other, the laundry intercom silent.',
     'CLAIRE~angry|He’s been paying a man to keep quiet about my sister. Why should we believe anything he says?',
@@ -418,18 +414,19 @@ export const LEVELS: Level[] = [
     'CLAIRE|And when she tells him?',
     'NARRATOR|Nobody answers. From the service wing, a heavy metallic bang. The laundry lights on the monitor go out.',
   ], ['Daniel identified', 'At 11:26, Owen was on the phone, Claire was in Room 12, and Daniel was in the service corridor with the cloned card. Owen confesses Daniel was the 2019 driver and that he helped cover it up.'],
-  ['Owen’s phone call and Claire’s door log fix two people. The third is whoever is left.', 'Owen: office phone, master key. Claire: Room 12, rental keys. Daniel: service corridor, encoder. Accuse Daniel.'],
+  ['The encoder is the key. Work out who can’t have been carrying it.', 'Owen and Claire are both ruled out, so Daniel had the encoder. It wasn’t with the person in Room 12 or on the phone, so he was in the corridor.'],
   { kind: 'logic',
     categories: [{ name: 'Suspect', items: ['Owen', 'Claire', 'Daniel'] }, { name: 'At 11:26', items: ['Phone', 'Room 12', 'Corridor'] }, { name: 'Carrying', items: ['Master key', 'Rental keys', 'Encoder'] }],
     clues: [
-      { text: 'Phone records put Owen on the office line at 11:26.', rule: { t: 'same', a: [0, 0], b: [1, 0] } },
-      { text: 'Claire’s door log shows her inside Room 12 until 11:40.', rule: { t: 'same', a: [0, 1], b: [1, 1] } },
-      { text: 'Whoever was in the service corridor used the encoder’s card.', rule: { t: 'same', a: [1, 2], b: [2, 2] } },
-      { text: 'The rental car keys never left Claire’s coat.', rule: { t: 'same', a: [0, 1], b: [2, 1] } },
+      { text: 'Door log: whoever was in Room 12 wasn’t carrying the encoder.', rule: { t: 'diff', a: [1, 1], b: [2, 2] } },
+      { text: 'Witness: Owen wasn’t carrying the rental keys.', rule: { t: 'diff', a: [0, 0], b: [2, 1] } },
+      { text: 'Witness: Owen wasn’t carrying the encoder.', rule: { t: 'diff', a: [0, 0], b: [2, 2] } },
+      { text: 'Phone records: Claire wasn’t the one on the office line.', rule: { t: 'diff', a: [0, 1], b: [1, 0] } },
+      { text: 'Evidence bag: whoever was on the office line wasn’t carrying the encoder.', rule: { t: 'diff', a: [1, 0], b: [2, 2] } },
+      { text: 'Search: Claire wasn’t carrying the encoder.', rule: { t: 'diff', a: [0, 1], b: [2, 2] } },
     ],
     solution: [[0, 0], [1, 1], [2, 2]],
     accuse: { prompt: 'Who took Nina?', answer: 2, wrong: { 0: 'Owen was on the phone to you at 11:26. He lied about a lot, but not that.', 1: 'Claire’s door log has her in Room 12 the whole time.' } } }),
-
   // ───────────────────────── CHAPTER FOUR · BEFORE DAWN ─────────────────────────
   L(3, 'The Laundry Override', 'laundry', 'Find the missing digits of the override code and open the laundry door.', [
     'NARRATOR|12:54 AM. You and Claire reach the laundry entrance. Owen stays at the switchboard to keep the intercom alive.',
@@ -440,16 +437,17 @@ export const LEVELS: Level[] = [
     'NINA · DISTANT~frightened|{name}? I’m here! Past the boiler!',
     'YOU|We’re coming. Keep talking.',
   ], ['Laundry entrance unlocked', 'The override code 6421 opened the outer laundry door. Nina is alive, past the boiler.'],
-  ['The tag gives you the first two digits. The scorched log has the rest.', 'Gloves from the basket let you pick up the clipboard. The code is 6421.'],
-  { kind: 'room', scene: 'laundry', goal: 'doorOpen', items: { gloves: { label: 'Work gloves', icon: '🧤' } }, keypad: { code: '6421', sets: 'doorOpen', label: 'LAUNDRY · MAINTENANCE OVERRIDE' }, hotspots: [
+  ['The tag gives you two digits and the log gives you two more. Something in here will get you at the keypad.', 'Screwdriver from the toolbox for the keypad cover; gloves from the basket to lift the clipboard off the steam pipe. Then 6 4 2 1.'],
+  { kind: 'room', scene: 'laundry', goal: 'doorOpen', items: { gloves: { label: 'Work gloves', icon: '🧤' }, screwdriver: { label: 'Screwdriver', icon: '🪛' } }, keypad: { code: '6421', sets: 'doorOpen', label: 'LAUNDRY · MAINTENANCE OVERRIDE' }, hotspots: [
     { id: 'tag', label: 'Override tag', icon: '🏷️', x: 4, y: 6, w: 30, h: 16, text: 'From Daniel’s case. “LAUNDRY ACCESS · L-64”. The last two digits have melted.' },
     { id: 'basket', label: 'Laundry basket', icon: '🧺', x: 36, y: 6, w: 28, h: 16, text: 'Under a heap of mouldy towels: heavy work gloves.', doneText: 'Towels. Nothing else.', gives: 'gloves' },
     { id: 'clip', label: 'Clipboard on the steam pipe', icon: '📋', x: 66, y: 6, w: 30, h: 18, needs: 'gloves', needsText: 'It’s hanging on a steam pipe. Far too hot to touch bare-handed.', text: 'A scorched maintenance log. The last line: “Override reset, code ends …21.”' },
+    { id: 'toolbox', label: 'Maintenance toolbox', icon: '🧰', x: 4, y: 32, w: 26, h: 18, text: 'The padlock hangs open. Inside, a screwdriver and a stub of pencil.', doneText: 'A pencil stub and a lot of rust.', gives: 'screwdriver' },
     { id: 'ext', label: 'Fire extinguisher', icon: '🧯', x: 4, y: 56, w: 28, h: 16, text: 'Last inspected 2019. Nobody has looked after this wing since.' },
     { id: 'door', label: 'Laundry door', icon: '🚪', x: 34, y: 34, w: 28, h: 20, text: 'Steel, warm to the touch. You can hear someone breathing on the other side.' },
-    { id: 'keypad', label: 'Door keypad', icon: '🔢', x: 64, y: 56, w: 30, h: 16, text: '', keypad: true },
+    { id: 'cover', label: 'Keypad cover', icon: '🔲', x: 64, y: 56, w: 30, h: 16, hiddenIf: 'coverOff', needs: 'screwdriver', needsText: 'A steel cover, four screws. You need a screwdriver.', text: 'The cover comes off. The keypad underneath is warm to the touch.', sets: 'coverOff' },
+    { id: 'keypad', label: 'Door keypad', icon: '🔢', x: 64, y: 56, w: 30, h: 16, visibleIf: 'coverOff', text: '', keypad: true },
   ] }),
-
   L(3, 'The Boiler Bypass', 'laundry', 'Steer the pressure ball through the valve maze. It only stops at walls and has to stop on the gold valve.', [
     'NARRATOR|The boiler blocks the inner corridor. Its safety interlock has been bypassed, and the pressure door beyond it is sealed.',
     'CLAIRE|There’s a diagram on the panel. It’s a maze of valves.',
@@ -459,9 +457,8 @@ export const LEVELS: Level[] = [
     'NINA · DISTANT~frightened|He said he’d burn everything if the police came.',
     'YOU|The card’s safe. We copied it. Just stay back from the gate.',
   ], ['Safe access to the inner corridor', 'The boiler was isolated, so the inner corridor can be reached without venting steam.'],
-  ['Holes send the ball back to the start. Count where each tilt would leave it before you move.', 'Right, down, left, down, right, down, right.'],
-  { kind: 'tilt', caption: 'BOILER ISOLATION · valve diagram', rows: ['########', '#S.....#', '#..O#..#', '###....#', '#.....##', '#.###..#', '#.#.O.G#', '########'] }),
-
+  ['Holes send the ball back to the start. Work backwards from the valve: which way does the ball have to roll to stop on it?', 'Right, down, right, up, left, down, left, down, left, down, left, up, right.'],
+  { kind: 'tilt', caption: 'BOILER ISOLATION · valve diagram', rows: ['#########', '#S.#O#..#', '#..##O..#', '#.......#', '#O##...##', '#.#..##.#', '##.G#.#.#', '##....#.#', '#########'] }),
   L(3, 'The Last Barrier', 'laundry', 'Open the inner gate’s interlock, stage by stage. Nina can see more of it than you can.', [
     'NARRATOR|A steel safety gate across the last bay. Behind it, sitting on the floor with her back to a dryer, Nina.',
     'NINA~relieved|You came.',
@@ -475,13 +472,12 @@ export const LEVELS: Level[] = [
     'NARRATOR|At the far end of the passage, a door slams.',
     'DANIEL · DISTANT|You’ve made a very stupid mistake, all of you.',
   ], ['Nina rescued', 'Nina is free. Daniel is still in the building and knows the evidence has been found.'],
-  ['Levers flip their neighbours. Nina’s knocks are the slider positions.', 'Sliders 2, 4, 0, 3. The release lever is the scraped one.'],
+  ['All sixteen up. Each lever flips its neighbours too; work row by row from the top.', 'Nina knocks two, four, none, three for the sliders. The last wheel is the laundry override code from the case file: 6 4 2 1.'],
   { kind: 'box', name: 'Inner gate interlock', stages: [
-    { type: 'levers', start: [0, 1, 1, 0, 1, 1, 1, 0, 1], clue: 'Interlock breakers. All nine up to cut the magnetic lock.', note: 'The magnet lets go. Four bolts still hold the gate.' },
-    { type: 'sliders', targets: [2, 4, 0, 3], clue: 'Nina knocks through the grate: two... four... none... three.', note: 'The bolts slide back. One release lever left.' },
-    { type: 'press', count: 9, target: 2, clue: 'Nina: “The release is the one with the red paint scraped off.”', note: 'The gate grinds open.' },
+    { type: 'levers', start: [1, 1, 0, 0, 1, 0, 0, 1, 1, 1, 0, 0, 0, 1, 1, 1], clue: 'Interlock breakers. All sixteen up to cut the magnetic lock. Each lever flips its neighbours too.', note: 'The magnet lets go. Four bolts still hold the gate.' },
+    { type: 'sliders', targets: [2, 4, 0, 3], clue: 'Nina knocks through the grate: two... four... none... three.', note: 'The bolts slide back. One wheel left.' },
+    { type: 'dials', code: '6421', evidence: true, clue: 'Nina: “The last wheel is the same four digits as the laundry override.”', note: 'The gate grinds open.' },
   ] }),
-
   L(3, 'The Original Frame', 'records', 'Clear the corruption off Nina’s original copy of the 2019 frame.', [
     'NARRATOR|Nina pulls at the seam of her lanyard. A second microSD card drops into her palm.',
     'NINA|He took my phone. He didn’t think to take this. This is the original, before the archive was “destroyed”.',
@@ -493,10 +489,9 @@ export const LEVELS: Level[] = [
     'CLAIRE~grieving|Seven years. That’s the first time anyone’s let me see his face.',
     'NINA|Then let’s make sure everyone sees it. Security office. Now, before he gets to the switchboard.',
   ], ['The original frame', 'Nina’s original copy of the 2019 frame clearly shows Daniel Price driving the car that killed Mara Ward.'],
-  ['Clear the edges early. The middle tends to clear itself with cascades.', 'Build line clearers with four in a row, then match them to wipe whole rows.'],
-  { kind: 'match3', size: 7, colors: 5, mask: ['.#####.', '#######', '#######', '#######', '#######', '#######', '.#####.'], reveal: { title: 'KESTREL BEND · 12:41 AM', lines: ['18 OCT 2019 · original', 'Company car, no glare', 'Driver: DANIEL PRICE'] } }),
-
-  L(3, 'The Emergency Uplink', 'security', 'Route the upload through every relay in order before Daniel cuts the power. Fill every square.', [
+  ['Clear the edges early; the middle tends to clear itself through cascades.', 'Four in a row makes a line clearer. A match also wipes one square past each end of the run.'],
+  { kind: 'match3', size: 7, colors: 5, mask: ['.#####.', '#######', '#######', '#######', '#######', '#######', '.#####.'], reveal: { title: 'KESTREL BEND · 12:41 AM', art: 'driver', lines: ['18 OCT 2019 · original', 'Company car, no glare', 'Driver: DANIEL PRICE'] } }),
+  L(3, 'The Emergency Uplink', 'security', 'Route the upload through every relay in order before Daniel cuts the power. Fill every free square.', [
     'NARRATOR|Back in the security office. The dispatcher is still on the line, and there’s an emergency data link to the police server.',
     'DISPATCH|Send whatever you have. If it’s on our server, nobody can wipe it.',
     'NARRATOR|The lights flicker. Down the hall, the switchboard bangs. Daniel is cutting power one breaker at a time.',
@@ -509,9 +504,8 @@ export const LEVELS: Level[] = [
     'NINA~relieved|He can’t take it back now.',
     'NARRATOR|In the corridor, Daniel stops pushing. Blue lights fill the rain-streaked window.',
   ], ['Evidence preserved off-site', 'Nina’s recording, the card audit and the original 2019 frame reached the police server. Officers are on site.'],
-  ['The numbered relays have to be passed in order and the line must fill the board.', 'Along the top, back along row two, along row three, then down and weave through the bottom left, finishing up the left side.'],
-  { kind: 'zip', rows: 6, cols: 6, start: [0, 0], moves: 'RRRRRDLLLLDRRRRDDDLUULDDLUULDDLUUUU', marks: [0, 7, 15, 22, 28, 35], markLabels: ['UPLINK', 'RELAY 1', 'RELAY 2', 'RELAY 3', 'RELAY 4', 'POLICE'] }),
-
+  ['Numbers are reached in order and the line fills every free square. Squares with only one free neighbour pin the route down: start with those.', 'A square with a single way in has to be an end of the line or sit right beside one. Follow the forced squares first, then fill in between.'],
+  { kind: 'zip', rows: 7, cols: 6, start: [1, 4], moves: 'DLDDRURDDDLLULDLLURURUULULURRDRURRD', marks: [0, 8, 10, 16, 24, 29, 35], markLabels: ['UPLINK', 'RELAY 1', 'RELAY 2', 'RELAY 3', 'RELAY 4', 'RELAY 5', 'POLICE'], wallLabels: { '3,0': 'SERVER RACK', '2,5': 'SERVER RACK', '4,0': 'SERVER RACK', '3,1': 'SERVER RACK', '5,4': 'SERVER RACK', '2,0': 'SERVER RACK' } }),
   L(3, 'The Final Account', 'security', 'Give the dispatcher the whole chronology, earliest first.', [
     'NARRATOR|Officers fill the corridor. Daniel is face down on the wet carpet, cuffed, not saying anything at all.',
     'DISPATCH|For the statement: walk me through it in order. The crash, the cover-up, tonight.',

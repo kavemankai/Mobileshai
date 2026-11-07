@@ -55,7 +55,9 @@ export interface Match3Def {
   colors: number;
   /** Rows of '#' (covered by static) and '.' (clear). */
   mask: string[];
-  reveal: { title: string; lines: string[] };
+  reveal: { title: string; lines: string[]; art?: 'van' | 'driver' };
+  /** How far a match wipes static beyond itself: 'none', 'ends' (one square past each end) or 'all' (every square beside it). Default 'ends'. */
+  splash?: 'none' | 'ends' | 'all';
 }
 
 export interface TimelineCard { id: string; title: string; detail: string }
@@ -95,7 +97,8 @@ export interface TiltDef { kind: 'tilt'; rows: string[]; caption: string }
 export type BoxStage =
   | { type: 'screws'; count: number; plate: string; note: string }
   | { type: 'sliders'; targets: number[]; clue: string; note: string }
-  | { type: 'dials'; code: string; clue: string; note: string }
+  /** `evidence: true` adds the case file to the stage: the code has to be worked out from clues already earned. */
+  | { type: 'dials'; code: string; clue: string; note: string; evidence?: boolean }
   | { type: 'levers'; start: number[]; clue: string; note: string }
   | { type: 'press'; count: number; target: number; clue: string; note: string }
   | { type: 'patch'; left: string[]; right: string[]; pairs: number[]; clue: string; note: string }
@@ -161,8 +164,8 @@ export interface PuzzleCtx {
   haptic(ms?: number): void;
   /** Short feedback line under the board. */
   status(msg: string): void;
-  /** Call exactly once when the puzzle is solved. */
-  solved(): void;
+  /** Call exactly once when the puzzle is solved. `holdMs` keeps the solved board on screen before the evidence card. */
+  solved(holdMs?: number): void;
   clues: Clue[];
 }
 
