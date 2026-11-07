@@ -1,5 +1,6 @@
 // The case. Full spoilers. {name} is replaced with the player's name.
 // Story rules: grounded, no supernatural twist. Nina is the guide through what she left behind.
+// Portrait moods: 'NINA~frightened|line'. Valid moods are the PORTRAITS keys in assets/manifest.ts.
 // Suspects in order of suspicion: Owen (ch1-2), Claire (ch2), Daniel (arrives end of ch2, exposed in ch3).
 
 import type { Chapter, Level, Line, PuzzleDef, SceneKey } from '../core/types';
@@ -55,7 +56,7 @@ export const LEVELS: Level[] = [
     'NARRATOR|A knock on the glass. A woman in a wet raincoat, hood up.',
     'CLAIRE|Is Nina here? She told me to wait in my room. That was an hour ago.',
     'YOU|Which room?',
-    'CLAIRE|Twelve. Bennett. Is she here or not?',
+    'CLAIRE~guarded|Twelve. Bennett. Is she here or not?',
     'NARRATOR|She doesn’t wait for an answer. She goes back out into the rain and doesn’t look at Room 17 as she passes it. Pointedly doesn’t.',
   ], ['The unsigned receipt', 'Room 17’s 11:18 PM checkout has no guest signature. Nina had flagged Room 17 as wrong. A guest in Room 12, “Bennett”, says Nina told her to wait.'],
   ['Receipts are small, curled and pale. There are four of them in different corners.', 'Check under the edges of things: one receipt is near the bottom left, one near the top right.'],
@@ -123,7 +124,7 @@ export const LEVELS: Level[] = [
     'YOU|Cut, not broken. Somebody didn’t want this heard.',
   ], [
     'NARRATOR|Static, then Nina’s voice, very close to the microphone.',
-    'NINA · RECORDING|I’ve made copies. If anything happens to me, people will see what you did.',
+    'NINA · RECORDING~frightened|I’ve made copies. If anything happens to me, people will see what you did.',
     'NARRATOR|A man answers. The words are lost under the rain on the roof. Then a thud, and a long silence.',
     'YOU|She didn’t go home.',
     'NARRATOR|You call the police. The dispatcher is calm and slow.',
@@ -248,7 +249,7 @@ export const LEVELS: Level[] = [
     'NARRATOR|Claire is there, standing in the dark, as if she’s been waiting for you.',
     'CLAIRE|Nina texted me at 11:25. “Loading bay. Now.” By the time I got here, nobody was here.',
     'YOU|You were on camera at 11:30. Why didn’t you tell anyone?',
-    'CLAIRE|Tell who? The owner? Look at him.',
+    'CLAIRE~angry|Tell who? The owner? Look at him.',
   ], [
     'NARRATOR|11:36. The van turns hard left behind the old laundry block and stops by a chained service door.',
     'YOU|They brought her back. She’s somewhere in this building.',
@@ -271,9 +272,9 @@ export const LEVELS: Level[] = [
     'NARRATOR|Laid out together, the documents tell one story. 18 October 2019: Mara Ward, 31, killed by a hit-and-run at Kestrel Bend on the coast road below the motel.',
     'NARRATOR|The next day, the motel logged “driveway damage”. Three days later, an insurance claim for a company car was amended. Two weeks later, the road camera archive was marked destroyed.',
     'NARRATOR|The photo is of a woman laughing on a beach. On the back: “Mara, summer.”',
-    'CLAIRE|Bennett is my married name. I was born Claire Ward. Mara was my sister.',
+    'CLAIRE~grieving|Bennett is my married name. I was born Claire Ward. Mara was my sister.',
     'YOU|You booked in under your married name so they wouldn’t know you.',
-    'CLAIRE|I used my own name once, two years ago. The next morning there was a note under my car wiper telling me to stop asking. Nina found the archive in March. She called me.',
+    'CLAIRE~grieving|I used my own name once, two years ago. The next morning there was a note under my car wiper telling me to stop asking. Nina found the archive in March. She called me.',
   ], ['Mara Ward’s death', 'Mara Ward was killed by a hit-and-run at Kestrel Bend on 18 October 2019. The motel logged damage, amended an insurance claim and destroyed the road camera archive. Claire Bennett is Mara’s sister, born Claire Ward.'],
   ['The documents are scattered through the whole room, including the edges.', 'The archive log is a tape near the top left. The photo is low on the right.'],
   { kind: 'hidden', scene: 'records', clutter: 60, clutterGlyphs: RECORDS_CLUTTER, targets: [
@@ -287,7 +288,7 @@ export const LEVELS: Level[] = [
   L(1, 'The Sealed Recording', 'records', 'Open the cryptex Nina built for the audio file. The password is the place it happened.', [
     'NARRATOR|One more file on the card, locked behind a password prompt shaped like a cryptex. Seven letter rings.',
     'NINA · NOTE|For Claire. It’s where she fell.',
-    'CLAIRE|She never let me listen to it. She said I should hear it with the police.',
+    'CLAIRE~grieving|She never let me listen to it. She said I should hear it with the police.',
   ], [
     'NARRATOR|October 2019. Two men on the line. One is unmistakably Owen.',
     'OWEN · RECORDING|I changed the insurance paperwork. You told me nobody was hurt.',
@@ -367,7 +368,7 @@ export const LEVELS: Level[] = [
     'NARRATOR|The page goes back together. Every October since 2020, a payment to Price Security Services. $8,000. Then $12,000.',
     'YOU|You’ve been paying him for seven years.',
     'OWEN|He said the original footage was still out there. That if it ever came out, I’d go down for the cover-up and he’d say I was driving.',
-    'CLAIRE|So you paid. And my sister stayed a hit-and-run.',
+    'CLAIRE~angry|So you paid. And my sister stayed a hit-and-run.',
   ], ['Years of payments', 'The ledger shows Owen paying Price Security Services every October since 2020, $8,000 rising to $12,000. Owen says Daniel threatened to name him as the driver.'],
   ['The gold square on each strip is the corner you tap to place. Rotate before placing.', 'The square block goes top-middle-right. The long three-square strip runs down the left edge.'],
   { kind: 'blockfit', caption: 'SECURITY RETAINER · page 3', solution: ['AAABBC', 'DAEBBC', 'DEEECC', 'DFFGGH', 'FFGGHH'] }),
@@ -378,8 +379,8 @@ export const LEVELS: Level[] = [
   ], [
     'YOU · INTERCOM|Nina? It’s {name}. If you can hear me, knock twice.',
     'NARRATOR|Two knocks through the wall. Then her voice, hoarse.',
-    'NINA · INTERCOM|{name}? You came. Behind the laundry, past the boiler. Daniel has the key.',
-    'NINA · INTERCOM|He thinks you have my card. He’s coming back for you.',
+    'NINA · INTERCOM~frightened|{name}? You came. Behind the laundry, past the boiler. Daniel has the key.',
+    'NINA · INTERCOM~frightened|He thinks you have my card. He’s coming back for you.',
     'NARRATOR|The line dies. Somewhere in the wing, a door closes softly.',
   ], ['Nina is in the laundry', 'Nina, over the intercom: she is locked behind the laundry past the boiler. Daniel has the key and thinks you have her memory card.'],
   ['Every lever flips its neighbours too. Then follow the patch chart exactly.', 'Patch speaker to line 3, mic to line 1, relay to emergency. Dial 4 7.'],
@@ -406,7 +407,7 @@ export const LEVELS: Level[] = [
 
   L(2, 'The Only Explanation', 'security', 'Work out where everyone was at 11:26 and what they had. Then say who took Nina.', [
     'NARRATOR|Back in the security office. Owen in one corner, Claire in the other, the laundry intercom silent.',
-    'CLAIRE|He’s been paying a man to keep quiet about my sister. Why should we believe anything he says?',
+    'CLAIRE~angry|He’s been paying a man to keep quiet about my sister. Why should we believe anything he says?',
     'OWEN|Because I’m the one who called Daniel tonight. I didn’t know what he’d do.',
     'YOU|Nobody says a name until I’ve checked it.',
   ], [
@@ -436,7 +437,7 @@ export const LEVELS: Level[] = [
     'NARRATOR|Daniel’s override tag is heat-warped. The last two digits have melted away.',
   ], [
     'NARRATOR|The door opens on a wall of heat. Somewhere past the machines, the boiler roars.',
-    'NINA · DISTANT|{name}? I’m here! Past the boiler!',
+    'NINA · DISTANT~frightened|{name}? I’m here! Past the boiler!',
     'YOU|We’re coming. Keep talking.',
   ], ['Laundry entrance unlocked', 'The override code 6421 opened the outer laundry door. Nina is alive, past the boiler.'],
   ['The tag gives you the first two digits. The scorched log has the rest.', 'Gloves from the basket let you pick up the clipboard. The code is 6421.'],
@@ -455,7 +456,7 @@ export const LEVELS: Level[] = [
     'YOU|Open the wrong one and it vents steam into the corridor. Into her.',
   ], [
     'NARRATOR|The isolation valve thunks shut. The roar drops to a hiss, and the steam clears from the passage.',
-    'NINA · DISTANT|He said he’d burn everything if the police came.',
+    'NINA · DISTANT~frightened|He said he’d burn everything if the police came.',
     'YOU|The card’s safe. We copied it. Just stay back from the gate.',
   ], ['Safe access to the inner corridor', 'The boiler was isolated, so the inner corridor can be reached without venting steam.'],
   ['Holes send the ball back to the start. Count where each tilt would leave it before you move.', 'Right, down, left, down, right, down, right.'],
@@ -463,13 +464,13 @@ export const LEVELS: Level[] = [
 
   L(3, 'The Last Barrier', 'laundry', 'Open the inner gate’s interlock, stage by stage. Nina can see more of it than you can.', [
     'NARRATOR|A steel safety gate across the last bay. Behind it, sitting on the floor with her back to a dryer, Nina.',
-    'NINA|You came.',
+    'NINA~relieved|You came.',
     'YOU|I was late.',
     'NINA|You came. The interlock’s on your side. I’ve been staring at it for two hours. I’ll talk you through it.',
   ], [
     'NARRATOR|The gate grinds open. Nina gets up, unsteady, and holds onto your arm harder than she means to.',
-    'NINA|He wanted the card. I told him I’d thrown it in the sea.',
-    'CLAIRE|Nina. I’m so sorry.',
+    'NINA~frightened|He wanted the card. I told him I’d thrown it in the sea.',
+    'CLAIRE~grieving|Nina. I’m so sorry.',
     'NINA|Don’t be. You’re about to see him get what he’s owed.',
     'NARRATOR|At the far end of the passage, a door slams.',
     'DANIEL · DISTANT|You’ve made a very stupid mistake, all of you.',
@@ -489,7 +490,7 @@ export const LEVELS: Level[] = [
   ], [
     'NARRATOR|The frame clears. Kestrel Bend, 12:41 AM, 18 October 2019. No glare on this copy.',
     'NARRATOR|Behind the wheel of the company car, staring straight ahead: Daniel Price.',
-    'CLAIRE|Seven years. That’s the first time anyone’s let me see his face.',
+    'CLAIRE~grieving|Seven years. That’s the first time anyone’s let me see his face.',
     'NINA|Then let’s make sure everyone sees it. Security office. Now, before he gets to the switchboard.',
   ], ['The original frame', 'Nina’s original copy of the 2019 frame clearly shows Daniel Price driving the car that killed Mara Ward.'],
   ['Clear the edges early. The middle tends to clear itself with cascades.', 'Build line clearers with four in a row, then match them to wipe whole rows.'],
@@ -505,7 +506,7 @@ export const LEVELS: Level[] = [
     'NARRATOR|Owen is in the corridor between Daniel and the door. For the first time in seven years, he doesn’t move.',
   ], [
     'DISPATCH|Received and time-stamped. Officers are over the bridge. Two minutes.',
-    'NINA|He can’t take it back now.',
+    'NINA~relieved|He can’t take it back now.',
     'NARRATOR|In the corridor, Daniel stops pushing. Blue lights fill the rain-streaked window.',
   ], ['Evidence preserved off-site', 'Nina’s recording, the card audit and the original 2019 frame reached the police server. Officers are on site.'],
   ['The numbered relays have to be passed in order and the line must fill the board.', 'Along the top, back along row two, along row three, then down and weave through the bottom left, finishing up the left side.'],
@@ -518,12 +519,12 @@ export const LEVELS: Level[] = [
   ], [
     'NARRATOR|The statement goes through. An officer reads it back to you, and it sounds like something that happened to someone else.',
     'NARRATOR|Owen sits in the back of a patrol car with the door open, hands in his lap. He nods to Claire. She doesn’t nod back. It’s not hers to give yet.',
-    'CLAIRE|Mara went seven years without anyone hearing her.',
-    'NINA|They’ll hear her now.',
+    'CLAIRE~grieving|Mara went seven years without anyone hearing her.',
+    'NINA~relieved|They’ll hear her now.',
     'NARRATOR|Dawn comes up grey over the flooded coast road. You and Nina stand at the reception desk. Her handbag is still under it.',
-    'NINA|Come in early tomorrow. I’ll show you how the register actually works.',
+    'NINA~relieved|Come in early tomorrow. I’ll show you how the register actually works.',
     'YOU|Half past eleven?',
-    'NINA|Half past eleven. Don’t be late.',
+    'NINA~relieved|Half past eleven. Don’t be late.',
   ], ['Case closed', 'Nina is safe. Daniel Price is in custody for the abduction and the 2019 death of Mara Ward. Owen Mercer is being questioned over the cover-up. The evidence is safe off-site.'],
   ['The evidence board has every time you need. Seven years ago comes first, tonight comes last.', 'Crash, insurance change, first payment, card cloned, checkout, Nina taken, Room 17 searched, upload.'],
   { kind: 'timeline', prompt: 'The whole case, earliest at the top.', order: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'], cards: [

@@ -1,8 +1,8 @@
 // Screens and game flow: title -> name -> chapter card -> intro -> puzzle -> evidence -> reveal -> ... -> ending.
 
 import { TITLE_ART } from '../assets/manifest';
-import { portraitFor, sceneArt } from '../core/art';
-import { audioScene, duckMusic, haptic, mix, sfx, unlockAudio } from '../core/audio';
+import { isCutout, portraitFor, sceneArt, speakerName } from '../core/art';
+import { audioScene, audioStatus, audioTitle, duckMusic, haptic, mix, sfx, stinger, unlockAudio } from '../core/audio';
 import { h } from '../core/dom';
 import { clearSave, loadSave, newSave, saveSettings, settings, writeSave, type SaveData } from '../core/state';
 import type { Clue, Level, PuzzleInstance } from '../core/types';
@@ -68,6 +68,7 @@ function header(): HTMLElement {
 }
 
 function renderTitle() {
+  audioTitle();
   const saved = loadSave(LEVELS.length);
   const bg = h('div', { class: 'title-art' });
   if (TITLE_ART) bg.append(h('img', { src: TITLE_ART, alt: '' }));
@@ -121,7 +122,7 @@ function renderName() {
 function renderChapter() {
   const ch = cur().ch;
   audioScene(cur().scene, ch);
-  sfx('chapter');
+  if (ch === 0 || !stinger('chapter_end')) sfx('chapter');
   const next = () => { game!.phase = 'intro'; game!.line = 0; save(); render(); };
   const el = h('section', { class: 'screen chapter', tabindex: 0, onclick: next },
     h('p', { class: 'eyebrow', text: `Chapter ${ch + 1} of ${CHAPTERS.length}` }),
@@ -143,10 +144,10 @@ function renderStory() {
 
   const art = sceneArt(l.scene);
   const portrait = portraitFor(speaker);
-  if (portrait) art.append(h('img', { class: 'portrait', src: portrait, alt: speaker.split(' ')[0] }));
+  if (portrait) art.append(h('img', { class: `portrait${isCutout(portrait) ? ' cutout' : ''}`, src: portrait, alt: speakerName(speaker).split(' ')[0] }));
   if (/RECORDING|PHONE|INTERCOM|DISTANT/.test(speaker)) art.classList.add('remote');
 
-  const who = speaker === 'YOU' ? (game!.name || DEFAULT_NAME).toUpperCase() : speaker;
+  const who = speaker === 'YOU' ? (game!.name || DEFAULT_NAME).toUpperCase() : speakerName(speaker);
   const panel = h('div', { class: `dialogue${speaker === 'NARRATOR' ? ' narrator' : ''}` },
     speaker === 'NARRATOR' ? null : h('p', { class: 'speaker', text: who }),
     h('p', { class: 'line', text: fill(text) }),
@@ -168,7 +169,10 @@ function advance() {
   if (game!.line < lines.length - 1) {
     game!.line++;
     const sp = lines[game!.line][0];
-    sfx(sp.includes('PHONE') ? 'phone' : /RECORDING|INTERCOM/.test(sp) ? 'static' : 'tap');
+    const prev = lines[game!.line - 1][0];
+    // Nina's voice gets its own stinger the first time she speaks in a run of lines.
+    const ninaArrives = sp.startsWith('NINA') && !prev.startsWith('NINA') && !sp.includes('NOTE');
+    if (!(ninaArrives && stinger('nina_voice'))) sfx(sp.includes('PHONE') ? 'phone' : /RECORDING|INTERCOM/.test(sp) ? 'static' : 'tap');
     save(); render();
   } else finishLines();
 }
@@ -242,7 +246,7 @@ function win(skipped: boolean) {
   if (!g.clues.includes(g.level)) g.clues.push(g.level);
   g.phase = 'reveal'; g.line = 0;
   save();
-  sfx('clue');
+  if (!stinger('clue_found')) sfx('clue');
   const c = cur().clue;
   showOverlay(h('div', { class: 'clue-card', role: 'dialog', 'aria-label': 'New evidence' },
     h('p', { class: 'eyebrow', text: skipped ? 'Evidence added · puzzle skipped' : 'Evidence added' }),
@@ -373,6 +377,7 @@ function exposeHooks() {
     skip: () => { if (game?.phase === 'puzzle') win(true); },
     finishScene: () => { if (game && (game.phase === 'intro' || game.phase === 'reveal')) finishLines(); else if (game?.phase === 'chapter') { game.phase = 'intro'; render(); } },
     closeOverlay: () => { closeOverlay(); render(); },
+    audio: () => audioStatus(),
     jump: (i: number) => { debug.sandbox = true; game = { ...(game ?? newSave(DEFAULT_NAME)), level: i, phase: 'puzzle', line: 0, clues: LEVELS.slice(0, i).map((_, k) => k) }; closeOverlay(); render(); },
   };
 }

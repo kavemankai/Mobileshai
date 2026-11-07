@@ -1,25 +1,63 @@
-// Audio: four buses (master, music, ambience, effects). Every sound has a synthesised placeholder.
-// During the sound pass, drop files into src/assets/audio and register them in assets/manifest.ts;
-// a registered file always wins over the synth fallback.
+// Audio: four buses (master, music, ambience, effects).
+// Files from src/assets/audio are used when present; every sound also has a synthesised fallback,
+// so a missing or undecodable file never leaves the game silent.
+//
+// Effects and stingers are decoded once, up front (they are tiny). Music and ambience loops are
+// decoded on demand and only the most recent few are kept in memory, which matters on phones.
 
+import { AMBIENCE_FILES, AUDIO_FILES, MUSIC_FILES, STINGER_FILES } from '../assets/manifest';
 import { settings } from './state';
 import type { SceneKey, SfxName } from './types';
-import { AUDIO_FILES } from '../assets/manifest';
 
 type Bus = 'master' | 'music' | 'ambience' | 'effects';
+export type MusicCue = 'title' | 'investigation' | 'tension' | 'pressure' | 'resolution';
+export type Stinger = 'clue_found' | 'chapter_end' | 'nina_voice';
+
+interface Loop { key: string; src: AudioBufferSourceNode; gain: GainNode }
 
 interface Engine {
   ctx: AudioContext;
   buses: Record<Bus, GainNode>;
   duck: GainNode;
+  synthAmb: GainNode;
+  synthPads: GainNode;
   weather: BiquadFilterNode;
   pads: OscillatorNode[];
-  buffers: Map<string, AudioBuffer>;
+  loops: { music: Loop | null; ambience: Loop | null };
 }
 
+const FADE = 1.6; // seconds for loop crossfades
+const FILE_GAIN = { effects: 0.8, music: 0.9, ambience: 0.9, stinger: 0.85 };
+const LONG_CACHE = 4; // decoded music/ambience buffers kept in memory
+
 let eng: Engine | null = null;
-let scene: SceneKey | '' = '';
-let chapter = -1;
+const buffers = new Map<string, Promise<AudioBuffer | null>>(); // by url
+const longOrder: string[] = [];
+const ready = new Map<string, AudioBuffer>(); // decoded sfx/stingers by url
+const want: { music: string | null; ambience: string | null } = { music: null, ambience: null };
+const req = { music: 0, ambience: 0 };
+let synthScene: SceneKey | '' = '';
+let synthChapter = -1;
+
+function decode(url: string, long: boolean): Promise<AudioBuffer | null> {
+  if (!eng) return Promise.resolve(null);
+  let p = buffers.get(url);
+  if (!p) {
+    const ctx = eng.ctx;
+    p = fetch(url).then((r) => r.arrayBuffer()).then((b) => ctx.decodeAudioData(b)).catch(() => null);
+    buffers.set(url, p);
+  }
+  if (long) {
+    const i = longOrder.indexOf(url);
+    if (i >= 0) longOrder.splice(i, 1);
+    longOrder.push(url);
+    while (longOrder.length > LONG_CACHE) {
+      const old = longOrder.shift()!;
+      if (old !== eng.loops.music?.key && old !== eng.loops.ambience?.key) buffers.delete(old);
+    }
+  }
+  return p;
+}
 
 export function unlockAudio() {
   try {
@@ -35,7 +73,7 @@ export function unlockAudio() {
       buses.ambience.connect(buses.master);
       buses.effects.connect(buses.master);
 
-      // Placeholder ambience: looped brown noise through a low-pass filter whose cutoff changes per room.
+      // Synth fallback ambience: looped brown noise through a per-room low-pass filter.
       const buf = ctx.createBuffer(1, ctx.sampleRate * 3, ctx.sampleRate);
       const d = buf.getChannelData(0);
       let b = 0;
@@ -44,35 +82,34 @@ export function unlockAudio() {
       noise.buffer = buf; noise.loop = true;
       const weather = ctx.createBiquadFilter();
       weather.type = 'lowpass'; weather.frequency.value = 1200;
-      const ng = mk(); ng.gain.value = 0.55;
-      noise.connect(weather).connect(ng).connect(buses.ambience);
+      const synthAmb = mk(); synthAmb.gain.value = 0;
+      noise.connect(weather).connect(synthAmb).connect(buses.ambience);
       noise.start();
 
-      // Placeholder score: four slow-beating sine pads.
+      // Synth fallback score: four slow-beating sine pads.
+      const synthPads = mk(); synthPads.gain.value = 0;
+      synthPads.connect(buses.music);
       const pads: OscillatorNode[] = [];
       [55, 82.41, 110, 146.83].forEach((f, i) => {
         const o = ctx.createOscillator(), v = mk(), lfo = ctx.createOscillator(), depth = mk();
         o.type = 'sine'; o.frequency.value = f; v.gain.value = 0.025;
         lfo.frequency.value = 0.045 + i * 0.018; depth.gain.value = 0.013;
-        lfo.connect(depth).connect(v.gain); o.connect(v).connect(buses.music);
+        lfo.connect(depth).connect(v.gain); o.connect(v).connect(synthPads);
         o.start(); lfo.start(); pads.push(o);
       });
-      eng = { ctx, buses, duck, weather, pads, buffers: new Map() };
+      eng = { ctx, buses, duck, synthAmb, synthPads, weather, pads, loops: { music: null, ambience: null } };
       mix();
-      void loadFiles();
+      for (const url of [...Object.values(AUDIO_FILES), ...Object.values(STINGER_FILES)]) {
+        void decode(url, false).then((b) => { if (b) ready.set(url, b); });
+      }
+      // Start whatever the game asked for before the first tap.
+      const m = want.music, a = want.ambience;
+      want.music = want.ambience = null;
+      if (m) playLoop('music', m);
+      if (a) playLoop('ambience', a);
     }
     if (eng.ctx.state === 'suspended' && !document.hidden) void eng.ctx.resume();
   } catch { /* audio unavailable */ }
-}
-
-async function loadFiles() {
-  if (!eng) return;
-  for (const [name, url] of Object.entries(AUDIO_FILES)) {
-    try {
-      const res = await fetch(url);
-      eng.buffers.set(name, await eng.ctx.decodeAudioData(await res.arrayBuffer()));
-    } catch { /* fall back to synth */ }
-  }
 }
 
 export function mix() {
@@ -91,18 +128,92 @@ export function duckMusic(on: boolean) {
   eng.duck.gain.setTargetAtTime(on ? 0.55 : 1, eng.ctx.currentTime, 0.4);
 }
 
+function synthLayer(kind: 'music' | 'ambience', on: boolean) {
+  if (!eng) return;
+  const g = kind === 'music' ? eng.synthPads : eng.synthAmb;
+  g.gain.setTargetAtTime(on ? (kind === 'music' ? 1 : 0.55) : 0, eng.ctx.currentTime, FADE / 3);
+}
+
+/** Crossfade a looping track. `key` is the file name in the manifest; unknown keys use the synth layer. */
+function playLoop(kind: 'music' | 'ambience', key: string) {
+  if (!eng) { want[kind] = key; return; }
+  const files = kind === 'music' ? MUSIC_FILES : AMBIENCE_FILES;
+  const url = files[key];
+  const cur = eng.loops[kind];
+  if (cur?.key === url && url) return;
+  const id = ++req[kind];
+  const fadeOut = () => {
+    const c = eng!.loops[kind];
+    if (!c) return;
+    const t = eng!.ctx.currentTime;
+    c.gain.gain.cancelScheduledValues(t);
+    c.gain.gain.setValueAtTime(c.gain.gain.value, t);
+    c.gain.gain.linearRampToValueAtTime(0, t + FADE);
+    c.src.stop(t + FADE + 0.05);
+    eng!.loops[kind] = null;
+  };
+  if (!url) { fadeOut(); synthLayer(kind, true); return; }
+  void decode(url, true).then((buf) => {
+    if (!eng || id !== req[kind]) return; // superseded by a newer request
+    fadeOut();
+    if (!buf) { synthLayer(kind, true); return; }
+    synthLayer(kind, false);
+    const { ctx } = eng;
+    const src = ctx.createBufferSource();
+    src.buffer = buf; src.loop = true;
+    const gain = ctx.createGain();
+    gain.gain.setValueAtTime(0, ctx.currentTime);
+    gain.gain.linearRampToValueAtTime(FILE_GAIN[kind], ctx.currentTime + FADE);
+    src.connect(gain).connect(eng.buses[kind]);
+    src.start();
+    eng.loops[kind] = { key: url, src, gain };
+  });
+}
+
+export function musicCue(cue: MusicCue) { playLoop('music', cue); }
+
 const CUTOFF: Record<SceneKey, number> = {
   exterior: 2200, yard: 1900, room17: 750, corridor17: 900, security: 450, service: 1050, laundry: 650, records: 320, reception: 950,
 };
 
+/** Sets room tone for a scene and the score for the chapter. */
 export function audioScene(s: SceneKey, ch: number, ending = false) {
-  if (!eng || (s === scene && ch === chapter)) return;
-  scene = s; chapter = ch;
+  playLoop('ambience', s);
+  musicCue(ending ? 'resolution' : ch <= 1 ? 'investigation' : ch === 2 ? 'tension' : 'pressure');
+  if (!eng || (s === synthScene && ch === synthChapter)) return;
+  synthScene = s; synthChapter = ch;
   const now = eng.ctx.currentTime;
   eng.weather.frequency.setTargetAtTime(CUTOFF[s] ?? 700, now, 1.5);
   const base = ending ? [65.41, 98, 130.81, 164.81] : [55, 82.41, 110, 146.83];
   const lift = ch === 3 && !ending ? 1.05946 : 1;
   eng.pads.forEach((o, i) => o.frequency.setTargetAtTime(base[i] * lift, now, 2));
+}
+
+/** Title screen: exterior rain and the title theme. */
+export function audioTitle() {
+  playLoop('ambience', 'exterior');
+  musicCue('title');
+}
+
+function playBuffer(buf: AudioBuffer, gain: number) {
+  const { ctx, buses } = eng!;
+  const src = ctx.createBufferSource();
+  const g = ctx.createGain();
+  g.gain.value = gain;
+  src.buffer = buf;
+  src.connect(g).connect(buses.effects);
+  src.start();
+}
+
+/** Plays a stinger. Returns false if the file isn't available, so callers can fall back to an sfx. */
+export function stinger(name: Stinger): boolean {
+  unlockAudio();
+  if (!eng || settings.muted) return true;
+  const url = STINGER_FILES[name];
+  const buf = url ? ready.get(url) : undefined;
+  if (!buf) return false;
+  playBuffer(buf, FILE_GAIN.stinger);
+  return true;
 }
 
 type Spec = [freq: number, dur: number, type: OscillatorType, slideTo?: number, noise?: boolean];
@@ -134,13 +245,10 @@ const SYNTH: Record<SfxName, Spec[]> = {
 export function sfx(name: SfxName) {
   unlockAudio();
   if (!eng || settings.muted) return;
-  const { ctx, buses, buffers } = eng;
-  const file = buffers.get(name);
-  if (file) {
-    const src = ctx.createBufferSource();
-    src.buffer = file; src.connect(buses.effects); src.start();
-    return;
-  }
+  const url = AUDIO_FILES[name];
+  const file = url ? ready.get(url) : undefined;
+  if (file) { playBuffer(file, FILE_GAIN.effects); return; }
+  const { ctx, buses } = eng;
   let t = ctx.currentTime;
   for (const [f, dur, type, slide, noisy] of SYNTH[name]) {
     const g = ctx.createGain();
@@ -169,6 +277,20 @@ export function sfx(name: SfxName) {
 export function haptic(ms = 12) {
   if (!settings.haptics) return;
   try { navigator.vibrate?.(ms); } catch { /* unsupported */ }
+}
+
+/** For tests and the debug panel. */
+export function audioStatus() {
+  const name = (url?: string) => (url ? Object.entries({ ...MUSIC_FILES, ...AMBIENCE_FILES }).find(([, u]) => u === url)?.[0] ?? '?' : null);
+  return {
+    unlocked: !!eng,
+    state: eng?.ctx.state ?? 'none',
+    music: name(eng?.loops.music?.key),
+    ambience: name(eng?.loops.ambience?.key),
+    effectsDecoded: [...ready.keys()].filter((u) => Object.values(AUDIO_FILES).includes(u)).length,
+    stingersDecoded: [...ready.keys()].filter((u) => Object.values(STINGER_FILES).includes(u)).length,
+    files: { sfx: Object.keys(AUDIO_FILES).length, ambience: Object.keys(AMBIENCE_FILES).length, music: Object.keys(MUSIC_FILES).length, stingers: Object.keys(STINGER_FILES).length },
+  };
 }
 
 document.addEventListener('visibilitychange', () => {

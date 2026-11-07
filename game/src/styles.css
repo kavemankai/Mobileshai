@@ -367,3 +367,13 @@ button:disabled { opacity: .45; cursor: default; }
   .lg-block th.col { width: 36px; }
   .lg-cell { width: 36px; height: 36px; }
 }
+
+/* ---- Asset pass (WIP pack, 7 Nov 2026) ---- */
+/* Portrait-format plates: keep the painted middle in frame (WIP plates have a soft lower third). */
+.scene-art > img:first-child { object-position: center 35%; }
+.room-art > img:first-child { object-position: center 30%; }
+.portrait.cutout { -webkit-mask-image: none; mask-image: none; height: 92%; max-width: 70%; object-fit: contain; object-position: bottom right; filter: drop-shadow(0 6px 14px rgba(0,0,0,.6)); }
+.ho-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.5) saturate(.8); }
+.room-item-img { width: 34px; height: 34px; object-fit: contain; }
+.m3-tile.sprite { background: transparent; padding: 0; }
+.m3-tile.sprite img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }

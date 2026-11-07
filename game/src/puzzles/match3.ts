@@ -1,6 +1,7 @@
 // Match-3 reveal: matches wipe the static off the cells beneath them. Clear all static to
 // reveal the picture. No move limit. Four in a row makes a line clearer.
 
+import { MATCH_TILES } from '../assets/manifest';
 import { h, wait } from '../core/dom';
 import { rng } from '../core/rng';
 import type { Match3Def, PuzzleMount } from '../core/types';
@@ -128,9 +129,10 @@ export const mountMatch3: PuzzleMount<Match3Def> = (def, ctx) => {
       if (t) {
         const tile = h('button', {
           class: `m3-tile${sel === i ? ' sel' : ''}${t.sp ? ' sp-' + t.sp : ''}${fresh?.has(i) ? ' drop' : ''}`,
-          style: { color: COLORS[t.c] }, text: SHAPES[t.c], 'data-i': i,
+          style: { color: COLORS[t.c] }, text: MATCH_TILES[t.c] ? undefined : SHAPES[t.c], 'data-i': i,
           'aria-label': `Tile ${SHAPES[t.c]}${t.sp ? ' line clearer' : ''}, row ${Math.floor(i / g.n) + 1} column ${(i % g.n) + 1}`,
         });
+        if (MATCH_TILES[t.c]) { tile.classList.add('sprite'); tile.append(h('img', { src: MATCH_TILES[t.c], alt: '', draggable: 'false' })); }
         cell.append(tile);
       }
       grid.append(cell);

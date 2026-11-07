@@ -1,6 +1,6 @@
 // Scene backdrops and portraits, with generated placeholders where no art is mapped yet.
 
-import { PORTRAITS, SCENE_ART, SCENE_PLACEHOLDER } from '../assets/manifest';
+import { CUTOUT_PORTRAITS, PORTRAITS, SCENE_ART, SCENE_PLACEHOLDER } from '../assets/manifest';
 import { h } from './dom';
 import type { SceneKey } from './types';
 
@@ -34,7 +34,18 @@ export function sceneArt(key: SceneKey, cls = 'scene-art'): HTMLElement {
   return box;
 }
 
-export function portraitFor(speaker: string): string | null {
-  const key = speaker.split(/[ ·]/)[0].toUpperCase();
-  return PORTRAITS[key] ?? null;
+/** Speaker tags may carry a mood after `~`: 'NINA~frightened', 'CLAIRE · PHONE~angry'. */
+export function parseSpeaker(speaker: string): { name: string; mood: string | null } {
+  const [name, mood] = speaker.split('~');
+  return { name: name.trim(), mood: mood ? mood.trim().toUpperCase() : null };
 }
+
+export const speakerName = (speaker: string) => parseSpeaker(speaker).name;
+
+export function portraitFor(speaker: string): string | null {
+  const { name, mood } = parseSpeaker(speaker);
+  const key = name.split(/[ ·]/)[0].toUpperCase();
+  return (mood && PORTRAITS[`${key}_${mood}`]) || PORTRAITS[key] || null;
+}
+
+export const isCutout = (url: string) => CUTOUT_PORTRAITS.has(url);

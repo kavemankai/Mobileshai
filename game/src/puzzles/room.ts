@@ -2,6 +2,7 @@
 // Placeholder mode draws every hotspot as a labelled prop card. In the art pass, set
 // `PROPS_VISIBLE = false` once the painted scene shows the objects itself.
 
+import { ITEM_ICONS } from '../assets/manifest';
 import { sceneArt } from '../core/art';
 import { h } from '../core/dom';
 import type { Hotspot, PuzzleMount, RoomDef } from '../core/types';
@@ -58,7 +59,7 @@ export const mountRoom: PuzzleMount<RoomDef> = (def, ctx) => {
     if (!st.items.size) inv.append(h('span', { class: 'room-inv-empty', text: 'Pockets: empty' }));
     for (const id of st.items) {
       const it = def.items[id];
-      const b = h('button', { class: `room-item${selected === id ? ' sel' : ''}`, 'aria-pressed': selected === id ? 'true' : 'false', 'aria-label': `${it.label}${selected === id ? ', selected' : ''}` }, h('span', { text: it.icon }), h('small', { text: it.label }));
+      const b = h('button', { class: `room-item${selected === id ? ' sel' : ''}`, 'aria-pressed': selected === id ? 'true' : 'false', 'aria-label': `${it.label}${selected === id ? ', selected' : ''}` }, ITEM_ICONS[id] ? h('img', { class: 'room-item-img', src: ITEM_ICONS[id], alt: '' }) : h('span', { text: it.icon }), h('small', { text: it.label }));
       b.addEventListener('click', () => { selected = selected === id ? null : id; ctx.sfx('pick'); draw(); say(selected ? `Holding: ${it.label}. Tap where to use it.` : ''); });
       inv.append(b);
     }

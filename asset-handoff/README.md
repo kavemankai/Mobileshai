@@ -1,26 +1,32 @@
-# The Last Check-In — upload handoff
+# The Last Check-In: asset handoff
 
-**Status: ZIPs have NOT been uploaded.** This branch was created from `assets/environment-pass-02` to stage a 127-file *WIP* art/audio pack. The ZIP files are available from the ChatGPT conversation download links but cannot be transferred to GitHub through the current binary-limited connector. This directory provides exact expected filenames and checksums for a manual upload.
+**Status: uploaded and integrated (7 November 2026).** All seven ZIPs are in `zips/` under their canonical names, and every one matches `CHUNK_SHA256SUMS.txt`:
 
-## Expected ZIP files (upload to `asset-handoff/zips/`)
+```bash
+cd asset-handoff/zips && sha256sum -c ../CHUNK_SHA256SUMS.txt
+```
 
-| File | Bytes | SHA-256 |
-|---|---:|---|
-| `Last_Check_In_Part_01_Docs_and_Master_Reference.zip` | 2726676 | `e5a2daf42d5ed41bf20a278cf0df93d3846655e10a7a19cbf96fbc76bcdc528b` |
-| `Last_Check_In_Part_02_Scenes_Portraits_and_Concept_Boards.zip` | 1392235 | `e25afb99c725229b3054663a988906727b7141570187d03ad3d8faa796343fea` |
-| `Last_Check_In_Part_03_Interactive_CCTV_and_Inventory.zip` | 1204604 | `470757eedc6549bb2a844c811b759c782950894a880db27731d2292b67b22a56` |
-| `Last_Check_In_Part_04_Puzzle_Skins_A.zip` | 2671478 | `ded7967a30cecd76ef43da2b7d7fe225e3d4c0261da661b9650bfac1e0230256` |
-| `Last_Check_In_Part_05_Puzzle_Skins_B.zip` | 1585892 | `e8581c00400ef564f552d870098ebc1fa282f4ed64207851500ee3d968a60024` |
-| `Last_Check_In_Part_06_Music_and_Ambience.zip` | 2728916 | `af2122dea8c25a14f56f50ceeab2970bbb7226bc0164adaea6fc23d296f7c244` |
-| `Last_Check_In_Part_07_SFX_and_Stingers.zip` | 208807 | `5d5b1cf69bbaa4352dd1308fcb3af4dcca310621fd3a4f6c12e9a32c11b53919` |
+Parts 3–7 were first uploaded to the repo root as `LCI_Assets_03.zip`…`07.zip`. They were moved here and renamed. The bytes are unchanged.
 
-## How to complete upload
+| File | Bytes | Files inside |
+|---|---:|---:|
+| `Last_Check_In_Part_01_Docs_and_Master_Reference.zip` | 2,726,676 | 16 |
+| `Last_Check_In_Part_02_Scenes_Portraits_and_Concept_Boards.zip` | 1,392,235 | 26 |
+| `Last_Check_In_Part_03_Interactive_CCTV_and_Inventory.zip` | 1,204,604 | 31 |
+| `Last_Check_In_Part_04_Puzzle_Skins_A.zip` | 2,671,478 | 11 |
+| `Last_Check_In_Part_05_Puzzle_Skins_B.zip` | 1,585,892 | 12 |
+| `Last_Check_In_Part_06_Music_and_Ambience.zip` | 2,728,916 | 15 |
+| `Last_Check_In_Part_07_SFX_and_Stingers.zip` | 208,807 | 26 |
 
-1. Download all seven ZIPs from the ChatGPT conversation.
-2. In GitHub, select branch `assets/zip-handoff-2026-11-07`, navigate to this `asset-handoff/` directory, use **Add file → Upload files**, and place each ZIP under `asset-handoff/zips/` (or use a local clone and `git add`).
-3. Check that all seven ZIP files exist in the repository with the same names and SHA-256 hashes.
-4. Extract all parts into a **single staging directory**, not directly into the game. Preserve the relative paths and read the included `CODEX_TASK.md`.
-5. Use Codex to integrate selectively; **never overwrite the five newer `*-v2.webp` environment images** already referenced in `game/src/assets/manifest.ts`.
-6. Run `npm test`, `npm run build`, and browser/gameplay QA.
+137 files in total. The earlier note said 127; the difference is pack metadata (chunk info files, manifests, scripts).
 
-Do not describe these as finished art: interactive alignments, CCTV joins, expressions, scene layers, audio integration, and device QA still need work.
+## What happened to the contents
+
+Integrated selectively into `game/`. The full list of what went in, what didn't and why is in [`game/ASSETS.md`](../game/ASSETS.md). In short:
+
+- **In:** five scene plates (exterior, title, reception, security, Room 17), Nina and Claire expression cutouts, inventory icons, match-3 tiles, four CCTV footage pairs, and all 39 audio files.
+- **Out:** the five older scene plates that the env pass 02 paintings supersede, the interactive and hidden-object plates (placeholder boxes baked in), the puzzle skin textures (labels baked in), Owen and Daniel expressions (cutout defects), four CCTV label crops, and the build scripts.
+
+The newer `*-v2.webp` environment paintings were not overwritten.
+
+These ZIPs are a work-in-progress pack, not finished art. Once nothing more is needed from them, consider moving them to a GitHub Release attachment. They add about 12.5 MB to every clone of the repository.
