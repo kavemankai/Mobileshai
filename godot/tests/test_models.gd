@@ -11,6 +11,7 @@ func _init() -> void:
 	test_logic(levels)
 	test_cryptex(levels)
 	test_goods_water(levels)
+	test_match3(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -144,3 +145,39 @@ func _goods_solvable(def: Dictionary, start: Array) -> bool:
 						r.clear()
 				stack.append(t)
 	return false
+
+
+func test_match3(levels: Array) -> void:
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "match3":
+			continue
+		for seed_value in [7919 * 7, 12345, 99]:
+			var m := Match3Model.create(d, seed_value)
+			check(m.find_matches()["cells"].is_empty(), "match3 level %d starts with a match" % i)
+			check(not m.has_move().is_empty(), "match3 level %d starts without a move" % i)
+			var moves := 0
+			var rng := RandomNumberGenerator.new()
+			rng.seed = seed_value
+			while m.static_left() > 0 and moves < 400:
+				# play a random legal move
+				var legal := []
+				for a in m.n * m.n:
+					for b in [a + 1, a + m.n]:
+						if b < m.n * m.n and m.adjacent(a, b):
+							m.swap_tiles(a, b)
+							if not m.find_matches()["cells"].is_empty():
+								legal.append([a, b])
+							m.swap_tiles(a, b)
+				if legal.is_empty():
+					m.reshuffle()
+					continue
+				var mv: Array = legal[rng.randi_range(0, legal.size() - 1)]
+				m.swap_tiles(mv[0], mv[1])
+				while not m.step(mv).is_empty():
+					mv = []
+				if m.has_move().is_empty():
+					m.reshuffle()
+				moves += 1
+			check(m.static_left() == 0, "match3 level %d: random play left static after %d moves" % [i, moves])
+			print("match3 level %d seed %d cleared in %d random moves" % [i, seed_value, moves])
