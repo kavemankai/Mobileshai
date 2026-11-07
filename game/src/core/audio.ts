@@ -37,6 +37,9 @@ const ready = new Map<string, AudioBuffer>(); // decoded sfx/stingers by url
 const want: { music: string | null; ambience: string | null } = { music: null, ambience: null };
 const req = { music: 0, ambience: 0 };
 let synthScene: SceneKey | '' = '';
+/** Recent sounds, for tests and the debug panel: name and whether a file or the synth played it. */
+const played: { name: string; from: 'file' | 'synth' }[] = [];
+const logPlay = (name: string, from: 'file' | 'synth') => { played.push({ name, from }); if (played.length > 5000) played.shift(); };
 let synthChapter = -1;
 
 function decode(url: string, long: boolean): Promise<AudioBuffer | null> {
@@ -212,6 +215,7 @@ export function stinger(name: Stinger): boolean {
   const url = STINGER_FILES[name];
   const buf = url ? ready.get(url) : undefined;
   if (!buf) return false;
+  logPlay(name, 'file');
   playBuffer(buf, FILE_GAIN.stinger);
   return true;
 }
@@ -247,7 +251,8 @@ export function sfx(name: SfxName) {
   if (!eng || settings.muted) return;
   const url = AUDIO_FILES[name];
   const file = url ? ready.get(url) : undefined;
-  if (file) { playBuffer(file, FILE_GAIN.effects); return; }
+  if (file) { logPlay(name, 'file'); playBuffer(file, FILE_GAIN.effects); return; }
+  logPlay(name, 'synth');
   const { ctx, buses } = eng;
   let t = ctx.currentTime;
   for (const [f, dur, type, slide, noisy] of SYNTH[name]) {
@@ -289,6 +294,7 @@ export function audioStatus() {
     ambience: name(eng?.loops.ambience?.key),
     effectsDecoded: [...ready.keys()].filter((u) => Object.values(AUDIO_FILES).includes(u)).length,
     stingersDecoded: [...ready.keys()].filter((u) => Object.values(STINGER_FILES).includes(u)).length,
+    played: played.slice(),
     files: { sfx: Object.keys(AUDIO_FILES).length, ambience: Object.keys(AMBIENCE_FILES).length, music: Object.keys(MUSIC_FILES).length, stingers: Object.keys(STINGER_FILES).length },
   };
 }
