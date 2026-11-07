@@ -13,6 +13,7 @@ func _init() -> void:
 	test_goods_water(levels)
 	test_match3(levels)
 	test_blockfit_tilt(levels)
+	test_panels(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -219,3 +220,17 @@ func test_blockfit_tilt(levels: Array) -> void:
 			for st in d["stages"]:
 				if st["type"] == "tilt":
 					check(not TiltModel.solve(st["rows"]).is_empty(), "box tilt stage unsolvable")
+
+
+func test_panels(levels: Array) -> void:
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "panels":
+			continue
+		var sols := PanelsModel.solutions(d)
+		check(sols.size() >= 1, "panels level %d has no solution" % i)
+		print("panels level %d: %d solution(s)" % [i, sols.size()])
+		var rng := RandomNumberGenerator.new()
+		rng.seed = 7919 * 4
+		var st := PanelsModel.shuffled_start(d, rng)
+		check(not PanelsModel.solved(d, st["slots"], st["views"]), "panels level %d starts solved" % i)
