@@ -1,0 +1,12 @@
+{
+  "name": "The Last Check-In",
+  "short_name": "Check-In",
+  "description": "A crime mystery told through puzzles, one night at the Mariner Motel.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0b1520",
+  "theme_color": "#0b1520",
+  "icons": [{ "src": "icon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any maskable" }]
+}

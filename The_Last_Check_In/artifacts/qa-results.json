@@ -1,0 +1,26 @@
+{
+  "checks": [
+    "developer controls hidden by default",
+    "network disabled for complete legal-input playthrough",
+    "28 puzzles solved using legal UI inputs; all 28 exact unique clues; four chapters and complete ending",
+    "all runtime requests local; full case works without network",
+    "completed save resumes after reload",
+    "legacy save key and intro/puzzle/reveal resume; interrupted victory awards clue once",
+    "persistent mute, bus volumes, reduce motion and text size",
+    "seven title taps enable developer tools; stage sandbox preserves normal save",
+    "all 28 puzzle layouts fit and controls scroll into view at 360x780",
+    "all 28 puzzle layouts fit and controls scroll into view at 390x844",
+    "all 28 puzzle layouts fit and controls scroll into view at 412x915",
+    "all 28 puzzle layouts fit and controls scroll into view at 1280x900",
+    "pointer drag reorders paper records and moves vehicles legally",
+    "drag connects matching evidence; tap alternative also passed full case",
+    "reset restores puzzle; two progressive hints and penalty-free player skip award exact clue",
+    "query flag and hash flag enable developer mode",
+    "all four named characters have original illustrated appearances",
+    "keyboard puzzle focus survives render; settings trap focus and Escape closes",
+    "zero JavaScript exceptions across all runs"
+  ],
+  "failed": 0,
+  "console_errors": [],
+  "build_sha256": "51853b537b5a53912b3af452a463c216e2280f7a4a73f2a71e77c51143eecba0"
+}
