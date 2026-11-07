@@ -20,7 +20,7 @@ The engine isn't the problem. The code is. `engine.js` is 28 KB of single-line, 
 
 1. Move to Vite + TypeScript. Keep the single-file offline build as a build target (`vite-plugin-singlefile` does this).
 2. Give each puzzle its own module with one shared interface: `init(level, seed)`, `render(el)`, `isSolved()`, `hint(n)`, `serialize()`. The story/level data picks the module by `kind`.
-3. Keep story, dialogue, evidence and menus in plain DOM/CSS. Use PixiJS (v8) only inside the boards that need animation: match-3 cascades, screw jam, colour block jam, pin pull.
+3. Keep story, dialogue, evidence and menus in plain DOM/CSS. Use PixiJS (v8) only inside the boards that need animation: match-3 cascades, water and goods sort, tilt maze, puzzle-box mechanisms.
 4. Add a service worker and web manifest so it installs as a PWA and runs offline from the home screen. Wrap in Capacitor later if you ever want an APK. Don't do that first.
 5. Port the existing Playwright tests to the new structure and keep the full 28-level legal-input walkthrough. That test is the best thing in the pack.
 
@@ -40,84 +40,89 @@ Seven mechanics across 28 levels. Most of them aren't the genre they look like.
 
 Blunt version: someone who plays lots of mobile puzzle games will clear most of these in under 30 seconds without thinking, and five of the seven types will feel like busywork between dialogue. The other problem is that the player never deduces anything. The story hands out every clue and the puzzles are locks in front of it. A mystery where you never work anything out is a visual novel with chores.
 
-## 3. Current hot puzzle genres, and whether they fit
+## 3. What she's playing: the PixelPicked top 31 (November 2026)
 
-What's dominating mobile puzzle charts through 2025–26, with a fit rating for a 60–90 minute linear crime story. "Fit" means it can carry a story beat without feeling bolted on.
+The lineup below is built from the PixelPicked monthly ranking she's been browsing, not from store-wide charts. That matters: PixelPicked is an indie discovery site, and one publisher (XSGames) holds 10 of the 31 spots, so this is a picture of her taste more than of the whole market. For a gift, that's the better signal.
 
-| Genre | Reference games | Fit | Notes |
-|---|---|---|---|
-| Match-3 | Royal Match, Candy Crush | Good, as a reveal | Clear "static" tiles to uncover a CCTV frame or decrypt an archive. Objective mode, no move limit. |
-| Screw puzzle | Screw Jam, Screw Sort 3D | Excellent | Coloured screws go into matching toolboxes with limited slots. Plates fall. Perfect for vents, readers, tool cases. |
-| Hidden object | June's Journey, Hidden City | Excellent | The genre most associated with narrative mysteries. Needs high-res dense art. |
-| Connections-style grouping | NYT Connections | Excellent | Sort 12–16 evidence cards into groups. Red herrings make it a real deduction. |
-| Logic grid / deduction | Murdle, Clues by Sam | Excellent | The player actually solves the case. This is the biggest fix the game needs. |
-| Colour block jam | Color Block Jam, Bus Jam | Good | Slide coloured bars out through matching gates. Lock mechanisms. |
-| Ball / water sort | Ball Sort, Water Sort, Goods Sort | Good | Keycards into owner racks, with one card too many. |
-| Pin pull | Pull the Pin, Hero Rescue | Good | Floodwater, steam. Needs a small particle sim. |
-| Code-break (Wordle-style) | Wordle, Mastermind | Good | Replaces dead keypads. Partial clue plus coloured feedback per guess. |
-| Spot the difference | Find Differences apps | Good | Before/after photos of a staged room, doctored vs original footage. |
-| Flow / connect pairs | Flow Free | Good | Wiring. Distinct enough from pipe rotation to use both. |
-| Pipe rotation | Infinity Loop, Energy | Good | Keep, but 4×4 to 5×5 with multiple outputs. |
-| Block fit | Block Blast (fixed-solution variant) | Fair | Reassemble shredded pages from polyomino strips. Block Blast itself is endless scoring, which doesn't fit. |
-| Jigsaw | Jigsaw Puzzles, Magic Jigsaw | Fair | Torn photos, corrupted frames. Big with the same audience as hidden object. |
-| Tap-away | Tap Away 3D, Arrows | Fair | Jammed trays slide out in their arrow direction. |
-| Sliding tile (Rush Hour) | Unblock Me, Parking Jam | Fair | Keep the one use. |
-| Triple-tile tray | Tile Busters, Zen Match | Fair | 2D version is doable. Optional swap. |
-| Queens / grid placement | LinkedIn Queens, Star Battle | Fair | Could work as "place cameras so every corridor is covered". Optional swap. |
-| Merge | Travel Town, Merge Mansion | Poor | Needs an economy and a long meta loop. Fights a linear 90-minute story. |
-| Yarn / wool sort | Wool Sort, Knit Out | Poor | Hot, but forcing it into a laundry is a stretch. |
-| Word games | Wordscapes, word search | Poor | Possible, but adds little a deduction puzzle doesn't do better. |
+Some titles are obscure enough that I couldn't confirm the mechanic. Those are marked with a question mark and classified from the name and icon.
 
-If you know which games she plays most, weight the lineup toward them. That matters more than this table.
+| Cluster | Games on the list (rank) | Share |
+|---|---|---|
+| Escape room / mechanical puzzle box | Odd Machines (2), The Da Vinci Cryptex (6), Mystery Box: Hidden Secrets (7), Tiny Machinery (8), Mystery Box 3: Escape the Room (12), Blackmoon Mansion (17), Escape From Benjamin's Room (19) | 7, five of them in the top 8 |
+| Illustrated, art-led puzzles | Gorogoa (3), Song of Bloom (9), The Inkline? (11) | 3 |
+| Hidden object / picture puzzles | Hidden Birds (4), Infograf Puzzle? (13) | 2 |
+| Daily logic | Zipstache? (10, looks like a Zip-style numbered path), 123doku (18), Lockstep: Daily Logic (23), Quadra? (25), CrissCross? (26) | 5 |
+| Ordering / timeline | Listory? (24, looks like putting history in order) | 1 |
+| Casual mass-market | Zukora match-3 (14), Block Puzzle Pro (15), CrossBlock? (22, number merge), InkDrop colour merge (29), Water Sort Deluxe (30), Pocha Moonlight goods sort (31), Tilt Maze Garden (21), Twistbloom? (27) | 8 |
+| Word | Word Battle (16) | 1 |
+| Not puzzle games | Pixel Rush (1)?, groky (5)?, Get a Grip (20), Prim3 Hunt (28)? | 4 |
 
-## 4. Drop, keep, replace
+### What this changes
+
+The top of her list is escape-room and puzzle-box games. That is the genre this game should have been all along. The Last Check-In currently plays as a puzzle pack: read dialogue, solve an abstract board, read more dialogue. XSGames-style escape games put you *in* a room. You tap around, zoom into a drawer, pick up a screwdriver, find a number scratched on a clock, open a box that contains another box. The puzzles live inside the place.
+
+So the structural change is bigger than swapping mechanics. Each of the eight locations becomes an explorable scene with hotspots, zoom-ins and a small inventory. The gadget puzzles sit inside those scenes. Codes and passwords stop being printed in the dialogue and start being found in the room, which fixes the "keypad isn't a puzzle" problem for free.
+
+The list also says she likes handmade, atmospheric, harder puzzles (Gorogoa, Song of Bloom, Odd Machines), not only casual sorts. That backs the noir direction and the difficulty ramp. The casual cluster is still a third of the list, so a few match-3 / sort / block levels belong in the mix as breathers.
+
+## 4. Drop, keep, replace (revised)
 
 | Current | Verdict | Replaced by |
 |---|---|---|
-| `slide` ×5 | Drop entirely | Match-3 reveal, jigsaw, colour block jam, spot the difference, tap-away |
-| `keypad` ×3 | Drop as a puzzle | Code-break (Wordle feedback) ×2; one keypad becomes a plain interaction, not a level |
-| `match` ×5 | Drop | Connections ×2, logic grid, "who's lying" deduction, card sort |
-| `sort` ×6 | Cut to 3, rebuild | Two become sequence deductions with timestamps removed (order by visual evidence). The finale stays as a timeline board. The rest become hidden object and block fit. |
-| `screws` ×3 | Rebuild as real Screw Jam | Screw Jam ×2, spot the difference ×1 |
-| `circuit` ×5 | Keep 2, rebuild bigger | Pipe rotation ×2, flow ×2, pin pull ×1 |
-| `parking` ×1 | Keep, re-art | Rush Hour with top-down car sprites and a harder layout |
+| `slide` ×5 | Drop | Puzzle box, match-3 reveal, Gorogoa-style panels |
+| `keypad` ×3 | Rebuild | Codes found by exploring the room (escape-room style) and one cryptex |
+| `match` ×5 | Drop | Logic grid ×2, goods sort, water sort, escape-room exploration |
+| `sort` ×6 | Keep 3, make them hard | Timeline ordering with timestamps removed (Listory-style, but deductive). Others become hidden object and block puzzle. |
+| `screws` ×3 | Drop as a type | Folded into puzzle boxes and room exploration (unscrewing a panel is one step of a box, not a level) |
+| `circuit` ×5 | Replace | Zip-style numbered path ×4 (power routes, van route, upload relays), puzzle-box switchboard ×1 |
+| `parking` ×1 | Drop | Zip path through the yard's camera checkpoints |
+
+Dropped from my first draft because nothing on her list points at them: Screw Jam, colour block jam, pin pull, tap-away, Flow, jigsaw, Connections, Wordle-style code-break, spot the difference.
 
 ## 5. New 28-level map
 
-The story beats and clue titles stay in place. Each chapter introduces new mechanics, and each chapter ends on a deduction puzzle so the player feels clever at the cliffhanger.
+Story beats and clue titles stay in place. Thirteen mechanics, each tied to a game on her list.
 
-| # | Level | Was | Becomes | What the player does |
-|---:|---|---|---|---|
-| 1 | Restore the Terminal | circuit | Pipe rotation 4×4 | Route backup power to the terminal |
-| 2 | The Night Register | sort | Hidden object (reception) | Find the four stuffed receipts, Nina's keys, her note |
-| 3 | The Security Cabinet | slide | Tap-away | Clear jammed trays in the right order to reach the key |
-| 4 | The Missing Footage | sort | Sequence deduction | Order four CCTV stills with no timestamps, using the wall clock reflection, rain on the lens, lights going off |
-| 5 | The Tampered Reader | screws | Screw Jam | Coloured screws into matching trays; plates drop to expose the memory unit |
-| 6 | The Backup Recorder | circuit | Flow | Connect colour-matched wire leads, filling the board |
-| 7 | The Last Image | slide | Match-3 reveal | Clear static tiles; the van frame emerges underneath |
-| 8 | The Contradiction | match | Connections | Sort 12 cards into Nina's movements / the stranger's movements / the van, with one decoy |
-| 9 | Through the Door | keypad | Code-break | Rain-smudged note shows `1?1?`; Wordle-style feedback on guesses |
-| 10 | The Hidden Vent | screws | Spot the difference | Booking photo of Room 17 vs now; the last difference is the scratched vent |
-| 11 | The Guest of Record | match | Logic grid | Three names × three rooms × three payment methods |
-| 12 | The Vehicle Trace | parking | Rush Hour (rebuilt) | Prove whether the van could reach the gate |
-| 13 | The Dashcam Fragment | slide | Jigsaw (16 pieces) | Rebuild the corrupted dashcam still |
-| 14 | The Ward File | sort | Hidden object (records office) | Find the Ward documents in the clutter |
-| 15 | The Sealed Recording | keypad | Match-3 decryption | Clear the lock blocks over the archive |
-| 16 | The Spare Credential | match | Card sort (ball-sort mechanic) | Sort keycards into owner racks; one NIGHT SHIFT card is left over |
-| 17 | The Flooded Corridor | circuit | Pin pull | Pull pins in order so floodwater reaches the drain, not the fuse box |
-| 18 | The Archived Film | sort | Sequence deduction | Order the 2019 frames; the driver's face stays unclear |
-| 19 | The Owner's Ledger | sort | Block fit | Reassemble shredded ledger strips into the page |
-| 20 | The Emergency Intercom | circuit | Pipe rotation 5×5, two outputs | Power both the speaker and the microphone |
-| 21 | The Contractor's Case | screws | Screw Jam (harder) | Open Daniel's tool case |
-| 22 | The Only Explanation | match | Who's-lying deduction | Weigh statements from Owen, Claire, the invoice and the intercom; accuse before Owen confirms |
-| 23 | The Laundry Override | keypad | Code-break | Heat-damaged tag shows two of four digits |
-| 24 | The Boiler Bypass | circuit | Flow | Connect valve control leads |
-| 25 | The Last Barrier | slide | Colour block jam | Slide coloured lock bars out through matching gates |
-| 26 | The Original Frame | slide | Spot the difference | The doctored 2019 frame vs Nina's original; the differences put Daniel behind the wheel |
-| 27 | The Emergency Uplink | match | Connections | Route 16 files to 4 upload channels, with decoys |
-| 28 | The Final Account | sort | Timeline board | Place six evidence cards on the case timeline |
+| # | Level | Was | Becomes | Her list | What the player does |
+|---:|---|---|---|---|---|
+| 1 | Restore the Terminal | circuit | Zip path | Zipstache | Draw one line through numbered junctions 1→6, filling the panel, to route backup power |
+| 2 | The Night Register | sort | Hidden object (reception) | Hidden Birds | Find the four stuffed receipts, Nina's keys, her note |
+| 3 | The Security Cabinet | slide | Puzzle box | Odd Machines, Tiny Machinery | Multi-step cabinet: slide the tray stops, turn the dial, find the false bottom |
+| 4 | The Missing Footage | sort | Gorogoa-style panels | Gorogoa | Arrange and zoom four CCTV feeds until the figure's path joins up across frames |
+| 5 | The Tampered Reader | screws | Escape room (service corridor) | Mystery Box, Benjamin's Room | Search the corridor, find a screwdriver and torch, open the reader |
+| 6 | The Backup Recorder | circuit | Zip path | Zipstache | Bigger grid, with blocked cells |
+| 7 | The Last Image | slide | Match-3 reveal | Zukora | Clear static tiles; the van frame shows underneath |
+| 8 | The Contradiction | match | Timeline ordering | Listory | Order eight clues with no timestamps, using visual evidence |
+| 9 | Through the Door | keypad | Escape room code hunt | Mystery Box | Digits are spread across Nina's note, the room-service tag and a stopped clock |
+| 10 | The Hidden Vent | screws | Escape room (Room 17) | Blackmoon Mansion | Search the tossed room, follow the scratch arrow, open the vent |
+| 11 | The Guest of Record | match | Logic grid | Lockstep, 123doku | Three names × three rooms × three payment methods |
+| 12 | The Vehicle Trace | parking | Zip path | Zipstache | Trace the van through the yard's camera checkpoints in order; the path can't reach the gate |
+| 13 | The Dashcam Fragment | slide | Gorogoa-style panels | Gorogoa | Line the dashcam frame up against the yard map to find the turn |
+| 14 | The Ward File | sort | Hidden object (records) | Hidden Birds | Find the Ward documents in the clutter |
+| 15 | The Sealed Recording | keypad | Cryptex | The Da Vinci Cryptex | Letter rings; the password comes from Mara's file |
+| 16 | The Spare Credential | match | Goods sort | Pocha Moonlight | Sort keycards onto owner racks in threes; one NIGHT SHIFT card is left over |
+| 17 | The Flooded Corridor | circuit | Water sort | Water Sort Deluxe | Separate floodwater, oil and sludge into tanks so the pump will run |
+| 18 | The Archived Film | sort | Timeline ordering | Listory | Order the 2019 frames; the driver's face stays unclear |
+| 19 | The Owner's Ledger | sort | Block puzzle | Block Puzzle Pro | Fit shredded ledger strips back into the page |
+| 20 | The Emergency Intercom | circuit | Puzzle box (switchboard) | Odd Machines | Patch cords, levers and dials on the old switchboard |
+| 21 | The Contractor's Case | screws | Puzzle box with tilt-maze stage | Tiny Machinery, Tilt Maze Garden | Nested case; one stage rolls a ball bearing through a maze to release the inner lid |
+| 22 | The Only Explanation | match | Logic grid (accusation) | Lockstep | Weigh statements and accuse before Owen confirms |
+| 23 | The Laundry Override | keypad | Escape room (laundry entrance) | Escape From Benjamin's Room | The tag is heat-damaged; the missing digits are in the room |
+| 24 | The Boiler Bypass | circuit | Tilt maze | Tilt Maze Garden | Steer a pressure ball through the valve maze (tilt or drag) |
+| 25 | The Last Barrier | slide | Puzzle box (finale) | Odd Machines | The gate interlock as one big mechanism |
+| 26 | The Original Frame | slide | Match-3 reveal | Zukora | Clear the corruption over Nina's original frame |
+| 27 | The Emergency Uplink | match | Zip path (finale) | Zipstache | Route the upload through relays while Daniel cuts power |
+| 28 | The Final Account | sort | Timeline ordering (finale) | Listory | Place every key event on the case timeline |
 
-That is 18 mechanics, which is a lot of build. If scope bites, cut tap-away (3 → pipe rotation), jigsaw (13 → match-3) and block fit (19 → Connections). Fifteen mechanics still covers every genre she's likely to recognise.
+Counts: Zip path 4, puzzle box 4, escape room 4, timeline 3, logic grid 2, hidden object 2, Gorogoa panels 2, match-3 2, and one each of cryptex, goods sort, water sort, block puzzle and tilt maze.
+
+If scope bites, cut the Gorogoa panels first: they're the most art-heavy mechanic by far (every panel is a bespoke illustration that has to line up with others). Replace 4 and 13 with timeline ordering and match-3.
+
+Tilt maze uses the phone's motion sensor, which needs a permission tap on iPhone. Always offer drag as well.
+
+### Engine impact
+
+None of this changes the engine call. Escape-room exploration in a browser is just layered images with tap regions, a zoom transition and an inventory bar. It does add two systems to the restructure in section 1: a scene/hotspot/inventory layer shared by every room, and a nested-gadget framework for puzzle boxes (a box is a sequence of small states, each unlocking the next).
 
 ### Difficulty and feel
 
@@ -184,7 +189,7 @@ The premise is good. A night receptionist, an empty desk, a handbag left behind,
 - **One style for everything.** Painted 2D, composed for portrait 9:16 (1080×1920 source, cropped responsively), not landscape crops.
 - **Period and place.** A late-70s/80s coastal motel gone tired: wood-grain laminate, teal and burnt-orange paint, salt-stained windows, a buzzing neon VACANCY sign. Keep the existing palette brief (slate shadows, amber practicals, teal surveillance, sparing red). It's good.
 - **Generate all eight locations in one batch with a shared style reference** so lighting, brushwork and palette match. Each location needs two or three states (lights on/off, flooded, searched) so repeat visits move the story on.
-- **Hidden-object scenes need dedicated art:** dense, high-res (2048 px+), with the target objects painted in, not composited. This is the biggest art cost in the plan. Budget for it or cut to one hidden-object scene.
+- **Explorable rooms and hidden-object scenes need dedicated art:** dense, high-res (2048 px+), with interactive objects painted as separate layers so they can be picked up, opened or zoomed into. Puzzle boxes need close-up mechanism art with moving parts. This is the biggest art cost in the plan, and it's where XSGames-style games earn their reputation, so it's the last place to save money.
 - **Character sheets.** Four characters × three expressions (neutral, worried, tense), half-body, same light rig, transparent background, so portraits sit in the scene rather than in a box. Daniel needs a "friendly" expression now that he's met in person.
 - **Strip the UI.** One location line, one progress marker. Dialogue panel sits directly under the art. Tap anywhere to advance; drop "Inspect now".
 - **Puzzle boards as objects.** Real receipts, top-down car sprites with wet highlights, colour-coded screw heads, CCTV scanlines over match-3 tiles. The board should look like the thing in the story.
@@ -197,7 +202,7 @@ Everything is procedural WebAudio: looped brown noise filtered per room, four si
 
 ### Direction
 
-- **Feedback sounds first.** They matter more than music. Every mechanic needs pick-up, place, invalid, combo/cascade and solve sounds. Royalty-free and CC0 sources: Kenney audio packs (CC0), the Sonniss GDC bundles (royalty-free for commercial use), and Freesound filtered to CC0. Log each file in `ASSET_LICENSES.md`.
+- **Feedback sounds first.** They matter more than music. Every mechanic needs pick-up, place, invalid, combo/cascade and solve sounds. Puzzle boxes live or die on mechanical foley: latches, ratchets, sliding wood, a satisfying clunk when a stage opens. Royalty-free and CC0 sources: Kenney audio packs (CC0), the Sonniss GDC bundles (royalty-free for commercial use), and Freesound filtered to CC0. Log each file in `ASSET_LICENSES.md`.
 - **Real ambience per location** from the same sources: rain on glass, rain on a tin awning, fluorescent hum, monitor fan, boiler, drips, distant surf. Keep the existing bus setup and crossfade between rooms.
 - **Music: five cues.** Title, investigation loop, tension loop, Chapter 4 pressure, resolution. Plus three stingers: clue found, chapter end, Nina's voice. Commission, license, or generate and edit. Sparse is right; the brief's "low suspense pads" direction is fine, it just needs real instruments.
 - **Duck music under dialogue** and drop it to silence for the big reveals (the 12:09 cliffhanger, the knock on the wall, Daniel's first appearance). Silence is the cheapest scare you have.
@@ -208,7 +213,7 @@ Everything is procedural WebAudio: looped brown noise filtered per room, four si
 
 1. Restructure the code (section 1). Port tests. No new content until this is done.
 2. Rewrite the script to the revised direction (section 6), keeping clue titles stable where possible so saves and tests survive.
-3. Build the new mechanics in the order she'll meet them, with placeholder art, and playtest each chapter on a real phone.
+3. Build the room/hotspot/inventory layer and the puzzle-box framework, then the other mechanics in the order she'll meet them, with placeholder art, and playtest each chapter on a real phone.
 4. Art pass: style reference, eight locations, character sheets, hidden-object scenes, board skins.
 5. Sound pass: feedback sounds, ambience, music, mix on real headphones and a phone speaker.
 6. PWA install and offline check on her actual phone.
