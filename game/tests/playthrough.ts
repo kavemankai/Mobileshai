@@ -71,34 +71,31 @@ function waterPlan(def: WaterDef): [number, number][] {
 }
 
 function goodsPlan(def: GoodsDef): [number, number, number][] {
-  // Breadth-first on exact rack contents (order matters for slot indices), shortest plan.
-  const key = (r: Racks) => r.map((x) => x.join('')).join('|');
-  const start = initRacks(def);
-  const prev = new Map<string, [string, [number, number, number]]>();
-  const seen = new Set([key(start)]);
-  let frontier = [start];
-  for (let d = 0; d < 40 && frontier.length; d++) {
-    const next: Racks[] = [];
-    for (const r of frontier) {
-      if (goodsSolved(def, r)) {
-        const out: [number, number, number][] = [];
-        for (let k = key(r); prev.has(k); k = prev.get(k)![0]) out.unshift(prev.get(k)![1]);
-        return out;
-      }
-      for (let a = 0; a < r.length; a++) for (let s = 0; s < r[a].length; s++) for (let b = 0; b < r.length; b++) {
-        if (a === b || r[b].length >= def.capacity) continue;
-        const nr = r.map((x) => x.slice());
-        const [card] = nr[a].splice(s, 1);
-        nr[b].push(card);
-        clearFull(nr, def.capacity);
-        const k = key(nr);
-        if (!seen.has(k)) { seen.add(k); prev.set(k, [key(r), [a, s, b]]); next.push(nr); }
-      }
+  // Depth-first on exact rack contents, memoised on order-insensitive state (any card can be
+  // picked from a rack, so order within a rack doesn't change what's reachable).
+  const key = (r: Racks) => r.map((x) => x.slice().sort().join('')).sort().join('|');
+  const seen = new Set<string>();
+  const path: [number, number, number][] = [];
+  const dfs = (r: Racks): boolean => {
+    if (goodsSolved(def, r)) return true;
+    if (path.length > 40) return false;
+    const k = key(r);
+    if (seen.has(k)) return false;
+    seen.add(k);
+    for (let a = 0; a < r.length; a++) for (let s = 0; s < r[a].length; s++) for (let b = 0; b < r.length; b++) {
+      if (a === b || r[b].length >= def.capacity) continue;
+      const nr = r.map((x) => x.slice());
+      const [card] = nr[a].splice(s, 1);
+      nr[b].push(card);
+      clearFull(nr, def.capacity);
+      path.push([a, s, b]);
+      if (dfs(nr)) return true;
+      path.pop();
     }
-    frontier = next;
-    if (seen.size > 400000) break;
-  }
-  throw new Error('no goods solution found within limits');
+    return false;
+  };
+  if (!dfs(initRacks(def))) throw new Error('no goods solution');
+  return path;
 }
 
 function leverPlan(start: number[]): number[] {
@@ -278,7 +275,7 @@ async function solve(page: Page, rep: Report, l: Level, i: number) {
     }
     case 'goods': {
       const plan = goodsPlan(p);
-      rep.minSolution = `${plan.length} moves (shortest)`;
+      rep.minSolution = `${plan.length} moves (first found, not shortest)`;
       for (const [a, s, b] of plan) {
         await act(page, rep, () => page.locator('.gs-rack').nth(a).locator('.gs-card').nth(s).click());
         await act(page, rep, () => page.locator('.gs-rack').nth(b).click());
@@ -340,7 +337,9 @@ await page.getByRole('button', { name: /Begin your shift/ }).click(); // unlocks
 await page.waitForTimeout(1500);
 
 const reports: Report[] = [];
+const only = process.env.ONLY ? process.env.ONLY.split(',').map(Number) : null;
 for (let i = 0; i < LEVELS.length; i++) {
+  if (only && !only.includes(i + 1)) continue;
   const l = LEVELS[i];
   const rep: Report = { n: i + 1, title: l.title, kind: l.puzzle.kind, scene: l.scene, solved: false, actions: 0, ms: 0, minSolution: '', sounds: {}, synthFallbacks: [], statuses: [], errors: [], overflow: false, smallTargets: 0 };
   const errBefore = errors.length;
@@ -371,6 +370,6 @@ for (let i = 0; i < LEVELS.length; i++) {
   await page.evaluate(() => (window as unknown as { __lci: { closeOverlay(): void } }).__lci.closeOverlay());
 }
 
-writeFileSync(`${OUT}/report.json`, JSON.stringify(reports, null, 1));
+writeFileSync(`${OUT}/report${only ? '-' + only.join('-') : ''}.json`, JSON.stringify(reports, null, 1));
 console.log(`\n${reports.filter((r) => r.solved).length}/${reports.length} solved with legal input. JS errors: ${errors.length}`);
 await browser.close();
