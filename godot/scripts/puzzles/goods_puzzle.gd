@@ -82,6 +82,10 @@ func _relayout() -> void:
 	_rack_h = _ch + 14.0
 	var total_h := rows * _rack_h + (rows - 1) * _gap
 	_origin = Vector2(0, maxf((_board.size.y - total_h) / 2.0, 0.0))
+	# ask the page for enough room: caption, racks, legend
+	var need := 34.0 + total_h + 56.0
+	if absf(custom_minimum_size.y - need) > 1.0:
+		custom_minimum_size.y = need
 	_rack_rects.clear()
 	for i in n:
 		var c := i % _cols
