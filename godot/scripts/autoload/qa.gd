@@ -80,3 +80,10 @@ func _rects() -> Array:
 		res.append({"id": String(c.get_meta("qa")), "x": r.position.x / dpr, "y": r.position.y / dpr, "w": r.size.x / dpr, "h": r.size.y / dpr,
 			"disabled": (c is BaseButton and c.disabled)})
 	return res
+
+
+## A point inside a control, in CSS pixels, for a test to click.
+func css(c: Control, local: Vector2) -> Array:
+	var dpr := float(JavaScriptBridge.eval("window.devicePixelRatio || 1")) if OS.has_feature("web") else 1.0
+	var p := get_tree().root.get_final_transform() * c.get_global_transform_with_canvas() * local
+	return [p.x / dpr, p.y / dpr]

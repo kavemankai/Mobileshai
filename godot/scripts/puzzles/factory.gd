@@ -8,11 +8,8 @@ const LABEL := {
 	"tilt": "Maze", "box": "Mechanism", "room": "Explore",
 }
 
-## Filled in as each puzzle is built. Anything missing falls back to the placeholder.
-const SCRIPTS := {}
-
-
+## Add a case here as each puzzle is built. Anything missing falls back to the placeholder.
 static func make(kind: String) -> PuzzleBase:
-	if SCRIPTS.has(kind):
-		return SCRIPTS[kind].new()
+	match kind:
+		"zip": return ZipPuzzle.new()
 	return PlaceholderPuzzle.new()
