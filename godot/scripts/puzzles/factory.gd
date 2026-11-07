@@ -15,4 +15,6 @@ static func make(kind: String) -> PuzzleBase:
 		"timeline": return TimelinePuzzle.new()
 		"cryptex": return CryptexPuzzle.new()
 		"logic": return LogicPuzzle.new()
+		"goods": return GoodsPuzzle.new()
+		"water": return WaterPuzzle.new()
 	return PlaceholderPuzzle.new()
