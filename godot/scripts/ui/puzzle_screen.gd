@@ -18,6 +18,8 @@ var _hint_box := VBoxContainer.new()
 var _hint_btn: FxButton
 var _actions := VBoxContainer.new()
 var _is_land := false
+var _page := ScrollContainer.new()
+var _holder := VBoxContainer.new()
 var _solved := false
 
 
@@ -79,8 +81,17 @@ func _ready() -> void:
 	for side in ["left", "right", "top", "bottom"]:
 		pad.add_theme_constant_override("margin_" + side, 16)
 	content.add_child(pad)
-	pad.add_child(_col)
-	pad.add_child(_row)
+	# a board that needs more room than the window has makes the page scroll, instead of squeezing the board
+	_page.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	_page.follow_focus = false
+	pad.add_child(_page)
+	_holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	_holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_page.add_child(_holder)
+	_col.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_row.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	_holder.add_child(_col)
+	_holder.add_child(_row)
 	_adopt_layout()
 	_refresh_hints()
 	_mount()
@@ -139,8 +150,16 @@ func _mount() -> void:
 	view.solved.connect(_on_solved)
 	_board.add_child(view)
 	view.setup(l["puzzle"], (int(Game.save["level"]) + 1) * 7919, Game.earned_clues())
+	view.minimum_size_changed.connect(_fit_frame)
+	_fit_frame()
 	if Fx.motion():
 		Fx.fade_in(view, 0.3)
+
+
+## A puzzle that needs more height than the window gives sets its own minimum; the page then scrolls.
+func _fit_frame() -> void:
+	if view:
+		_frame.custom_minimum_size.y = maxf(200.0, view.custom_minimum_size.y + 16.0)
 
 
 func _on_solved(hold_ms: int) -> void:

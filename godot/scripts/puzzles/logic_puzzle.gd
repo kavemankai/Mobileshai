@@ -6,18 +6,15 @@ extends PuzzleBase
 var m: LogicModel
 var grid: LogicGrid
 var _accuse := VBoxContainer.new()
-var _scroll := ScrollContainer.new()
 var _grid_done := false
 
 
 func build() -> void:
 	m = LogicModel.new(def["categories"][0]["items"].size())
-	_scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
-	_scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
-	add_child(_scroll)
 	var col := UI.vbox(8)
-	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	_scroll.add_child(col)
+	col.set_anchors_preset(Control.PRESET_FULL_RECT)
+	add_child(col)
+	col.minimum_size_changed.connect(func() -> void: custom_minimum_size.y = col.get_combined_minimum_size().y)
 	var lines := []
 	for i in def["clues"].size():
 		lines.append("%d. %s" % [i + 1, def["clues"][i]["text"]])
@@ -29,7 +26,6 @@ func build() -> void:
 	_accuse.visible = false
 	_accuse.add_theme_constant_override("separation", 6)
 	col.add_child(_accuse)
-	col.add_child(UI.spacer(36))
 	say("Tap once for ✗, twice for ✓. A ✓ rules out the rest of its row and column.")
 
 
@@ -60,9 +56,6 @@ func _show_accuse() -> void:
 		row.add_child(b)
 	_accuse.add_child(row)
 	Fx.fade_in(_accuse, 0.4)
-	await get_tree().process_frame
-	await get_tree().process_frame
-	_scroll.scroll_vertical = 9999
 	say("The grid is complete. Now make the call.")
 
 
@@ -91,9 +84,7 @@ func qa_state() -> Dictionary:
 				arr.append([r, c, pt[0], pt[1]])
 		cells[g] = arr
 	return {"kind": "logic", "marks": m.marks.duplicate(true), "solution": def["solution"], "cells": cells,
-		"dbg": [grid.size.y, grid.custom_minimum_size.y, grid.cell, grid.col_h, grid.get_parent().size.y, grid.get_parent().get_combined_minimum_size().y, _scroll.size.y],
-		"grid_done": _grid_done, "accuse": def.has("accuse"), "done": is_done(),
-		"view": [QA.css(_scroll, Vector2.ZERO)[1], QA.css(_scroll, _scroll.size)[1]]}
+		"grid_done": _grid_done, "accuse": def.has("accuse"), "done": is_done()}
 
 
 class LogicGrid extends Control:
