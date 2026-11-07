@@ -13,4 +13,6 @@ static func make(kind: String) -> PuzzleBase:
 	match kind:
 		"zip": return ZipPuzzle.new()
 		"timeline": return TimelinePuzzle.new()
+		"cryptex": return CryptexPuzzle.new()
+		"logic": return LogicPuzzle.new()
 	return PlaceholderPuzzle.new()
