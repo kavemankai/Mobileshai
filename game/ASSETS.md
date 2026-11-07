@@ -1,5 +1,25 @@
 # Art and sound pass: everything that's a placeholder
 
+## Environment pass 02 — 7 November 2026
+
+Five independently generated paintings now replace the fallback backdrops for `service`,
+`corridor17`, `yard`, `records` and `laundry`. Runtime WebPs are in `src/assets/art/*-v2.webp`;
+original PNGs, exact generation prompts, native dimensions and provenance are in
+`art-source/environment-pass-02/manifest.json`. Generation used the built-in image tool
+with the supplied Mariner Motel master board as a style reference, not as a crop source.
+The five runtime images total 2,014,996 bytes. Four are approximately 9:16 at 940–941×1672;
+records is 1054×1492, and uses the existing responsive cover crop. No source is upscaled.
+
+All nine scene keys now have paintings, although exterior/reception/security/Room 17
+and the portraits remain the earlier studies. The tables below retain the original backlog;
+the five formerly missing scene backdrops are addressed by this pass.
+
+These are atmosphere plates. Room prop cards and hidden-object targets remain enabled:
+the painted objects are not aligned interaction layers. Bespoke pickup/open states,
+hidden-object compositions, CCTV frames, clean expression cutouts, puzzle surfaces and
+recorded audio remain unfinished. The supplied WIP pack has been inspected, but its
+reference crops and synthesised audio have not been presented as final assets or imported.
+
 Every asset is wired through `src/assets/manifest.ts`. Drop a file into `src/assets/…`, import it in the manifest, map it to its key, and the game uses it. Anything not mapped falls back to a generated placeholder, so you can replace things one at a time.
 
 Style direction is in `../The_Last_Check_In/OVERHAUL_REVIEW.md`, section 7: one painted style, portrait 9:16, a tired late-70s/80s coastal motel, slate shadows, amber practical light, teal for surveillance, red only for danger.
