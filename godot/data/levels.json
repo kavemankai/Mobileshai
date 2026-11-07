@@ -1,0 +1,3074 @@
+{
+ "chapters": [
+  {
+   "name": "The Empty Reception",
+   "subtitle": "Nina asked you to come in early. You were late."
+  },
+  {
+   "name": "Room Seventeen",
+   "subtitle": "A false guest, a searched room, and a name from seven years ago."
+  },
+  {
+   "name": "The Missing Minutes",
+   "subtitle": "The man fixing the locks is the one who broke them."
+  },
+  {
+   "name": "Before Dawn",
+   "subtitle": "Find Nina. Keep the evidence. Get out."
+  }
+ ],
+ "levels": [
+  {
+   "ch": 0,
+   "title": "Restore the Terminal",
+   "scene": "reception",
+   "task": "Draw one line from the battery through every junction in order to the terminal. Fill every square.",
+   "intro": [
+    [
+     "NARRATOR",
+     "11:43 PM. Rain hammers the Mariner Motel. You were meant to be here at half past."
+    ],
+    [
+     "NARRATOR",
+     "Nina asked you to come in early. “I need to show you something before Owen gets in tomorrow.” She didn’t say what."
+    ],
+    [
+     "NARRATOR",
+     "The reception desk is empty. Her handbag is under it. Her keys. Her phone, face down, still charging."
+    ],
+    [
+     "NARRATOR",
+     "The office phone rings."
+    ],
+    [
+     "OWEN · PHONE",
+     "You’re late. Nina’s gone home. Lock the desk and do the night audit."
+    ],
+    [
+     "YOU",
+     "Her car’s still out front."
+    ],
+    [
+     "OWEN · PHONE",
+     "She got a lift. Don’t make this complicated."
+    ],
+    [
+     "NARRATOR",
+     "He hangs up. The terminal is dead, and so are the lights behind the desk. Someone has pulled the main fuse."
+    ],
+    [
+     "YOU",
+     "The backup battery panel. Nina showed me on Monday."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The terminal hums awake. One line is still on screen."
+    ],
+    [
+     "TERMINAL",
+     "ROOM 17 · CHECKED OUT 11:18 PM · AUTHORISED: NINA S."
+    ],
+    [
+     "NARRATOR",
+     "Under the keyboard, a folded note in Nina’s handwriting."
+    ],
+    [
+     "NINA · NOTE",
+     "{name}, Room 17 just checked out on my login. I watched it happen on the security monitor. It wasn’t me. Check the backup. N."
+    ],
+    [
+     "YOU",
+     "She saw it happen. Then she came back here and wrote this. So where did she go?"
+    ]
+   ],
+   "clue": {
+    "title": "The impossible checkout",
+    "text": "Room 17 was checked out at 11:18 PM on Nina’s login. Nina’s note says she watched it on the security monitor and it wasn’t her."
+   },
+   "hints": [
+    "The line has to pass the numbers in order: 1, then 2, then 3. It can’t cross itself.",
+    "Snake along the rows: right along the top, back along the second row, and so on."
+   ],
+   "puzzle": {
+    "kind": "zip",
+    "rows": 4,
+    "cols": 4,
+    "start": [
+     0,
+     0
+    ],
+    "moves": "RRRDLLLDRRRDLLL",
+    "marks": [
+     0,
+     4,
+     9,
+     15
+    ],
+    "markLabels": [
+     "BATTERY",
+     "RELAY",
+     "FUSE",
+     "TERMINAL"
+    ]
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Night Register",
+   "scene": "reception",
+   "task": "Search the reception desk. Find the four missing receipts, Nina’s spare key and the yellow sticky note.",
+   "intro": [
+    [
+     "NARRATOR",
+     "A warning flashes on the terminal: REGISTER DOES NOT MATCH PHYSICAL RECEIPTS."
+    ],
+    [
+     "YOU",
+     "Nina filed every receipt the minute it printed. She was obsessive about it."
+    ],
+    [
+     "NARRATOR",
+     "The desk looks like someone went through it fast and tried to make it look normal."
+    ]
+   ],
+   "reveal": [
+    [
+     "YOU",
+     "Room 17’s checkout receipt has Nina’s login on it, but no guest signature. Every other one is signed."
+    ],
+    [
+     "NARRATOR",
+     "The sticky note is a list in Nina’s writing: “04 ✓  12 ✓  17 ✗ — who paid for this?”"
+    ],
+    [
+     "NARRATOR",
+     "A knock on the glass. A woman in a wet raincoat, hood up."
+    ],
+    [
+     "CLAIRE",
+     "Is Nina here? She told me to wait in my room. That was an hour ago."
+    ],
+    [
+     "YOU",
+     "Which room?"
+    ],
+    [
+     "CLAIRE~guarded",
+     "Twelve. Bennett. Is she here or not?"
+    ],
+    [
+     "NARRATOR",
+     "She doesn’t wait for an answer. She goes back out into the rain and doesn’t look at Room 17 as she passes it. Pointedly doesn’t."
+    ]
+   ],
+   "clue": {
+    "title": "The unsigned receipt",
+    "text": "Room 17’s 11:18 PM checkout has no guest signature. Nina had flagged Room 17 as wrong. A guest in Room 12, “Bennett”, says Nina told her to wait."
+   },
+   "hints": [
+    "Receipts are small, curled and pale. There are four of them in different corners.",
+    "Check under the edges of things: one receipt is near the bottom left, one near the top right."
+   ],
+   "puzzle": {
+    "kind": "hidden",
+    "scene": "reception",
+    "clutter": 55,
+    "clutterGlyphs": [
+     "☕",
+     "📎",
+     "🖊️",
+     "📚",
+     "🛎️",
+     "🗝️",
+     "🧴",
+     "📦",
+     "🪴",
+     "🗞️",
+     "💡",
+     "📞",
+     "🧷",
+     "✂️",
+     "📒",
+     "🗂️",
+     "🕯️",
+     "🧻",
+     "📄",
+     "💳"
+    ],
+    "targets": [
+     {
+      "id": "receipt",
+      "label": "Receipts",
+      "glyph": "🧾",
+      "x": 14,
+      "y": 84
+     },
+     {
+      "id": "key",
+      "label": "Nina’s spare key",
+      "glyph": "🔑",
+      "x": 62,
+      "y": 33
+     },
+     {
+      "id": "note",
+      "label": "Yellow sticky note",
+      "glyph": "📝",
+      "x": 40,
+      "y": 58
+     }
+    ],
+    "extra": {
+     "receipt": [
+      [
+       85,
+       12
+      ],
+      [
+       47,
+       26
+      ],
+      [
+       76,
+       71
+      ]
+     ]
+    }
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Security Cabinet",
+   "scene": "security",
+   "task": "Open the jammed cabinet in stages. Each stage leaves you something you need for the next.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The security office is unlocked. The main recorder has been pulled out of the rack. Cables hang loose."
+    ],
+    [
+     "YOU",
+     "“Check the backup.” There’s a cabinet under the desk."
+    ],
+    [
+     "NARRATOR",
+     "Someone has jammed its trays. They didn’t bother to hide the scratches."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Under the false bottom, a removable drive with a green light still blinking."
+    ],
+    [
+     "YOU",
+     "Whoever took the recorder missed this."
+    ],
+    [
+     "NARRATOR",
+     "A label on the drive in Nina’s writing: “BACKUP. DON’T TELL O.”"
+    ],
+    [
+     "YOU",
+     "O. Owen."
+    ]
+   ],
+   "clue": {
+    "title": "Forgotten backup",
+    "text": "A backup drive survived in the security cabinet. Nina labelled it “Don’t tell O.”"
+   },
+   "hints": [
+    "The plate comes off first. Whatever is written behind it is for the next stage.",
+    "Set the sliders to 3, 1 and 4. Then press the one clean panel."
+   ],
+   "puzzle": {
+    "kind": "box",
+    "name": "Security cabinet",
+    "stages": [
+     {
+      "type": "screws",
+      "count": 4,
+      "plate": "TRAY STOP PLATE",
+      "note": "Scratched into the metal behind the plate: 3 · 1 · 4"
+     },
+     {
+      "type": "sliders",
+      "targets": [
+       3,
+       1,
+       4
+      ],
+      "clue": "Three jammed tray stops, each with notches 0 to 4.",
+      "note": "The trays slide free. The bottom drawer is shallower than the others."
+     },
+     {
+      "type": "press",
+      "count": 6,
+      "target": 4,
+      "clue": "The shallow drawer is lined with dusty panels. One is clean, as if someone keeps lifting it.",
+      "note": "A false bottom lifts out."
+     }
+    ]
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Missing Footage",
+   "scene": "security",
+   "task": "Arrange the four camera feeds and switch each between wide and close until the path runs through all of them, in time order.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The drive holds four camera clips with the timestamps stripped out."
+    ],
+    [
+     "YOU",
+     "If I line the feeds up, I can follow whoever moved through them."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "11:12. Nina walks into this office. 11:18. On the reception feed, someone in a maintenance jacket leans over Nina’s terminal. Face turned away."
+    ],
+    [
+     "NARRATOR",
+     "11:26. The staff door opens. 11:34. A grey van rolls toward the rear gate."
+    ],
+    [
+     "YOU",
+     "She was in here, watching, while someone checked out Room 17 in her name."
+    ],
+    [
+     "OWEN · PHONE",
+     "Are you in the security office? Don’t touch the recordings. I mean it. I’m coming in."
+    ],
+    [
+     "YOU",
+     "How does he know where I am?"
+    ]
+   ],
+   "clue": {
+    "title": "A second person at the desk",
+    "text": "CCTV: Nina entered security at 11:12. At 11:18 a person in a maintenance jacket used her terminal. The staff door opened at 11:26; a grey van moved at 11:34. Owen ordered you not to touch the recordings."
+   },
+   "hints": [
+    "The path enters at the gold marker on the left of the top-left frame. Each frame needs the right zoom to bend the line where you need it.",
+    "Order: 11:12 top left (wide), 11:18 top right (close), 11:26 bottom right (wide), 11:34 bottom left (close)."
+   ],
+   "puzzle": {
+    "kind": "panels",
+    "rows": 2,
+    "cols": 2,
+    "start": {
+     "slot": 0,
+     "edge": "W"
+    },
+    "end": {
+     "slot": 2,
+     "edge": "S"
+    },
+    "order": [
+     "a",
+     "b",
+     "c",
+     "d"
+    ],
+    "panels": [
+     {
+      "id": "a",
+      "label": "11:12 CORRIDOR",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "W",
+         "E"
+        ],
+        "caption": "Nina, walking fast"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "N",
+         "S"
+        ],
+        "caption": "Her ID badge"
+       }
+      ]
+     },
+     {
+      "id": "b",
+      "label": "11:18 RECEPTION",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "W",
+         "E"
+        ],
+        "caption": "Empty desk"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "W",
+         "S"
+        ],
+        "caption": "A jacket at the terminal"
+       }
+      ]
+     },
+     {
+      "id": "c",
+      "label": "11:26 STAFF DOOR",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "N",
+         "W"
+        ],
+        "caption": "Door swinging shut"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "E",
+         "S"
+        ],
+        "caption": "Reader light: green"
+       }
+      ]
+     },
+     {
+      "id": "d",
+      "label": "11:34 REAR YARD",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "N",
+         "S"
+        ],
+        "caption": "Rain on the lens"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "E",
+         "S"
+        ],
+        "caption": "Grey van, lights off"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Tampered Reader",
+   "scene": "service",
+   "task": "Search the service corridor and get the staff-door reader open.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The service corridor smells of bleach and wet concrete. The staff-door reader hangs off the wall by one screw."
+    ],
+    [
+     "YOU",
+     "Someone forced this. Recently."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The reader’s little screen still holds its last entry."
+    ],
+    [
+     "READER",
+     "11:26 PM · ACCESS GRANTED · NIGHT SHIFT"
+    ],
+    [
+     "YOU",
+     "NIGHT SHIFT. That’s my card. I didn’t get here until 11:43."
+    ],
+    [
+     "NARRATOR",
+     "You pat your pocket. Your card is right there."
+    ]
+   ],
+   "clue": {
+    "title": "The impossible access",
+    "text": "The staff door opened at 11:26 PM on the NIGHT SHIFT credential. That is your card, and you arrived at 11:43. Your card never left your pocket."
+   },
+   "hints": [
+    "Tap things to search them. Some things need something from your pockets first.",
+    "Torch from the fuse cupboard, use it on the dark alcove, then use the screwdriver on the reader."
+   ],
+   "puzzle": {
+    "kind": "room",
+    "scene": "service",
+    "goal": "readerOpen",
+    "items": {
+     "torch": {
+      "label": "Torch",
+      "icon": "🔦"
+     },
+     "screwdriver": {
+      "label": "Screwdriver",
+      "icon": "🪛"
+     }
+    },
+    "hotspots": [
+     {
+      "id": "fuse",
+      "label": "Fuse cupboard",
+      "icon": "🗄️",
+      "x": 4,
+      "y": 6,
+      "w": 30,
+      "h": 18,
+      "text": "The door sticks, then gives. A torch is clipped inside.",
+      "doneText": "Fuses. One empty slot where the reception fuse should be.",
+      "gives": "torch"
+     },
+     {
+      "id": "alcove",
+      "label": "Dark alcove",
+      "icon": "🕸️",
+      "x": 62,
+      "y": 8,
+      "w": 32,
+      "h": 20,
+      "needs": "torch",
+      "needsText": "Too dark to see what’s back there.",
+      "text": "The torch finds a toolbox shoved under the pipes. Inside: a flat screwdriver.",
+      "doneText": "An empty toolbox.",
+      "gives": "screwdriver"
+     },
+     {
+      "id": "door",
+      "label": "Staff door",
+      "icon": "🚪",
+      "x": 36,
+      "y": 30,
+      "w": 26,
+      "h": 22,
+      "text": "Locked from this side. Fresh scuffs at the bottom, like something heavy was dragged through."
+     },
+     {
+      "id": "bucket",
+      "label": "Mop bucket",
+      "icon": "🪣",
+      "x": 6,
+      "y": 58,
+      "w": 28,
+      "h": 16,
+      "text": "Grey water. Someone mopped this floor tonight. Nobody mops the service corridor."
+     },
+     {
+      "id": "reader",
+      "label": "Access reader",
+      "icon": "📟",
+      "x": 60,
+      "y": 56,
+      "w": 32,
+      "h": 20,
+      "needs": "screwdriver",
+      "needsText": "The casing is hanging off one screw. You need something to undo it.",
+      "text": "Two turns and the casing swings open. The memory unit is intact.",
+      "sets": "readerOpen"
+     }
+    ]
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Backup Recorder",
+   "scene": "security",
+   "task": "Rewire the backup recorder: one line through every numbered contact in order, filling the board.",
+   "intro": [
+    [
+     "NARRATOR",
+     "There’s a second file on Nina’s drive, audio only. The playback unit’s power line has been cut."
+    ],
+    [
+     "YOU",
+     "Cut, not broken. Somebody didn’t want this heard."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Static, then Nina’s voice, very close to the microphone."
+    ],
+    [
+     "NINA · RECORDING~frightened",
+     "I’ve made copies. If anything happens to me, people will see what you did."
+    ],
+    [
+     "NARRATOR",
+     "A man answers. The words are lost under the rain on the roof. Then a thud, and a long silence."
+    ],
+    [
+     "YOU",
+     "She didn’t go home."
+    ],
+    [
+     "NARRATOR",
+     "You call the police. The dispatcher is calm and slow."
+    ],
+    [
+     "DISPATCH",
+     "The coast road’s flooded at the bridge. We’ll get a car to you as soon as it’s passable. Stay inside and keep this line open."
+    ]
+   ],
+   "clue": {
+    "title": "Nina’s last recording",
+    "text": "A recording captures Nina telling a man she has made copies of something, then a struggle. Police are notified; the flooded bridge is holding them back."
+   },
+   "hints": [
+    "Start at 1 and keep the numbers in order. The line has to fill every square.",
+    "The board spirals: around the outside first, then inward to finish in the middle."
+   ],
+   "puzzle": {
+    "kind": "zip",
+    "rows": 5,
+    "cols": 5,
+    "start": [
+     0,
+     0
+    ],
+    "moves": "RRRRDDDDLLLLUUURRRDDLLUR",
+    "marks": [
+     0,
+     6,
+     13,
+     19,
+     24
+    ],
+    "markLabels": [
+     "POWER",
+     "FUSE",
+     "AMP",
+     "HEAD",
+     "PLAY"
+    ]
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Last Image",
+   "scene": "security",
+   "task": "Make matches over the static to clear it. Uncover the whole frame.",
+   "intro": [
+    [
+     "NARRATOR",
+     "One frame from the rear camera survived, buried in digital noise."
+    ],
+    [
+     "YOU",
+     "The van. I need to see who was in it."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The frame clears. 11:34 PM. A grey van, two shapes in the cab. One is driving. The other is slumped against the window."
+    ],
+    [
+     "NARRATOR",
+     "The plate is half in shadow. It ends in 61."
+    ],
+    [
+     "YOU",
+     "The south gate camera would have caught it leaving. That camera’s “out of order”. Of course it is."
+    ]
+   ],
+   "clue": {
+    "title": "Two figures in the van",
+    "text": "At 11:34 PM a grey van, plate ending 61, moved toward the rear gate. Two people in the cab; one not moving."
+   },
+   "hints": [
+    "A match also wipes one square of static past each end of the run. Work the edges.",
+    "Four in a row makes a line clearer. Match one next to it to wipe a whole row or column."
+   ],
+   "puzzle": {
+    "kind": "match3",
+    "size": 7,
+    "colors": 5,
+    "mask": [
+     ".......",
+     ".#####.",
+     ".#####.",
+     ".#####.",
+     ".#####.",
+     ".#####.",
+     "......."
+    ],
+    "reveal": {
+     "title": "REAR CAM · 11:34 PM",
+     "art": "van",
+     "lines": [
+      "Grey van, lights off",
+      "Two in the cab",
+      "Plate: ••• •61"
+     ]
+    }
+   }
+  },
+  {
+   "ch": 0,
+   "title": "The Contradiction",
+   "scene": "security",
+   "task": "Put tonight’s events in order. No times on the cards: use what you know.",
+   "intro": [
+    [
+     "NARRATOR",
+     "You pin everything you have to the corkboard beside the monitors."
+    ],
+    [
+     "YOU",
+     "Owen says she went home. Nothing here says that. Let me lay it out properly."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Laid out in order, there’s no room for Owen’s version. Nina was taken before you arrived. On your card."
+    ],
+    [
+     "NARRATOR",
+     "Then the monitor chimes."
+    ],
+    [
+     "SECURITY",
+     "ACCESS GRANTED · ROOM 17 · 12:09 AM · NIGHT SHIFT"
+    ],
+    [
+     "YOU",
+     "That’s my card. Again. I’m sitting right here."
+    ],
+    [
+     "NARRATOR",
+     "Out in the corridor, the lights go off one by one."
+    ]
+   ],
+   "clue": {
+    "title": "A cloned identity",
+    "text": "Your NIGHT SHIFT credential was used at 11:26 PM before you arrived, and again at 12:09 AM to enter Room 17 while you were in the security office. Someone has a copy of your card."
+   },
+   "hints": [
+    "Nina saw the checkout before she wrote the note. She was taken through the staff door.",
+    "Order: Nina enters security, the checkout, the note, the staff door, the van, you arrive."
+   ],
+   "puzzle": {
+    "kind": "timeline",
+    "prompt": "Tonight, earliest at the top.",
+    "order": [
+     "a",
+     "b",
+     "c",
+     "d",
+     "e",
+     "f"
+    ],
+    "cards": [
+     {
+      "id": "a",
+      "title": "Nina walks into the security office",
+      "detail": "Corridor camera. She is carrying a folder and checking her watch."
+     },
+     {
+      "id": "b",
+      "title": "A maintenance jacket checks out Room 17",
+      "detail": "Reception camera. The terminal is still logged in as Nina."
+     },
+     {
+      "id": "c",
+      "title": "Nina writes you a note",
+      "detail": "“I watched it happen on the security monitor.”"
+     },
+     {
+      "id": "d",
+      "title": "The staff door opens on your card",
+      "detail": "The reader log. Nina’s recording ends around now."
+     },
+     {
+      "id": "e",
+      "title": "The grey van rolls toward the gate",
+      "detail": "Two people in the cab. One isn’t moving."
+     },
+     {
+      "id": "f",
+      "title": "You walk in, late",
+      "detail": "Rain, an empty desk, a handbag under it."
+     }
+    ]
+   }
+  },
+  {
+   "ch": 1,
+   "title": "Through the Door",
+   "scene": "corridor17",
+   "task": "Find the staff override code for Room 17 somewhere in this corridor.",
+   "intro": [
+    [
+     "NARRATOR",
+     "12:13 AM. The corridor outside Room 17 is dark apart from the ice machine’s glow."
+    ],
+    [
+     "NARRATOR",
+     "The door is shut. Whoever used your card at 12:09 is either inside or long gone."
+    ],
+    [
+     "YOU",
+     "There’s a staff keypad. Nina would know the code. Nina’s not here."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The lock clicks. Room 17 has been torn apart. Drawers pulled out and dumped, mattress shoved off the base."
+    ],
+    [
+     "NARRATOR",
+     "The bathroom is still wet. Cleaning fluid hangs in the air."
+    ],
+    [
+     "YOU",
+     "Someone searched this room at 12:09. Looking for something they didn’t find, or they wouldn’t have made this much mess."
+    ],
+    [
+     "NARRATOR",
+     "On the desk, the guest welcome card: MARTIN HALE. The bed hasn’t been slept in."
+    ]
+   ],
+   "clue": {
+    "title": "Room 17 was searched",
+    "text": "Room 17 was torn apart at 12:09 AM by whoever has your cloned card. The registered guest, Martin Hale, never slept there."
+   },
+   "hints": [
+    "Nina’s note on the back says how the override is built. Look for the room number, then the time the checkout lied.",
+    "Move the cart, read the board, check under the mat. Room 17, checkout 11:18: 1718."
+   ],
+   "puzzle": {
+    "kind": "room",
+    "scene": "corridor17",
+    "goal": "doorOpen",
+    "items": {},
+    "keypad": {
+     "code": "1718",
+     "sets": "doorOpen",
+     "label": "ROOM 17 · STAFF OVERRIDE"
+    },
+    "hotspots": [
+     {
+      "id": "note",
+      "label": "Back of Nina’s note",
+      "icon": "📝",
+      "x": 4,
+      "y": 6,
+      "w": 30,
+      "h": 16,
+      "text": "In pencil on the back: “Staff override = the room, then the minute it lied.”"
+     },
+     {
+      "id": "door",
+      "label": "Room door",
+      "icon": "🚪",
+      "x": 38,
+      "y": 10,
+      "w": 26,
+      "h": 26,
+      "text": "The brass number plate has been unscrewed. Two empty holes where it was."
+     },
+     {
+      "id": "mat",
+      "label": "Door mat",
+      "icon": "🟫",
+      "x": 38,
+      "y": 40,
+      "w": 26,
+      "h": 12,
+      "text": "Under the mat: the brass plate from the door. 1 7."
+     },
+     {
+      "id": "cart",
+      "label": "Housekeeping cart",
+      "icon": "🧺",
+      "x": 66,
+      "y": 6,
+      "w": 30,
+      "h": 18,
+      "text": "You roll the cart aside. Behind it, the housekeeping board.",
+      "doneText": "Towels, soap, a clipboard with nothing on it.",
+      "sets": "cartMoved"
+     },
+     {
+      "id": "board",
+      "label": "Housekeeping board",
+      "icon": "📋",
+      "x": 66,
+      "y": 28,
+      "w": 30,
+      "h": 18,
+      "visibleIf": "cartMoved",
+      "text": "Chalk, smudged: “R17 · OUT 11:18 · N.S.” Nina’s initials. Except Nina didn’t do it."
+     },
+     {
+      "id": "ice",
+      "label": "Ice machine",
+      "icon": "🧊",
+      "x": 4,
+      "y": 58,
+      "w": 30,
+      "h": 16,
+      "text": "It rattles. A puddle under it, and wet footprints leading to 17 and back."
+     },
+     {
+      "id": "keypad",
+      "label": "Door keypad",
+      "icon": "🔢",
+      "x": 62,
+      "y": 58,
+      "w": 32,
+      "h": 16,
+      "text": "",
+      "keypad": true
+     }
+    ]
+   }
+  },
+  {
+   "ch": 1,
+   "title": "The Hidden Vent",
+   "scene": "room17",
+   "task": "Search Room 17 for whatever the intruder was looking for.",
+   "intro": [
+    [
+     "YOU",
+     "If Nina hid something in here, the person with my card didn’t find it. They’d have stopped tearing the place up."
+    ],
+    [
+     "NARRATOR",
+     "Nina knew this motel better than anyone. She’d have left a mark only staff would notice."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Taped inside the duct, a waterproof sleeve. In it, a microSD card."
+    ],
+    [
+     "NARRATOR",
+     "On the sleeve, in marker: WARD · 18 OCT 2019."
+    ],
+    [
+     "YOU",
+     "Seven years ago. What does a seven-year-old date have to do with tonight?"
+    ],
+    [
+     "NARRATOR",
+     "Outside, an engine idles in the car park. When you look through the curtain, it cuts out."
+    ]
+   ],
+   "clue": {
+    "title": "The WARD memory card",
+    "text": "Nina hid a microSD card marked “WARD · 18 OCT 2019” in Room 17’s air vent. Whoever searched the room missed it."
+   },
+   "hints": [
+    "Nina leaves marks. Look at the window, then find something to open the vent with.",
+    "The windowsill scratch points at the vent. The coin from the drawer turns the screws. The grille is painted shut: the bathroom cabinet has something to lever it."
+   ],
+   "puzzle": {
+    "kind": "room",
+    "scene": "room17",
+    "goal": "ventOpen",
+    "items": {
+     "coin": {
+      "label": "50c coin",
+      "icon": "🪙"
+     },
+     "screwdriver": {
+      "label": "Screwdriver",
+      "icon": "🪛"
+     }
+    },
+    "hotspots": [
+     {
+      "id": "drawer",
+      "label": "Bedside drawer",
+      "icon": "🗄️",
+      "x": 4,
+      "y": 6,
+      "w": 28,
+      "h": 16,
+      "text": "Pulled out and dumped on the carpet. In the mess, a fifty-cent coin.",
+      "doneText": "Hotel notepad, a pen, a Bible with the bookmark ripped out.",
+      "gives": "coin"
+     },
+     {
+      "id": "sill",
+      "label": "Windowsill",
+      "icon": "🪟",
+      "x": 36,
+      "y": 6,
+      "w": 28,
+      "h": 16,
+      "text": "A pale scratch in the paint. Fresh. A tiny arrow pointing down and to the right.",
+      "sets": "arrow"
+     },
+     {
+      "id": "bed",
+      "label": "Bed",
+      "icon": "🛏️",
+      "x": 66,
+      "y": 6,
+      "w": 30,
+      "h": 18,
+      "text": "Mattress half off. They checked under it, inside the pillowcases, under the base."
+     },
+     {
+      "id": "bin",
+      "label": "Bin",
+      "icon": "🗑️",
+      "x": 4,
+      "y": 56,
+      "w": 26,
+      "h": 16,
+      "text": "Empty, fresh liner. Someone cleaned this room before someone else wrecked it."
+     },
+     {
+      "id": "bath",
+      "label": "Bathroom cabinet",
+      "icon": "🚿",
+      "x": 34,
+      "y": 56,
+      "w": 26,
+      "h": 16,
+      "text": "Bleach smell. The cabinet hangs open, empty except for a maintenance screwdriver taped under the shelf.",
+      "doneText": "Bleach and an empty shelf.",
+      "gives": "screwdriver"
+     },
+     {
+      "id": "vent",
+      "label": "Air vent",
+      "icon": "🌀",
+      "x": 64,
+      "y": 56,
+      "w": 30,
+      "h": 16,
+      "visibleIf": "arrow",
+      "needs": "coin",
+      "needsText": "The vent screws are slotted, painted over. A coin would turn them.",
+      "text": "The screws give. The grille is still stuck, painted shut along every edge.",
+      "sets": "ventScrews"
+     },
+     {
+      "id": "grille",
+      "label": "Vent grille",
+      "icon": "🔳",
+      "x": 64,
+      "y": 34,
+      "w": 30,
+      "h": 16,
+      "visibleIf": "ventScrews",
+      "needs": "screwdriver",
+      "needsText": "Painted shut. You need something thin to lever it.",
+      "text": "The paint cracks and the grille swings open. Taped to the duct wall, a waterproof sleeve.",
+      "sets": "ventOpen"
+     }
+    ]
+   }
+  },
+  {
+   "ch": 1,
+   "title": "The Guest of Record",
+   "scene": "room17",
+   "task": "Work out who stayed where and how they paid. Then you’ll know who paid for Room 17.",
+   "intro": [
+    [
+     "NARRATOR",
+     "In the desk drawer, carbon copies of tonight’s bookings. Three guests. The names and payments have been torn apart and mixed."
+    ],
+    [
+     "YOU",
+     "Martin Hale booked 17 and never slept in it. Somebody paid for that room."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Martin Hale paid with a prepaid card. The card’s top-up slip is stapled behind it: MARINER MOTEL · MAINTENANCE ACCOUNT."
+    ],
+    [
+     "YOU",
+     "The motel paid for the fake guest. Only one person signs off on that account."
+    ],
+    [
+     "NARRATOR",
+     "The door swings open. Owen Mercer, soaked, out of breath."
+    ],
+    [
+     "OWEN",
+     "What are you doing in here? I told you to leave it."
+    ],
+    [
+     "YOU",
+     "Your maintenance account paid for Room 17."
+    ],
+    [
+     "OWEN",
+     "Contractors use that account. Half the trades on this coast use it. That proves nothing."
+    ],
+    [
+     "NARRATOR",
+     "He looks at the torn-up room for a long moment and doesn’t ask what happened to it."
+    ]
+   ],
+   "clue": {
+    "title": "A false guest identity",
+    "text": "The Room 17 booking under “Martin Hale” was paid with a prepaid card topped up from the motel’s maintenance account. Owen controls it, though he says contractors use it too."
+   },
+   "hints": [
+    "Start with Room 04: two of the three guests are ruled out of it.",
+    "That leaves Okafor in Room 04. Room 12 took the cash, so Room 04 is the company account, and Room 17 is the prepaid one."
+   ],
+   "puzzle": {
+    "kind": "logic",
+    "categories": [
+     {
+      "name": "Guest",
+      "items": [
+       "Martin Hale",
+       "Claire Bennett",
+       "R. Okafor"
+      ]
+     },
+     {
+      "name": "Room",
+      "items": [
+       "17",
+       "12",
+       "04"
+      ]
+     },
+     {
+      "name": "Payment",
+      "items": [
+       "Prepaid",
+       "Cash",
+       "Company"
+      ]
+     }
+    ],
+    "clues": [
+     {
+      "text": "Booking sheet: Claire Bennett isn’t in Room 04.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        1
+       ],
+       "b": [
+        1,
+        2
+       ]
+      }
+     },
+     {
+      "text": "Till roll: Room 12 was paid in cash.",
+      "rule": {
+       "t": "same",
+       "a": [
+        1,
+        1
+       ],
+       "b": [
+        2,
+        1
+       ]
+      }
+     },
+     {
+      "text": "Till roll: Room 04 wasn’t paid by prepaid card.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        1,
+        2
+       ],
+       "b": [
+        2,
+        0
+       ]
+      }
+     },
+     {
+      "text": "Receipts: Claire Bennett didn’t pay by prepaid card.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        1
+       ],
+       "b": [
+        2,
+        0
+       ]
+      }
+     },
+     {
+      "text": "Booking sheet: Martin Hale isn’t in Room 04.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        1,
+        2
+       ]
+      }
+     }
+    ],
+    "solution": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ]
+   }
+  },
+  {
+   "ch": 1,
+   "title": "The Vehicle Trace",
+   "scene": "yard",
+   "task": "Trace the van through the yard cameras, in order, filling every free square. Where does it end?",
+   "intro": [
+    [
+     "NARRATOR",
+     "Owen follows you to the security office, dripping, saying nothing."
+    ],
+    [
+     "YOU",
+     "The van went toward the rear gate at 11:34. The gate camera’s dead. But the yard cameras each caught a sliver."
+    ],
+    [
+     "OWEN",
+     "You’re wasting your time. The van left. Everyone leaves."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The route only works one way. The van never reached the gate. It looped back to the loading bay."
+    ],
+    [
+     "YOU",
+     "The gate’s chained. It couldn’t have left. It’s still here."
+    ],
+    [
+     "OWEN",
+     "Ask her what she was doing out there."
+    ],
+    [
+     "NARRATOR",
+     "He points at the yard feed. At 11:30, a woman in a raincoat crosses the yard toward the loading bay. Claire."
+    ],
+    [
+     "DISPATCH · PHONE",
+     "Checking in. Water’s still over the bridge. Are you safe where you are?"
+    ],
+    [
+     "YOU",
+     "I don’t know any more."
+    ]
+   ],
+   "clue": {
+    "title": "The van never left",
+    "text": "The van’s route only fits one way: it looped back to the hidden loading bay. The rear gate was chained. Claire was on camera crossing the yard at 11:30."
+   },
+   "hints": [
+    "The gate cells are chained. The route has to end on the last number.",
+    "From the rear lot go up the left side, then weave right; finish along the bottom row at the loading bay."
+   ],
+   "puzzle": {
+    "kind": "zip",
+    "rows": 5,
+    "cols": 6,
+    "start": [
+     4,
+     0
+    ],
+    "moves": "UUUURDDDRUUURRDLDRRDDLULDLL",
+    "marks": [
+     0,
+     8,
+     14,
+     20,
+     27
+    ],
+    "markLabels": [
+     "REAR LOT",
+     "CAM A",
+     "CAM B",
+     "CAM C",
+     "LOADING BAY"
+    ],
+    "wallLabels": {
+     "0,5": "GATE",
+     "1,5": "CHAIN"
+    }
+   }
+  },
+  {
+   "ch": 1,
+   "title": "The Dashcam Fragment",
+   "scene": "yard",
+   "task": "Six frames from the yard and the van’s dashcam. Join them into one route, in time order.",
+   "intro": [
+    [
+     "NARRATOR",
+     "In the loading bay, a dashcam sync box blinks on the wall. The van parked close enough to upload."
+    ],
+    [
+     "NARRATOR",
+     "Claire is there, standing in the dark, as if she’s been waiting for you."
+    ],
+    [
+     "CLAIRE",
+     "Nina texted me at 11:25. “Loading bay. Now.” By the time I got here, nobody was here."
+    ],
+    [
+     "YOU",
+     "You were on camera at 11:30. Why didn’t you tell anyone?"
+    ],
+    [
+     "CLAIRE~angry",
+     "Tell who? The owner? Look at him."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "11:36. The van turns hard left behind the old laundry block and stops by a chained service door."
+    ],
+    [
+     "YOU",
+     "They brought her back. She’s somewhere in this building."
+    ],
+    [
+     "CLAIRE",
+     "The laundry’s been shut for years."
+    ],
+    [
+     "YOU",
+     "How do you know that?"
+    ],
+    [
+     "CLAIRE",
+     "Because I’ve been coming here for years."
+    ]
+   ],
+   "clue": {
+    "title": "The rear-laundry turn",
+    "text": "The dashcam puts the van behind the disused laundry block at 11:36 PM. Claire says Nina texted her at 11:25 to meet at the loading bay."
+   },
+   "hints": [
+    "More than one arrangement joins up. The right one also runs in time order, earliest first.",
+    "The gold marker is on the left of the middle-left frame; the red one is on the left of the bottom-left frame. Order: 11:34:10, 11:34:40, 11:35:05, 11:35:30, 11:36:02, 11:36:20."
+   ],
+   "puzzle": {
+    "kind": "panels",
+    "rows": 3,
+    "cols": 2,
+    "start": {
+     "slot": 2,
+     "edge": "W"
+    },
+    "end": {
+     "slot": 4,
+     "edge": "W"
+    },
+    "order": [
+     "p",
+     "q",
+     "g",
+     "l",
+     "r",
+     "t"
+    ],
+    "panels": [
+     {
+      "id": "p",
+      "label": "YARD 11:34:10",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "S",
+         "W"
+        ],
+        "caption": "Rain on the lens, the van pulling out"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "W",
+         "N"
+        ],
+        "caption": "Wiper blade, wet glass"
+       }
+      ]
+     },
+     {
+      "id": "q",
+      "label": "DASH 11:34:40",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "S",
+         "W"
+        ],
+        "caption": "The lane past the bins"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "S",
+         "E"
+        ],
+        "caption": "Painted bay markings"
+       }
+      ]
+     },
+     {
+      "id": "g",
+      "label": "GATE 11:35:05",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "E",
+         "W"
+        ],
+        "caption": "Padlock and chain, untouched"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "W",
+         "S"
+        ],
+        "caption": "The chain, close up"
+       }
+      ]
+     },
+     {
+      "id": "l",
+      "label": "BAY 11:35:30",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "N",
+         "S"
+        ],
+        "caption": "Roller door half open"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "N",
+         "W"
+        ],
+        "caption": "Fresh tyre marks"
+       }
+      ]
+     },
+     {
+      "id": "r",
+      "label": "WALL 11:36:02",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "N",
+         "W"
+        ],
+        "caption": "Brick wall, a chained door"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "E",
+         "W"
+        ],
+        "caption": "Scuffed paint at the latch"
+       }
+      ]
+     },
+     {
+      "id": "t",
+      "label": "DASH 11:36:20",
+      "views": [
+       {
+        "name": "wide",
+        "exits": [
+         "N",
+         "E"
+        ],
+        "caption": "Hard left behind the laundry"
+       },
+       {
+        "name": "close",
+        "exits": [
+         "E",
+         "W"
+        ],
+        "caption": "Brake lights on brick"
+       }
+      ]
+     }
+    ]
+   }
+  },
+  {
+   "ch": 1,
+   "title": "The Ward File",
+   "scene": "records",
+   "task": "Search the records office for the five documents on Nina’s memory card list.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The memory card holds a single text file. A list in Nina’s words: “Records office. Police report, insurance claim, maintenance request, archive log, the photo.”"
+    ],
+    [
+     "NARRATOR",
+     "The records office is a cupboard of boxes nobody has opened in years. Nearly nobody."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Laid out together, the documents tell one story. 18 October 2019: Mara Ward, 31, killed by a hit-and-run at Kestrel Bend on the coast road below the motel."
+    ],
+    [
+     "NARRATOR",
+     "The next day, the motel logged “driveway damage”. Three days later, an insurance claim for a company car was amended. Two weeks later, the road camera archive was marked destroyed."
+    ],
+    [
+     "NARRATOR",
+     "The photo is of a woman laughing on a beach. On the back: “Mara, summer.”"
+    ],
+    [
+     "CLAIRE~grieving",
+     "Bennett is my married name. I was born Claire Ward. Mara was my sister."
+    ],
+    [
+     "YOU",
+     "You booked in under your married name so they wouldn’t know you."
+    ],
+    [
+     "CLAIRE~grieving",
+     "I used my own name once, two years ago. The next morning there was a note under my car wiper telling me to stop asking. Nina found the archive in March. She called me."
+    ]
+   ],
+   "clue": {
+    "title": "Mara Ward’s death",
+    "text": "Mara Ward was killed by a hit-and-run at Kestrel Bend on 18 October 2019. The motel logged damage, amended an insurance claim and destroyed the road camera archive. Claire Bennett is Mara’s sister, born Claire Ward."
+   },
+   "hints": [
+    "The documents are scattered through the whole room, including the edges.",
+    "The archive log is a tape near the top left. The photo is low on the right."
+   ],
+   "puzzle": {
+    "kind": "hidden",
+    "scene": "records",
+    "clutter": 60,
+    "clutterGlyphs": [
+     "📁",
+     "📂",
+     "🗂️",
+     "📦",
+     "📚",
+     "📄",
+     "📎",
+     "🖇️",
+     "🗃️",
+     "💾",
+     "📠",
+     "☕",
+     "🗒️",
+     "📰",
+     "✏️",
+     "🔩",
+     "📌",
+     "🕰️",
+     "🗄️"
+    ],
+    "targets": [
+     {
+      "id": "police",
+      "label": "Police report",
+      "glyph": "📋",
+      "x": 72,
+      "y": 22
+     },
+     {
+      "id": "insurance",
+      "label": "Insurance claim",
+      "glyph": "📑",
+      "x": 27,
+      "y": 47
+     },
+     {
+      "id": "maint",
+      "label": "Maintenance request",
+      "glyph": "🔧",
+      "x": 55,
+      "y": 64
+     },
+     {
+      "id": "archive",
+      "label": "Archive log",
+      "glyph": "📼",
+      "x": 12,
+      "y": 15
+     },
+     {
+      "id": "photo",
+      "label": "Photo of Mara",
+      "glyph": "🖼️",
+      "x": 86,
+      "y": 82
+     }
+    ]
+   }
+  },
+  {
+   "ch": 1,
+   "title": "The Sealed Recording",
+   "scene": "records",
+   "task": "Open the cryptex Nina built for the audio file. The password is the place it happened.",
+   "intro": [
+    [
+     "NARRATOR",
+     "One more file on the card, locked behind a password prompt shaped like a cryptex. Seven letter rings."
+    ],
+    [
+     "NINA · NOTE",
+     "For Claire. It’s where she fell."
+    ],
+    [
+     "CLAIRE~grieving",
+     "She never let me listen to it. She said I should hear it with the police."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "October 2019. Two men on the line. One is unmistakably Owen."
+    ],
+    [
+     "OWEN · RECORDING",
+     "I changed the insurance paperwork. You told me nobody was hurt."
+    ],
+    [
+     "NARRATOR",
+     "The second voice is warped by water damage on the original tape."
+    ],
+    [
+     "VOICE · RECORDING",
+     "Keep the road camera logs where they are, Owen. Nobody needs to see that road."
+    ],
+    [
+     "NARRATOR",
+     "Owen is in the doorway. He has heard all of it."
+    ],
+    [
+     "OWEN",
+     "I didn’t drive. I swear to God, I didn’t drive that car."
+    ],
+    [
+     "NARRATOR",
+     "Headlights sweep the window. Boots on the wet steps, and a man in a Price Security jacket shakes off the rain."
+    ],
+    [
+     "DANIEL",
+     "Owen called me about the dodgy door readers. Sounds like you’ve all had a night of it."
+    ],
+    [
+     "NARRATOR",
+     "The intercom on the wall crackles. A woman’s voice, very faint. “...laundry... please...”"
+    ],
+    [
+     "YOU",
+     "That’s Nina. She’s alive."
+    ],
+    [
+     "DANIEL",
+     "The laundry wing’s on the old generator. The readers back there will be dead too. I’ll go and get it running."
+    ],
+    [
+     "NARRATOR",
+     "He goes, alone, into the service wing. Owen watches him leave and says nothing at all."
+    ]
+   ],
+   "clue": {
+    "title": "The cover-up recording",
+    "text": "A 2019 recording has Owen admitting he changed insurance paperwork after being told “nobody was hurt”. The second man is unidentifiable. Nina is alive somewhere in the laundry. Daniel Price of Price Security has arrived."
+   },
+   "hints": [
+    "The police report names the exact spot. Open the case file below the cryptex.",
+    "Kestrel Bend. Spell KESTREL."
+   ],
+   "puzzle": {
+    "kind": "cryptex",
+    "word": "KESTREL",
+    "clue": "Nina’s note: “It’s where she fell.” Seven letters.",
+    "rings": [
+     "AKMRTB",
+     "OEINUS",
+     "TRSLPC",
+     "HTSNOB",
+     "ARTEKI",
+     "NEOAVR",
+     "SDLMYO"
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Spare Credential",
+   "scene": "security",
+   "task": "Sort the keycards onto the racks. Three of a kind lock away. One card won’t have a home.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The card rack in the security office is a jumble. Every key card the motel has ever issued, dumped back in any slot."
+    ],
+    [
+     "YOU",
+     "Somebody has a copy of my card. If I sort these, the extra one should show itself."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "One NIGHT SHIFT card left over. Yours is in your pocket. This one is a clone, still warm from the encoder."
+    ],
+    [
+     "NARRATOR",
+     "The reader audit on the terminal explains it. NIGHT SHIFT duplicated at 22:57, by an encoder registered to PRICE SECURITY SERVICES."
+    ],
+    [
+     "YOU",
+     "Daniel. And he’s just walked into the service wing on his own."
+    ],
+    [
+     "OWEN",
+     "I didn’t know he’d gone this far. I swear I didn’t."
+    ],
+    [
+     "YOU",
+     "You knew something."
+    ],
+    [
+     "NARRATOR",
+     "Owen doesn’t answer."
+    ]
+   ],
+   "clue": {
+    "title": "Who copied the card",
+    "text": "A spare NIGHT SHIFT card was in the rack. The audit shows it was cloned at 10:57 PM by an encoder registered to Price Security Services: Daniel Price."
+   },
+   "hints": [
+    "Free up a whole rack early. Empty racks are what make the sort possible.",
+    "Clear the colours with no NIGHT SHIFT cards mixed in first, then gather the NIGHT SHIFT cards."
+   ],
+   "puzzle": {
+    "kind": "goods",
+    "capacity": 3,
+    "leftover": "N",
+    "types": {
+     "N": {
+      "label": "NIGHT",
+      "color": "#e8b877"
+     },
+     "O": {
+      "label": "OWNER",
+      "color": "#c8665a"
+     },
+     "H": {
+      "label": "HOUSE",
+      "color": "#7fb7ad"
+     },
+     "C": {
+      "label": "CONTR.",
+      "color": "#9a8fc9"
+     },
+     "G": {
+      "label": "GUEST",
+      "color": "#d9d2c2"
+     }
+    },
+    "racks": [
+     [
+      "N",
+      "O",
+      "H"
+     ],
+     [
+      "C",
+      "G",
+      "N"
+     ],
+     [
+      "O",
+      "C",
+      "H"
+     ],
+     [
+      "G",
+      "N",
+      "C"
+     ],
+     [
+      "H",
+      "G",
+      "O"
+     ],
+     [
+      "N",
+      "",
+      ""
+     ],
+     [
+      "",
+      "",
+      ""
+     ]
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Flooded Corridor",
+   "scene": "service",
+   "task": "Separate the floodwater, oil, sludge, rust and grease into their own tanks so the pump will start.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The corridor to the service wing is under ankle-deep water. The sump pump’s filter tanks are clogged with everything the storm brought in."
+    ],
+    [
+     "YOU",
+     "Daniel went this way. He didn’t come back."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The pump coughs and starts. Water drains away from the passage."
+    ],
+    [
+     "NARRATOR",
+     "On the concrete, two long scuff marks run toward the laundry corridor. Like heels dragged."
+    ],
+    [
+     "YOU",
+     "This is how they brought her in."
+    ],
+    [
+     "NARRATOR",
+     "Wet boot prints on top of the scuff marks, fresher. Heading the same way."
+    ]
+   ],
+   "clue": {
+    "title": "A trail to the laundry",
+    "text": "The drained corridor shows drag marks toward the laundry, with fresh boot prints over them."
+   },
+   "hints": [
+    "You can only pour onto the same liquid or into an empty tank. Keep the two empty tanks free for as long as you can.",
+    "Uncover each liquid in turn: pour the top layers of mixed tanks into the empty ones, then collect each colour onto its own tank."
+   ],
+   "puzzle": {
+    "kind": "water",
+    "capacity": 4,
+    "colors": {
+     "W": {
+      "label": "Water",
+      "color": "#4f86a8"
+     },
+     "O": {
+      "label": "Oil",
+      "color": "#4a4752"
+     },
+     "S": {
+      "label": "Sludge",
+      "color": "#7a6a4a"
+     },
+     "R": {
+      "label": "Rust",
+      "color": "#b0563a"
+     },
+     "G": {
+      "label": "Grease",
+      "color": "#8c9a4b"
+     }
+    },
+    "tubes": [
+     "SRGO",
+     "GROR",
+     "WGOW",
+     "OGWS",
+     "RSWS",
+     "",
+     ""
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Archived Film",
+   "scene": "records",
+   "task": "Order the surviving frames from the 2019 road camera.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Back in the records office, a second copy of the destroyed archive. Owen kept it. Of course he did."
+    ],
+    [
+     "OWEN",
+     "It’s in the bottom box. I couldn’t throw it away."
+    ],
+    [
+     "NARRATOR",
+     "Six frames, no timestamps."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "In order, the frames show a motel company car taking Kestrel Bend too fast. The impact. The driver getting out and making a call."
+    ],
+    [
+     "NARRATOR",
+     "The camera glare whites out the driver’s face in every frame."
+    ],
+    [
+     "NARRATOR",
+     "Then a second vehicle. Owen’s ute. He walks to the car, not to Mara."
+    ],
+    [
+     "YOU",
+     "You were there."
+    ],
+    [
+     "OWEN",
+     "He rang me. I came. I didn’t drive that car."
+    ],
+    [
+     "YOU",
+     "Then who did?"
+    ],
+    [
+     "OWEN",
+     "Not yet. Find Nina first. Please."
+    ]
+   ],
+   "clue": {
+    "title": "The 2019 sequence",
+    "text": "The 2019 frames show a motel company car hitting Mara Ward, the driver calling someone, and Owen arriving afterwards. The driver’s face is hidden by glare."
+   },
+   "hints": [
+    "Think about what has to happen before what. The second vehicle arrives after the phone call.",
+    "Empty road, the car, impact, the driver gets out, Owen arrives, the car backs away."
+   ],
+   "puzzle": {
+    "kind": "timeline",
+    "prompt": "18 October 2019, earliest at the top.",
+    "order": [
+     "a",
+     "b",
+     "c",
+     "d",
+     "e",
+     "f"
+    ],
+    "cards": [
+     {
+      "id": "a",
+      "title": "Headlights on a wet road",
+      "detail": "Nothing in frame but a woman walking on the shoulder."
+     },
+     {
+      "id": "b",
+      "title": "A car takes Kestrel Bend",
+      "detail": "Motel livery on the door. Too fast for the wet."
+     },
+     {
+      "id": "c",
+      "title": "Impact",
+      "detail": "The windscreen whites out in the glare."
+     },
+     {
+      "id": "d",
+      "title": "The driver gets out",
+      "detail": "Kneels on the road, then stands and makes a phone call."
+     },
+     {
+      "id": "e",
+      "title": "A second vehicle arrives",
+      "detail": "Owen’s ute. He walks to the car, not to her."
+     },
+     {
+      "id": "f",
+      "title": "The company car backs out of frame",
+      "detail": "One headlight broken. Owen stays behind with a torch."
+     }
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Owner’s Ledger",
+   "scene": "records",
+   "task": "Fit the shredded ledger strips back into the page.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Owen’s desk drawer holds a shredded page from a ledger marked SECURITY RETAINER. He didn’t shred it well."
+    ],
+    [
+     "DISPATCH · PHONE",
+     "Water’s dropping at the bridge. Maybe forty minutes. Can you hold on?"
+    ],
+    [
+     "YOU",
+     "We’ll hold on."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The page goes back together. Every October since 2020, a payment to Price Security Services. $8,000. Then $12,000."
+    ],
+    [
+     "YOU",
+     "You’ve been paying him for seven years."
+    ],
+    [
+     "OWEN",
+     "He said the original footage was still out there. That if it ever came out, I’d go down for the cover-up and he’d say I was driving."
+    ],
+    [
+     "CLAIRE~angry",
+     "So you paid. And my sister stayed a hit-and-run."
+    ]
+   ],
+   "clue": {
+    "title": "Years of payments",
+    "text": "The ledger shows Owen paying Price Security Services every October since 2020, $8,000 rising to $12,000. Owen says Daniel threatened to name him as the driver."
+   },
+   "hints": [
+    "The gold square on each strip is the corner you tap to place. Rotate before placing.",
+    "The square block goes top-middle-right. The long three-square strip runs down the left edge."
+   ],
+   "puzzle": {
+    "kind": "blockfit",
+    "caption": "SECURITY RETAINER · page 3",
+    "solution": [
+     "AAABBC",
+     "DAEBBC",
+     "DEEECC",
+     "DFFGGH",
+     "FFGGHH"
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Emergency Intercom",
+   "scene": "service",
+   "task": "Bring the old switchboard back to life and open the laundry intercom channel.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Nina’s voice came through the obsolete laundry intercom. The switchboard for it is in the service wing, half dead."
+    ],
+    [
+     "YOU",
+     "If I can make it work both ways, she can tell us where she is."
+    ]
+   ],
+   "reveal": [
+    [
+     "YOU · INTERCOM",
+     "Nina? It’s {name}. If you can hear me, knock twice."
+    ],
+    [
+     "NARRATOR",
+     "Two knocks through the wall. Then her voice, hoarse."
+    ],
+    [
+     "NINA · INTERCOM~frightened",
+     "{name}? You came. Behind the laundry, past the boiler. Daniel has the key."
+    ],
+    [
+     "NINA · INTERCOM~frightened",
+     "He thinks you have my card. He’s coming back for you."
+    ],
+    [
+     "NARRATOR",
+     "The line dies. Somewhere in the wing, a door closes softly."
+    ]
+   ],
+   "clue": {
+    "title": "Nina is in the laundry",
+    "text": "Nina, over the intercom: she is locked behind the laundry past the boiler. Daniel has the key and thinks you have her memory card."
+   },
+   "hints": [
+    "Every lever flips its neighbours too. Then read the torn chart: it gives you the rest by elimination.",
+    "Speaker on line 3, so the mic has to take line 1. Relay on emergency, lamp on aux. Then dial the speaker line, then the mic line: 3 1."
+   ],
+   "puzzle": {
+    "kind": "box",
+    "name": "Laundry switchboard",
+    "stages": [
+     {
+      "type": "levers",
+      "start": [
+       0,
+       1,
+       1,
+       0,
+       1,
+       0,
+       0,
+       1,
+       0
+      ],
+      "clue": "Emergency breakers. All nine have to be up. Each lever flips its neighbours too.",
+      "note": "The board hums. A patch chart is taped inside the door, half torn away."
+     },
+     {
+      "type": "patch",
+      "left": [
+       "SPEAKER",
+       "MIC",
+       "RELAY",
+       "LAMP"
+      ],
+      "right": [
+       "LINE 1",
+       "LINE 3",
+       "EMERGENCY",
+       "AUX"
+      ],
+      "pairs": [
+       1,
+       0,
+       2,
+       3
+      ],
+      "clue": "The chart, half torn: “Speaker on line 3. The mic is not on emergency or aux. The relay is on emergency. The lamp takes whatever is left.”",
+      "note": "A channel readout flickers: “CHANNEL = SPEAKER LINE, THEN MIC LINE.”"
+     },
+     {
+      "type": "dials",
+      "code": "31",
+      "clue": "Tune the channel dial.",
+      "note": "The line opens."
+     }
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Contractor’s Case",
+   "scene": "service",
+   "task": "Get into Daniel’s tool case.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Behind the switchboard, a hard case with a Price Security sticker. Left where only a contractor would look."
+    ],
+    [
+     "YOU",
+     "He was here. Whatever he’s carrying around tonight, the rest of it is in this."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Inside: a card encoder, a blank card, an empty evidence sleeve the same size as Nina’s."
+    ],
+    [
+     "NARRATOR",
+     "And a laundry override tag, warped by the heat from the boiler pipe it was stuffed behind."
+    ],
+    [
+     "YOU",
+     "He cloned my card with this. Checked out 17 in Nina’s name. Searched 17 with my card. Every bit of it, him."
+    ]
+   ],
+   "clue": {
+    "title": "Daniel’s cloning equipment",
+    "text": "Daniel’s case holds the encoder calibrated at 22:57, an empty evidence sleeve, and a heat-damaged laundry override tag."
+   },
+   "hints": [
+    "Roll the bearing into the release, then look in the case file for when the card was cloned.",
+    "Down, right, down, right, down, left, up. The card was cloned at 10:57 PM, which on a 24-hour clock is 2 2 5 7."
+   ],
+   "puzzle": {
+    "kind": "box",
+    "name": "Price Security tool case",
+    "stages": [
+     {
+      "type": "screws",
+      "count": 5,
+      "plate": "ANTI-TAMPER PLATE",
+      "note": "Under the plate, a ball-bearing maze. The lid release is the valve in the far corner."
+     },
+     {
+      "type": "tilt",
+      "rows": [
+       "######",
+       "#S.O##",
+       "#..#O#",
+       "##.G.#",
+       "#.#..#",
+       "######"
+      ],
+      "clue": "Roll the bearing into the release.",
+      "note": "Click. Engraved under the inner lid: “Calibrated the minute it cloned the card.” Four digits, 24-hour clock."
+     },
+     {
+      "type": "dials",
+      "code": "2257",
+      "evidence": true,
+      "clue": "Four-digit wheel on the inner lid. The case file says when the card was cloned.",
+      "note": "The case opens."
+     }
+    ]
+   }
+  },
+  {
+   "ch": 2,
+   "title": "The Only Explanation",
+   "scene": "security",
+   "task": "Work out where everyone was at 11:26 and what they had. Then say who took Nina.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Back in the security office. Owen in one corner, Claire in the other, the laundry intercom silent."
+    ],
+    [
+     "CLAIRE~angry",
+     "He’s been paying a man to keep quiet about my sister. Why should we believe anything he says?"
+    ],
+    [
+     "OWEN",
+     "Because I’m the one who called Daniel tonight. I didn’t know what he’d do."
+    ],
+    [
+     "YOU",
+     "Nobody says a name until I’ve checked it."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "Owen was on the phone to you. Claire was in Room 12. Daniel was in the service corridor with the encoder’s card."
+    ],
+    [
+     "YOU",
+     "Daniel took her."
+    ],
+    [
+     "OWEN",
+     "Daniel was driving in 2019. He rang me from the road. I came, I saw her, and I helped him hide it. I’ve hated myself every day since."
+    ],
+    [
+     "OWEN",
+     "Nina found the archive. He thinks she has the only original. He locked her up until she tells him where it is."
+    ],
+    [
+     "CLAIRE",
+     "And when she tells him?"
+    ],
+    [
+     "NARRATOR",
+     "Nobody answers. From the service wing, a heavy metallic bang. The laundry lights on the monitor go out."
+    ]
+   ],
+   "clue": {
+    "title": "Daniel identified",
+    "text": "At 11:26, Owen was on the phone, Claire was in Room 12, and Daniel was in the service corridor with the cloned card. Owen confesses Daniel was the 2019 driver and that he helped cover it up."
+   },
+   "hints": [
+    "The encoder is the key. Work out who can’t have been carrying it.",
+    "Owen and Claire are both ruled out, so Daniel had the encoder. It wasn’t with the person in Room 12 or on the phone, so he was in the corridor."
+   ],
+   "puzzle": {
+    "kind": "logic",
+    "categories": [
+     {
+      "name": "Suspect",
+      "items": [
+       "Owen",
+       "Claire",
+       "Daniel"
+      ]
+     },
+     {
+      "name": "At 11:26",
+      "items": [
+       "Phone",
+       "Room 12",
+       "Corridor"
+      ]
+     },
+     {
+      "name": "Carrying",
+      "items": [
+       "Master key",
+       "Rental keys",
+       "Encoder"
+      ]
+     }
+    ],
+    "clues": [
+     {
+      "text": "Door log: whoever was in Room 12 wasn’t carrying the encoder.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        1,
+        1
+       ],
+       "b": [
+        2,
+        2
+       ]
+      }
+     },
+     {
+      "text": "Witness: Owen wasn’t carrying the rental keys.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        2,
+        1
+       ]
+      }
+     },
+     {
+      "text": "Witness: Owen wasn’t carrying the encoder.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        0
+       ],
+       "b": [
+        2,
+        2
+       ]
+      }
+     },
+     {
+      "text": "Phone records: Claire wasn’t the one on the office line.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        1
+       ],
+       "b": [
+        1,
+        0
+       ]
+      }
+     },
+     {
+      "text": "Evidence bag: whoever was on the office line wasn’t carrying the encoder.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        1,
+        0
+       ],
+       "b": [
+        2,
+        2
+       ]
+      }
+     },
+     {
+      "text": "Search: Claire wasn’t carrying the encoder.",
+      "rule": {
+       "t": "diff",
+       "a": [
+        0,
+        1
+       ],
+       "b": [
+        2,
+        2
+       ]
+      }
+     }
+    ],
+    "solution": [
+     [
+      0,
+      0
+     ],
+     [
+      1,
+      1
+     ],
+     [
+      2,
+      2
+     ]
+    ],
+    "accuse": {
+     "prompt": "Who took Nina?",
+     "answer": 2,
+     "wrong": {
+      "0": "Owen was on the phone to you at 11:26. He lied about a lot, but not that.",
+      "1": "Claire’s door log has her in Room 12 the whole time."
+     }
+    }
+   }
+  },
+  {
+   "ch": 3,
+   "title": "The Laundry Override",
+   "scene": "laundry",
+   "task": "Find the missing digits of the override code and open the laundry door.",
+   "intro": [
+    [
+     "NARRATOR",
+     "12:54 AM. You and Claire reach the laundry entrance. Owen stays at the switchboard to keep the intercom alive."
+    ],
+    [
+     "CLAIRE",
+     "Someone’s breathing in there. I can hear it."
+    ],
+    [
+     "NARRATOR",
+     "Daniel’s override tag is heat-warped. The last two digits have melted away."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The door opens on a wall of heat. Somewhere past the machines, the boiler roars."
+    ],
+    [
+     "NINA · DISTANT~frightened",
+     "{name}? I’m here! Past the boiler!"
+    ],
+    [
+     "YOU",
+     "We’re coming. Keep talking."
+    ]
+   ],
+   "clue": {
+    "title": "Laundry entrance unlocked",
+    "text": "The override code 6421 opened the outer laundry door. Nina is alive, past the boiler."
+   },
+   "hints": [
+    "The tag gives you two digits and the log gives you two more. Something in here will get you at the keypad.",
+    "Screwdriver from the toolbox for the keypad cover; gloves from the basket to lift the clipboard off the steam pipe. Then 6 4 2 1."
+   ],
+   "puzzle": {
+    "kind": "room",
+    "scene": "laundry",
+    "goal": "doorOpen",
+    "items": {
+     "gloves": {
+      "label": "Work gloves",
+      "icon": "🧤"
+     },
+     "screwdriver": {
+      "label": "Screwdriver",
+      "icon": "🪛"
+     }
+    },
+    "keypad": {
+     "code": "6421",
+     "sets": "doorOpen",
+     "label": "LAUNDRY · MAINTENANCE OVERRIDE"
+    },
+    "hotspots": [
+     {
+      "id": "tag",
+      "label": "Override tag",
+      "icon": "🏷️",
+      "x": 4,
+      "y": 6,
+      "w": 30,
+      "h": 16,
+      "text": "From Daniel’s case. “LAUNDRY ACCESS · L-64”. The last two digits have melted."
+     },
+     {
+      "id": "basket",
+      "label": "Laundry basket",
+      "icon": "🧺",
+      "x": 36,
+      "y": 6,
+      "w": 28,
+      "h": 16,
+      "text": "Under a heap of mouldy towels: heavy work gloves.",
+      "doneText": "Towels. Nothing else.",
+      "gives": "gloves"
+     },
+     {
+      "id": "clip",
+      "label": "Clipboard on the steam pipe",
+      "icon": "📋",
+      "x": 66,
+      "y": 6,
+      "w": 30,
+      "h": 18,
+      "needs": "gloves",
+      "needsText": "It’s hanging on a steam pipe. Far too hot to touch bare-handed.",
+      "text": "A scorched maintenance log. The last line: “Override reset, code ends …21.”"
+     },
+     {
+      "id": "toolbox",
+      "label": "Maintenance toolbox",
+      "icon": "🧰",
+      "x": 4,
+      "y": 32,
+      "w": 26,
+      "h": 18,
+      "text": "The padlock hangs open. Inside, a screwdriver and a stub of pencil.",
+      "doneText": "A pencil stub and a lot of rust.",
+      "gives": "screwdriver"
+     },
+     {
+      "id": "ext",
+      "label": "Fire extinguisher",
+      "icon": "🧯",
+      "x": 4,
+      "y": 56,
+      "w": 28,
+      "h": 16,
+      "text": "Last inspected 2019. Nobody has looked after this wing since."
+     },
+     {
+      "id": "door",
+      "label": "Laundry door",
+      "icon": "🚪",
+      "x": 34,
+      "y": 34,
+      "w": 28,
+      "h": 20,
+      "text": "Steel, warm to the touch. You can hear someone breathing on the other side."
+     },
+     {
+      "id": "cover",
+      "label": "Keypad cover",
+      "icon": "🔲",
+      "x": 64,
+      "y": 56,
+      "w": 30,
+      "h": 16,
+      "hiddenIf": "coverOff",
+      "needs": "screwdriver",
+      "needsText": "A steel cover, four screws. You need a screwdriver.",
+      "text": "The cover comes off. The keypad underneath is warm to the touch.",
+      "sets": "coverOff"
+     },
+     {
+      "id": "keypad",
+      "label": "Door keypad",
+      "icon": "🔢",
+      "x": 64,
+      "y": 56,
+      "w": 30,
+      "h": 16,
+      "visibleIf": "coverOff",
+      "text": "",
+      "keypad": true
+     }
+    ]
+   }
+  },
+  {
+   "ch": 3,
+   "title": "The Boiler Bypass",
+   "scene": "laundry",
+   "task": "Steer the pressure ball through the valve maze. It only stops at walls and has to stop on the gold valve.",
+   "intro": [
+    [
+     "NARRATOR",
+     "The boiler blocks the inner corridor. Its safety interlock has been bypassed, and the pressure door beyond it is sealed."
+    ],
+    [
+     "CLAIRE",
+     "There’s a diagram on the panel. It’s a maze of valves."
+    ],
+    [
+     "YOU",
+     "Open the wrong one and it vents steam into the corridor. Into her."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The isolation valve thunks shut. The roar drops to a hiss, and the steam clears from the passage."
+    ],
+    [
+     "NINA · DISTANT~frightened",
+     "He said he’d burn everything if the police came."
+    ],
+    [
+     "YOU",
+     "The card’s safe. We copied it. Just stay back from the gate."
+    ]
+   ],
+   "clue": {
+    "title": "Safe access to the inner corridor",
+    "text": "The boiler was isolated, so the inner corridor can be reached without venting steam."
+   },
+   "hints": [
+    "Holes send the ball back to the start. Work backwards from the valve: which way does the ball have to roll to stop on it?",
+    "Right, down, right, up, left, down, left, down, left, down, left, up, right."
+   ],
+   "puzzle": {
+    "kind": "tilt",
+    "caption": "BOILER ISOLATION · valve diagram",
+    "rows": [
+     "#########",
+     "#S.#O#..#",
+     "#..##O..#",
+     "#.......#",
+     "#O##...##",
+     "#.#..##.#",
+     "##.G#.#.#",
+     "##....#.#",
+     "#########"
+    ]
+   }
+  },
+  {
+   "ch": 3,
+   "title": "The Last Barrier",
+   "scene": "laundry",
+   "task": "Open the inner gate’s interlock, stage by stage. Nina can see more of it than you can.",
+   "intro": [
+    [
+     "NARRATOR",
+     "A steel safety gate across the last bay. Behind it, sitting on the floor with her back to a dryer, Nina."
+    ],
+    [
+     "NINA~relieved",
+     "You came."
+    ],
+    [
+     "YOU",
+     "I was late."
+    ],
+    [
+     "NINA",
+     "You came. The interlock’s on your side. I’ve been staring at it for two hours. I’ll talk you through it."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The gate grinds open. Nina gets up, unsteady, and holds onto your arm harder than she means to."
+    ],
+    [
+     "NINA~frightened",
+     "He wanted the card. I told him I’d thrown it in the sea."
+    ],
+    [
+     "CLAIRE~grieving",
+     "Nina. I’m so sorry."
+    ],
+    [
+     "NINA",
+     "Don’t be. You’re about to see him get what he’s owed."
+    ],
+    [
+     "NARRATOR",
+     "At the far end of the passage, a door slams."
+    ],
+    [
+     "DANIEL · DISTANT",
+     "You’ve made a very stupid mistake, all of you."
+    ]
+   ],
+   "clue": {
+    "title": "Nina rescued",
+    "text": "Nina is free. Daniel is still in the building and knows the evidence has been found."
+   },
+   "hints": [
+    "All sixteen up. Each lever flips its neighbours too; work row by row from the top.",
+    "Nina knocks two, four, none, three for the sliders. The last wheel is the laundry override code from the case file: 6 4 2 1."
+   ],
+   "puzzle": {
+    "kind": "box",
+    "name": "Inner gate interlock",
+    "stages": [
+     {
+      "type": "levers",
+      "start": [
+       1,
+       1,
+       0,
+       0,
+       1,
+       0,
+       0,
+       1,
+       1,
+       1,
+       0,
+       0,
+       0,
+       1,
+       1,
+       1
+      ],
+      "clue": "Interlock breakers. All sixteen up to cut the magnetic lock. Each lever flips its neighbours too.",
+      "note": "The magnet lets go. Four bolts still hold the gate."
+     },
+     {
+      "type": "sliders",
+      "targets": [
+       2,
+       4,
+       0,
+       3
+      ],
+      "clue": "Nina knocks through the grate: two... four... none... three.",
+      "note": "The bolts slide back. One wheel left."
+     },
+     {
+      "type": "dials",
+      "code": "6421",
+      "evidence": true,
+      "clue": "Nina: “The last wheel is the same four digits as the laundry override.”",
+      "note": "The gate grinds open."
+     }
+    ]
+   }
+  },
+  {
+   "ch": 3,
+   "title": "The Original Frame",
+   "scene": "records",
+   "task": "Clear the corruption off Nina’s original copy of the 2019 frame.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Nina pulls at the seam of her lanyard. A second microSD card drops into her palm."
+    ],
+    [
+     "NINA",
+     "He took my phone. He didn’t think to take this. This is the original, before the archive was “destroyed”."
+    ],
+    [
+     "CLAIRE",
+     "Will it show his face?"
+    ],
+    [
+     "NINA",
+     "One frame does. If we can clean it."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The frame clears. Kestrel Bend, 12:41 AM, 18 October 2019. No glare on this copy."
+    ],
+    [
+     "NARRATOR",
+     "Behind the wheel of the company car, staring straight ahead: Daniel Price."
+    ],
+    [
+     "CLAIRE~grieving",
+     "Seven years. That’s the first time anyone’s let me see his face."
+    ],
+    [
+     "NINA",
+     "Then let’s make sure everyone sees it. Security office. Now, before he gets to the switchboard."
+    ]
+   ],
+   "clue": {
+    "title": "The original frame",
+    "text": "Nina’s original copy of the 2019 frame clearly shows Daniel Price driving the car that killed Mara Ward."
+   },
+   "hints": [
+    "Clear the edges early; the middle tends to clear itself through cascades.",
+    "Four in a row makes a line clearer. A match also wipes one square past each end of the run."
+   ],
+   "puzzle": {
+    "kind": "match3",
+    "size": 7,
+    "colors": 5,
+    "mask": [
+     ".#####.",
+     "#######",
+     "#######",
+     "#######",
+     "#######",
+     "#######",
+     ".#####."
+    ],
+    "reveal": {
+     "title": "KESTREL BEND · 12:41 AM",
+     "art": "driver",
+     "lines": [
+      "18 OCT 2019 · original",
+      "Company car, no glare",
+      "Driver: DANIEL PRICE"
+     ]
+    }
+   }
+  },
+  {
+   "ch": 3,
+   "title": "The Emergency Uplink",
+   "scene": "security",
+   "task": "Route the upload through every relay in order before Daniel cuts the power. Fill every free square.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Back in the security office. The dispatcher is still on the line, and there’s an emergency data link to the police server."
+    ],
+    [
+     "DISPATCH",
+     "Send whatever you have. If it’s on our server, nobody can wipe it."
+    ],
+    [
+     "NARRATOR",
+     "The lights flicker. Down the hall, the switchboard bangs. Daniel is cutting power one breaker at a time."
+    ],
+    [
+     "NARRATOR",
+     "Then footsteps, and he is at the security office door. Nina and Claire throw their weight against it."
+    ],
+    [
+     "DANIEL",
+     "Open the door. Let’s talk about this like adults."
+    ],
+    [
+     "OWEN · DISTANT",
+     "Daniel! It’s done. Leave them alone."
+    ],
+    [
+     "NARRATOR",
+     "Owen is in the corridor between Daniel and the door. For the first time in seven years, he doesn’t move."
+    ]
+   ],
+   "reveal": [
+    [
+     "DISPATCH",
+     "Received and time-stamped. Officers are over the bridge. Two minutes."
+    ],
+    [
+     "NINA~relieved",
+     "He can’t take it back now."
+    ],
+    [
+     "NARRATOR",
+     "In the corridor, Daniel stops pushing. Blue lights fill the rain-streaked window."
+    ]
+   ],
+   "clue": {
+    "title": "Evidence preserved off-site",
+    "text": "Nina’s recording, the card audit and the original 2019 frame reached the police server. Officers are on site."
+   },
+   "hints": [
+    "Numbers are reached in order and the line fills every free square. Squares with only one free neighbour pin the route down: start with those.",
+    "A square with a single way in has to be an end of the line or sit right beside one. Follow the forced squares first, then fill in between."
+   ],
+   "puzzle": {
+    "kind": "zip",
+    "rows": 7,
+    "cols": 6,
+    "start": [
+     1,
+     4
+    ],
+    "moves": "DLDDRURDDDLLULDLLURURUULULURRDRURRD",
+    "marks": [
+     0,
+     8,
+     10,
+     16,
+     24,
+     29,
+     35
+    ],
+    "markLabels": [
+     "UPLINK",
+     "RELAY 1",
+     "RELAY 2",
+     "RELAY 3",
+     "RELAY 4",
+     "RELAY 5",
+     "POLICE"
+    ],
+    "wallLabels": {
+     "3,0": "SERVER RACK",
+     "2,5": "SERVER RACK",
+     "4,0": "SERVER RACK",
+     "3,1": "SERVER RACK",
+     "5,4": "SERVER RACK",
+     "2,0": "SERVER RACK"
+    }
+   }
+  },
+  {
+   "ch": 3,
+   "title": "The Final Account",
+   "scene": "security",
+   "task": "Give the dispatcher the whole chronology, earliest first.",
+   "intro": [
+    [
+     "NARRATOR",
+     "Officers fill the corridor. Daniel is face down on the wet carpet, cuffed, not saying anything at all."
+    ],
+    [
+     "DISPATCH",
+     "For the statement: walk me through it in order. The crash, the cover-up, tonight."
+    ],
+    [
+     "YOU",
+     "All of it. In order."
+    ]
+   ],
+   "reveal": [
+    [
+     "NARRATOR",
+     "The statement goes through. An officer reads it back to you, and it sounds like something that happened to someone else."
+    ],
+    [
+     "NARRATOR",
+     "Owen sits in the back of a patrol car with the door open, hands in his lap. He nods to Claire. She doesn’t nod back. It’s not hers to give yet."
+    ],
+    [
+     "CLAIRE~grieving",
+     "Mara went seven years without anyone hearing her."
+    ],
+    [
+     "NINA~relieved",
+     "They’ll hear her now."
+    ],
+    [
+     "NARRATOR",
+     "Dawn comes up grey over the flooded coast road. You and Nina stand at the reception desk. Her handbag is still under it."
+    ],
+    [
+     "NINA~relieved",
+     "Come in early tomorrow. I’ll show you how the register actually works."
+    ],
+    [
+     "YOU",
+     "Half past eleven?"
+    ],
+    [
+     "NINA~relieved",
+     "Half past eleven. Don’t be late."
+    ]
+   ],
+   "clue": {
+    "title": "Case closed",
+    "text": "Nina is safe. Daniel Price is in custody for the abduction and the 2019 death of Mara Ward. Owen Mercer is being questioned over the cover-up. The evidence is safe off-site."
+   },
+   "hints": [
+    "The evidence board has every time you need. Seven years ago comes first, tonight comes last.",
+    "Crash, insurance change, first payment, card cloned, checkout, Nina taken, Room 17 searched, upload."
+   ],
+   "puzzle": {
+    "kind": "timeline",
+    "prompt": "The whole case, earliest at the top.",
+    "order": [
+     "a",
+     "b",
+     "c",
+     "d",
+     "e",
+     "f",
+     "g",
+     "h"
+    ],
+    "cards": [
+     {
+      "id": "a",
+      "title": "Mara Ward dies at Kestrel Bend",
+      "detail": "The road camera was still working that night."
+     },
+     {
+      "id": "b",
+      "title": "Owen changes the insurance paperwork",
+      "detail": "“You told me nobody was hurt.”"
+     },
+     {
+      "id": "c",
+      "title": "The first retainer payment",
+      "detail": "The first October after the crash."
+     },
+     {
+      "id": "d",
+      "title": "Daniel clones your NIGHT SHIFT card",
+      "detail": "The encoder’s own clock: 22:57."
+     },
+     {
+      "id": "e",
+      "title": "Room 17 is checked out on Nina’s login",
+      "detail": "The checkout she watched on the monitor."
+     },
+     {
+      "id": "f",
+      "title": "Nina is taken through the staff door",
+      "detail": "Your cloned card opens it."
+     },
+     {
+      "id": "g",
+      "title": "Room 17 is searched",
+      "detail": "Your card again, while you sat in security."
+     },
+     {
+      "id": "h",
+      "title": "The evidence reaches the police server",
+      "detail": "Before dawn."
+     }
+    ]
+   }
+  }
+ ]
+}
