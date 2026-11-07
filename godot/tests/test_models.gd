@@ -15,6 +15,7 @@ func _init() -> void:
 	test_blockfit_tilt(levels)
 	test_panels(levels)
 	test_rooms(levels)
+	test_box(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -245,3 +246,25 @@ func test_rooms(levels: Array) -> void:
 		var steps := RoomModel.auto_solve(d)
 		check(not steps.is_empty(), "room level %d cannot be completed" % i)
 		print("room level %d solved in %d steps" % [i, steps.size()])
+
+
+func test_box(levels: Array) -> void:
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "box":
+			continue
+		for st in d["stages"]:
+			match st["type"]:
+				"levers":
+					var sol := BoxModel.lever_solve(st["start"])
+					check(not sol.is_empty(), "box level %d levers unsolvable" % i)
+					print("box level %d levers: %d presses" % [i, sol.size()])
+				"sliders":
+					check(st["targets"].size() >= 2, "sliders targets")
+				"dials":
+					check(String(st["code"]).length() >= 2, "dials code")
+				"patch":
+					var seen := {}
+					for p in st["pairs"]:
+						check(not seen.has(p), "patch pairs must be a permutation")
+						seen[p] = true

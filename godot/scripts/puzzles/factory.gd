@@ -23,4 +23,5 @@ static func make(kind: String) -> PuzzleBase:
 		"panels": return PanelsPuzzle.new()
 		"hidden": return HiddenPuzzle.new()
 		"room": return RoomPuzzle.new()
+		"box": return BoxPuzzle.new()
 	return PlaceholderPuzzle.new()
