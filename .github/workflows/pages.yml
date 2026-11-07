@@ -1,11 +1,12 @@
-# Builds the game in game/ and publishes it to GitHub Pages.
+# Builds the web game in game/ and the Godot port in godot/, and publishes both to GitHub Pages.
+# The web game is at the site root; the Godot build is at /godot/ until it replaces it.
 # One-time setup: repo Settings → Pages → Build and deployment → Source: "GitHub Actions".
 name: Deploy game to GitHub Pages
 
 on:
   push:
     branches: [main]
-    paths: ['game/**', '.github/workflows/pages.yml']
+    paths: ['game/**', 'godot/**', '.game-toolkit/**', '.github/workflows/pages.yml']
   workflow_dispatch:
 
 permissions:
@@ -18,7 +19,36 @@ concurrency:
   cancel-in-progress: false
 
 jobs:
+  godot:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/cache@v4
+        with:
+          path: |
+            ~/.cache/godot-tools
+            ~/.local/share/godot/export_templates
+          key: godot-4.6.2-${{ hashFiles('godot/tools/setup_godot.py') }}
+      - name: Install Godot 4.6.2 and the web export templates
+        run: python3 godot/tools/setup_godot.py
+      - name: Import the project
+        run: ~/.cache/godot-tools/godot-4.6.2/godot --headless --path godot --import
+      - name: Rule tests (every puzzle model, every level)
+        run: ~/.cache/godot-tools/godot-4.6.2/godot --headless --path godot --script res://tests/test_models.gd
+      - name: Check the asset manifest
+        run: node .game-toolkit/scripts/validate-manifest.mjs --repo . --manifest godot/asset-manifest.json
+      - name: Export the web build
+        run: |
+          mkdir -p godot/build/web
+          ~/.cache/godot-tools/godot-4.6.2/godot --headless --path godot --export-release Web build/web/index.html
+      - uses: actions/upload-artifact@v4
+        with:
+          name: godot-web
+          path: godot/build/web
+          retention-days: 7
+
   build:
+    needs: godot
     runs-on: ubuntu-latest
     defaults:
       run:
@@ -35,6 +65,11 @@ jobs:
         run: npm test
       - name: Build the installable web app
         run: npm run build
+      - name: Add the Godot build under /godot/
+        uses: actions/download-artifact@v4
+        with:
+          name: godot-web
+          path: game/dist/godot
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
