@@ -226,15 +226,15 @@ button:disabled { opacity: .45; cursor: default; }
 .cx-peek p { margin: 6px 0; }
 
 /* Goods + water */
-.gs-racks { display: grid; grid-template-columns: repeat(auto-fill, minmax(98px, 1fr)); gap: 8px; }
+.gs-racks { display: grid; grid-template-columns: repeat(auto-fill, minmax(124px, 1fr)); gap: 8px; }
 .gs-rack { display: grid; grid-template-columns: repeat(3, 1fr); gap: 3px; padding: 6px 4px 8px; border-radius: 8px; background: #22343b; border: 0; border-bottom: 4px solid #4b6068; min-height: 70px; }
 .gs-card, .gs-slot { border-radius: 4px; min-height: 64px; display: grid; place-items: center; writing-mode: vertical-rl; transform: rotate(180deg); font: 700 11px var(--mono); letter-spacing: .04em; color: #1b140a; }
 .gs-slot { background: rgba(255,255,255,.04); border: 1px dashed #3c535b; }
 .gs-card.sel { outline: 3px solid #fff; transform: rotate(180deg) translateX(4px); }
 .gs-legend { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
 .gs-legend span { padding: 2px 8px; border-radius: 4px; font: 700 11px var(--mono); color: #1b140a; }
-.ws-row { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; }
-.ws-tube { width: 46px; padding: 4px; display: grid; gap: 2px; border-radius: 6px 6px 18px 18px; background: rgba(200,220,220,.08); border: 2px solid #4b6068; }
+.ws-row { display: grid; justify-content: center; gap: 6px; }
+.ws-tube { min-width: 0; padding: 4px; display: grid; gap: 2px; border-radius: 6px 6px 18px 18px; background: rgba(200,220,220,.08); border: 2px solid #4b6068; }
 .ws-tube.sel { border-color: var(--amber); transform: translateY(-8px); }
 .ws-layer { height: 30px; border-radius: 3px; font: 700 11px var(--mono); display: grid; place-items: center; }
 .ws-layer.empty { background: transparent; }
@@ -369,7 +369,7 @@ button:disabled { opacity: .45; cursor: default; }
 
 @media (max-width: 400px) {
   .cx-body { gap: 3px; padding: 12px 4px; }
-  .cx-btn, .cx-window { width: 34px; }
+  .cx-btn, .cx-window { width: 36px; }
   .tl-grip { width: 28px; }
   .lg-block th.row { width: 76px; max-width: 76px; }
   .lg-block th.col { width: 36px; }
@@ -383,8 +383,11 @@ button:disabled { opacity: .45; cursor: default; }
 .portrait.cutout { -webkit-mask-image: none; mask-image: none; height: 92%; max-width: 70%; object-fit: contain; object-position: bottom right; filter: drop-shadow(0 6px 14px rgba(0,0,0,.6)); }
 .ho-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; filter: brightness(.5) saturate(.8); }
 .room-item-img { width: 34px; height: 34px; object-fit: contain; }
-.m3-tile.sprite { background: transparent; padding: 0; }
-.m3-tile.sprite img { width: 100%; height: 100%; object-fit: contain; pointer-events: none; }
+.m3-tile.sprite { width: 100%; height: 100%; background: transparent; padding: 0; border-radius: 0; box-shadow: none; }
+.m3-tile.sprite img { width: 82%; height: 82%; object-fit: contain; pointer-events: none; border-radius: 24%; }
+/* The button fills the whole square so the whole square is the tap target; the ring is drawn on the picture. */
+.m3-tile.sprite.sel img { outline: 3px solid var(--amber); outline-offset: 1px; }
+.m3-tile.sprite.sp-row img, .m3-tile.sprite.sp-col img { box-shadow: 0 0 0 3px currentColor, 0 0 10px currentColor; }
 .peek-list { max-height: 36vh; overflow-y: auto; display: grid; gap: 6px; padding-right: 4px; }
 .peek-list p { margin: 0; }
 /* The reveal's caption stays hidden until the static is gone, so it doesn't show between the tiles. */

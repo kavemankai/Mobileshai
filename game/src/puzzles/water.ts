@@ -27,7 +27,8 @@ export const mountWater: PuzzleMount<WaterDef> = (def, ctx) => {
   const history: string[][] = [];
   let sel: number | null = null;
   let done = false;
-  const row = h('div', { class: 'ws-row' });
+  // One row whatever the tank count: the tanks share the width, up to 46px each.
+  const row = h('div', { class: 'ws-row', style: { gridTemplateColumns: `repeat(${tubes.length}, minmax(0, 46px))` } });
   const undo = h('button', { class: 'btn', text: 'Undo pour' });
 
   const draw = () => {

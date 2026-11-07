@@ -135,10 +135,10 @@ const contrastOf = (page, selector) => page.evaluate((sel) => {
     await hook(page, 'jump', i);
     await page.waitForTimeout(60);
     const wide = await page.evaluate(() => document.documentElement.scrollWidth > window.innerWidth + 1);
-    const smallTargets = await page.evaluate(() => [...document.querySelectorAll('.board-root button')].filter((b) => { const r = b.getBoundingClientRect(); return r.width > 0 && (r.width < 34 || r.height < 34); }).length);
+    const smallTargets = await page.evaluate(() => [...document.querySelectorAll('.board-root button')].filter((b) => { const r = b.getBoundingClientRect(); return r.width > 0 && (r.width < 36 || r.height < 36); }).length);
     if (wide || smallTargets > 0) bad.push(`${i + 1}${wide ? ' wide' : ''}${smallTargets ? ` ${smallTargets} small` : ''}`);
   }
-  ok('every puzzle fits 360px and has controls of at least 34px', bad.length === 0, bad.join('; '));
+  ok('every puzzle fits 360px and has controls of at least 36px', bad.length === 0, bad.join('; '));
   ok('no JS errors at 360px', page.errors.length === 0, page.errors.slice(0, 3).join(' | '));
   await page.context().close();
 }
