@@ -12,4 +12,5 @@ const LABEL := {
 static func make(kind: String) -> PuzzleBase:
 	match kind:
 		"zip": return ZipPuzzle.new()
+		"timeline": return TimelinePuzzle.new()
 	return PlaceholderPuzzle.new()
