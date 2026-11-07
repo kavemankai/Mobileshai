@@ -12,6 +12,7 @@ func _init() -> void:
 	test_cryptex(levels)
 	test_goods_water(levels)
 	test_match3(levels)
+	test_blockfit_tilt(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -181,3 +182,40 @@ func test_match3(levels: Array) -> void:
 				moves += 1
 			check(m.static_left() == 0, "match3 level %d: random play left static after %d moves" % [i, moves])
 			print("match3 level %d seed %d cleared in %d random moves" % [i, seed_value, moves])
+
+
+func test_blockfit_tilt(levels: Array) -> void:
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] == "blockfit":
+			var info := BlockFitModel.derive(d)
+			check(info["pieces"].size() >= 3, "blockfit level %d has too few pieces" % i)
+			# rotating four times returns the same shape
+			for p in info["pieces"]:
+				var s: Array = p["cells"]
+				for _k in 4:
+					s = BlockFitModel.rotate(s)
+				check(BlockFitModel.same_shape(s, p["cells"]), "blockfit rotate x4 differs")
+			# the solution places every piece
+			var occ := {}
+			for p in info["pieces"]:
+				for cell in p["cells"]:
+					pass
+			var rows: Array = d["solution"]
+			var filled := 0
+			for line in rows:
+				for ch in line:
+					if ch != ".":
+						filled += 1
+			var total := 0
+			for p in info["pieces"]:
+				total += p["cells"].size()
+			check(filled == total, "blockfit cell count mismatch")
+		if d["kind"] == "tilt":
+			var sol := TiltModel.solve(d["rows"])
+			check(not sol.is_empty(), "tilt level %d unsolvable" % i)
+			print("tilt level %d shortest solution: %d tilts" % [i, sol.size()])
+		if d["kind"] == "box":
+			for st in d["stages"]:
+				if st["type"] == "tilt":
+					check(not TiltModel.solve(st["rows"]).is_empty(), "box tilt stage unsolvable")

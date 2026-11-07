@@ -18,4 +18,6 @@ static func make(kind: String) -> PuzzleBase:
 		"goods": return GoodsPuzzle.new()
 		"water": return WaterPuzzle.new()
 		"match3": return Match3Puzzle.new()
+		"tilt": return TiltPuzzle.new()
+		"blockfit": return BlockFitPuzzle.new()
 	return PlaceholderPuzzle.new()
