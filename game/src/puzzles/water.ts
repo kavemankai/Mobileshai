@@ -1,5 +1,6 @@
 // Water sort: pour the top layer into a tank that is empty or has the same colour on top.
 
+import { inkFor } from '../core/color';
 import { h } from '../core/dom';
 import type { PuzzleMount, WaterDef } from '../core/types';
 
@@ -26,7 +27,8 @@ export const mountWater: PuzzleMount<WaterDef> = (def, ctx) => {
   const history: string[][] = [];
   let sel: number | null = null;
   let done = false;
-  const row = h('div', { class: 'ws-row' });
+  // One row whatever the tank count: the tanks share the width, up to 46px each.
+  const row = h('div', { class: 'ws-row', style: { gridTemplateColumns: `repeat(${tubes.length}, minmax(0, 46px))` } });
   const undo = h('button', { class: 'btn', text: 'Undo pour' });
 
   const draw = () => {
@@ -35,7 +37,7 @@ export const mountWater: PuzzleMount<WaterDef> = (def, ctx) => {
       const tube = h('button', { class: `ws-tube${sel === i ? ' sel' : ''}`, 'aria-label': `Tank ${i + 1}: ${[...t].map((c) => def.colors[c].label).join(', ') || 'empty'}` });
       for (let k = def.capacity - 1; k >= 0; k--) {
         const c = t[k];
-        tube.append(h('span', { class: `ws-layer${c ? '' : ' empty'}`, style: c ? { background: def.colors[c].color } : undefined, text: c ? def.colors[c].label[0] : '' }));
+        tube.append(h('span', { class: `ws-layer${c ? '' : ' empty'}`, style: c ? { background: def.colors[c].color, color: inkFor(def.colors[c].color) } : undefined, text: c ? def.colors[c].label[0] : '' }));
       }
       tube.addEventListener('click', () => tap(i));
       row.append(tube);
@@ -57,7 +59,7 @@ export const mountWater: PuzzleMount<WaterDef> = (def, ctx) => {
   };
 
   undo.addEventListener('click', () => { if (history.length && !done) { tubes = history.pop()!; sel = null; ctx.sfx('tap'); draw(); } });
-  const legend = h('div', { class: 'gs-legend' }, ...Object.values(def.colors).map((c) => h('span', { style: { background: c.color }, text: c.label })));
+  const legend = h('div', { class: 'gs-legend' }, ...Object.values(def.colors).map((c) => h('span', { style: { background: c.color, color: inkFor(c.color) }, text: c.label })));
   ctx.root.append(h('div', { class: 'board-frame' }, h('p', { class: 'board-caption', text: 'Tap a tank, then the tank to pour into. Each tank must end up holding one liquid.' }), row, legend, h('div', { class: 'board-actions' }, undo)));
   draw();
   ctx.status('The pump only runs on separated tanks.');

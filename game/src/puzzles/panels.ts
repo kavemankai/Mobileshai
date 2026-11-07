@@ -1,7 +1,7 @@
 // Gorogoa-style panels: swap panels and switch each between wide and close views until one
 // continuous path runs through every frame, in story order.
 
-import { PANEL_ART } from '../assets/manifest';
+import { PANEL_ART, type PanelArt } from '../assets/manifest';
 import { h } from '../core/dom';
 import { rng, shuffle } from '../core/rng';
 import type { Edge, PanelsDef, PuzzleMount } from '../core/types';
@@ -38,16 +38,29 @@ export function panelsSolved(def: PanelsDef, st: PanelsState): boolean {
 
 const EDGE_PT: Record<Edge, [number, number]> = { N: [50, 0], S: [50, 100], E: [100, 50], W: [0, 50] };
 
-function panelSvg(exits: [Edge, Edge], caption: string, label: string, lit: boolean, art?: string): string {
+const FOCUS = { top: 'xMidYMin', mid: 'xMidYMid', bottom: 'xMidYMax' } as const;
+
+/** The picture inside a frame: a painting or footage, cropped and zoomed, with a CCTV grade. */
+function footage(art?: PanelArt): string {
+  if (!art) return '<path d="M0 72H100" stroke="#2c4a50" stroke-width="1"/>';
+  const a = typeof art === 'string' ? { src: art } : art;
+  const zoom = a.zoom ?? 1;
+  const tx = -(zoom - 1) * 100 * (a.x ?? 0.5), ty = -(zoom - 1) * 100 * (a.y ?? 0.5);
+  return `<g transform="translate(${tx.toFixed(1)} ${ty.toFixed(1)}) scale(${zoom})">
+      <image href="${a.src}" width="100" height="100" preserveAspectRatio="${FOCUS[a.focus ?? 'mid']} slice" opacity=".7" style="filter: grayscale(1) contrast(1.15) brightness(.9)"/>
+    </g><rect width="100" height="100" fill="#0b1520" opacity=".22"/>`;
+}
+
+function panelSvg(exits: [Edge, Edge], label: string, lit: boolean, art?: PanelArt): string {
   const [a, b] = exits.map((e) => EDGE_PT[e]);
   const d = `M${a[0]} ${a[1]} Q50 50 ${b[0]} ${b[1]}`;
   return `<svg viewBox="0 0 100 100" aria-hidden="true">
     <rect width="100" height="100" fill="#10232a"/>
-    ${art ? `<image href="${art}" width="100" height="100" preserveAspectRatio="xMidYMid slice" opacity=".6"/><rect width="100" height="100" fill="#0b1520" opacity=".25"/>` : '<path d="M0 72H100" stroke="#2c4a50" stroke-width="1"/>'}
+    ${footage(art)}
     <path d="${d}" stroke="${lit ? '#f2c77f' : '#7fb7ad'}" stroke-width="${lit ? 5 : 3}" fill="none" stroke-linecap="round" stroke-dasharray="${lit ? '0' : '6 4'}"/>
     ${exits.map((e) => `<circle cx="${EDGE_PT[e][0]}" cy="${EDGE_PT[e][1]}" r="5" fill="#e8b877"/>`).join('')}
-    <text x="6" y="12" font-size="8" fill="#e8b877" font-family="ui-monospace,monospace">${label}</text>
-    <text x="6" y="94" font-size="7" fill="#c9d6d1" font-family="ui-monospace,monospace">${caption}</text>
+    <rect x="2" y="3" width="${Math.min(96, label.length * 5.6 + 6)}" height="12" rx="2" fill="#0b1520" opacity=".72"/>
+    <text x="5" y="12" font-size="8.5" font-weight="700" fill="#f2c77f" font-family="ui-monospace,monospace">${label}</text>
   </svg>`;
 }
 
@@ -69,9 +82,13 @@ export const mountPanels: PuzzleMount<PanelsDef> = (def, ctx) => {
       const pi = st.slots[s];
       const p = def.panels[pi], v = p.views[st.views[pi]];
       const card = h('div', { class: `panel-card${selected === s ? ' selected' : ''}${lit.has(pi) ? ' lit' : ''}` });
-      if (s === def.start.slot) card.classList.add(`start-${def.start.edge}`);
-      if (s === def.end.slot) card.classList.add(`end-${def.end.edge}`);
-      const face = h('button', { class: 'panel-face', 'aria-label': `${p.label}, ${v.name} view. Tap to select, tap another panel to swap.`, html: panelSvg(v.exits, v.caption, p.label, lit.has(pi), PANEL_ART[`${p.id}_${v.name}`]) });
+      const face = h('button', { class: 'panel-face', 'aria-label': `${p.label}, ${v.name} view. Tap to select, tap another panel to swap.` });
+      // Start and end markers sit on the picture's own edge, wherever the caption wraps.
+      const img = h('div', { class: 'panel-img' });
+      img.innerHTML = panelSvg(v.exits, p.label, lit.has(pi), PANEL_ART[`${p.id}_${v.name}`]);
+      if (s === def.start.slot) img.append(h('span', { class: `mk start e-${def.start.edge}`, 'aria-hidden': 'true' }));
+      if (s === def.end.slot) img.append(h('span', { class: `mk end e-${def.end.edge}`, 'aria-hidden': 'true' }));
+      face.append(img, h('span', { class: 'panel-cap', text: v.caption }));
       face.addEventListener('click', () => pick(s));
       const zoom = h('button', { class: 'panel-zoom', text: v.name === 'wide' ? 'Zoom in' : 'Zoom out', 'aria-label': `Switch ${p.label} view` });
       zoom.addEventListener('click', () => { if (done) return; st.views[pi] ^= 1; ctx.sfx('click'); after(); });

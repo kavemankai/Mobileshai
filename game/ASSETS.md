@@ -13,11 +13,12 @@ Nothing here is final production art or audio. "Draft" means it's in the game an
 | Area | In the game now | Status |
 |---|---|---|
 | Scene backdrops | 9 of 9 painted | 5 good drafts (env pass 02), 4 soft WIP plates |
-| Title art | WIP neon exterior | Soft WIP plate |
+| Title art | WIP neon exterior, sign lettering repainted | Soft WIP plate. The "VACANCY" sign was garbled and has been repainted |
 | Portraits | Nina ×3 and Claire ×3 expression cutouts; Owen and Daniel first-pass crops | Draft. Owen/Daniel expressions rejected (see below) |
 | Hidden-object scenes | Scene backdrop dimmed behind emoji items | Placeholder. Needs dedicated paintings |
 | Escape rooms | Scene backdrop with labelled prop cards | Placeholder. Needs aligned object layers |
-| CCTV frames (level 4) | 4 grayscale footage pairs behind the path | Draft. Level 13 still has none |
+| CCTV frames (levels 4, 13) | Level 4: pack stills where they match the caption, the yard painting for the van. Level 13: crops of the yard and laundry paintings with a CCTV grade | Placeholder. Real frames still needed |
+| Match-3 reveal frames (7, 26) | The yard painting (the van) and Daniel's portrait (the driver), CCTV-graded | Placeholder |
 | Inventory icons | Torch, screwdriver, coin, gloves | Draft (flat icons) |
 | Match-3 tiles | 5 tile sprites | Draft, usable |
 | Other puzzle boards | CSS | Placeholder |
@@ -74,7 +75,7 @@ Painted 3:4, 1536×2048 or larger, dense clutter with the targets painted in. Th
 
 ### 3. Replace the four soft WIP plates
 
-`exterior`, `reception`, `security`, `room17` (and the title) as independent paintings matching env pass 02.
+`exterior`, `reception`, `security`, `room17` (and the title) as independent paintings matching env pass 02. The reception sign's unreadable small print was repainted as "MOTEL" and is visible as a patch up close.
 
 ### 4. Portraits
 
@@ -84,7 +85,7 @@ Owen (evasive, broken) and Daniel (friendly, threatening) as clean cutouts match
 
 - Level 13 frames (ids p, q, r, t: dashcam 11:35, yard map, laundry wall, dashcam 11:36), wide and close, mapped in `PANEL_ART`.
 - Level 4 frames that actually show what their captions say (reception terminal, rear-yard van).
-- Match-3 reveal images: the van at 11:34 (level 7) and Daniel at the wheel in 2019 (level 26). Today the reveal is text.
+- Match-3 reveal images: the van at 11:34 (level 7) and Daniel at the wheel in 2019 (level 26). Today they are a CCTV-graded yard painting and Daniel's portrait (`REVEAL_ART` in `manifest.ts`).
 
 ### 6. Puzzle boards
 

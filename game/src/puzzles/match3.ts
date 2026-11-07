@@ -1,7 +1,9 @@
 // Match-3 reveal: matches wipe the static off the cells beneath them. Clear all static to
-// reveal the picture. No move limit. Four in a row makes a line clearer.
+// reveal the picture. No move limit. Four in a row makes a line clearer. Depending on the level's
+// `splash` setting, a match also wipes static a little beyond itself, so edges and corners don't
+// each need a perfect match of their own.
 
-import { MATCH_TILES } from '../assets/manifest';
+import { MATCH_TILES, REVEAL_ART } from '../assets/manifest';
 import { h, wait } from '../core/dom';
 import { rng } from '../core/rng';
 import type { Match3Def, PuzzleMount } from '../core/types';
@@ -28,12 +30,21 @@ export function newBoard(def: Match3Def, seed: number): M3 {
   return g;
 }
 
-export interface MatchResult { cells: Set<number>; specials: { at: number; sp: 'row' | 'col'; c: number }[] }
+export interface MatchResult {
+  /** Every cell that clears, including whole lines fired by line clearers. */
+  cells: Set<number>;
+  /** Cells that were part of an actual run of three or more. */
+  direct: Set<number>;
+  /** Each run of three or more, with its direction. */
+  runs: { cells: number[]; horizontal: boolean }[];
+  specials: { at: number; sp: 'row' | 'col'; c: number }[];
+}
 
 export function findMatches(g: M3, prefer: number[] = []): MatchResult {
   const { n, tiles } = g;
   const cells = new Set<number>();
   const specials: MatchResult['specials'] = [];
+  const runs: MatchResult['runs'] = [];
   const scan = (horizontal: boolean) => {
     for (let a = 0; a < n; a++) {
       let run: number[] = [];
@@ -44,6 +55,7 @@ export function findMatches(g: M3, prefer: number[] = []): MatchResult {
         else {
           if (run.length >= 3) {
             run.forEach((x) => cells.add(x));
+            runs.push({ cells: run.slice(), horizontal });
             if (run.length >= 4) {
               const at = run.find((x) => prefer.includes(x)) ?? run[Math.floor(run.length / 2)];
               specials.push({ at, sp: horizontal ? 'row' : 'col', c: tiles[run[0]]!.c });
@@ -55,6 +67,7 @@ export function findMatches(g: M3, prefer: number[] = []): MatchResult {
     }
   };
   scan(true); scan(false);
+  const direct = new Set(cells);
   // Specials caught in a match fire their line.
   const queue = [...cells];
   while (queue.length) {
@@ -67,7 +80,7 @@ export function findMatches(g: M3, prefer: number[] = []): MatchResult {
       if (!cells.has(j)) { cells.add(j); queue.push(j); }
     }
   }
-  return { cells, specials };
+  return { cells, direct, runs, specials };
 }
 
 export function swapTiles(g: M3, a: number, b: number) { [g.tiles[a], g.tiles[b]] = [g.tiles[b], g.tiles[a]]; }
@@ -88,11 +101,36 @@ export function hasMove(g: M3): number[] | null {
   return null;
 }
 
-/** Clears matched cells, wipes static under them, drops tiles, refills. Returns true if anything cleared. */
-export function step(g: M3, prefer: number[] = []): boolean {
-  const { cells, specials } = findMatches(g, prefer);
+export function neighbours(n: number, i: number): number[] {
+  const r = Math.floor(i / n), c = i % n, out: number[] = [];
+  if (r > 0) out.push(i - n);
+  if (r < n - 1) out.push(i + n);
+  if (c > 0) out.push(i - 1);
+  if (c < n - 1) out.push(i + 1);
+  return out;
+}
+
+export type Splash = 'none' | 'ends' | 'all';
+
+/**
+ * Clears matched cells and the static under them. `splash` also wipes static beyond a real match:
+ * 'ends' is one square past each end of the run, 'all' is every square beside it. Static beside a
+ * line clearer's whole line is never wiped. Drops tiles and refills. Returns true if anything cleared.
+ */
+export function step(g: M3, prefer: number[] = [], splash: Splash = 'ends'): boolean {
+  const { cells, direct, runs, specials } = findMatches(g, prefer);
   if (!cells.size) return false;
   cells.forEach((i) => { g.tiles[i] = null; g.stat[i] = false; });
+  if (splash === 'all') direct.forEach((i) => neighbours(g.n, i).forEach((j) => { g.stat[j] = false; }));
+  if (splash === 'ends') {
+    for (const { cells: run, horizontal } of runs) {
+      const d = horizontal ? 1 : g.n;
+      const first = run[0], last = run[run.length - 1];
+      const before = first - d, after = last + d;
+      if (before >= 0 && (!horizontal || Math.floor(before / g.n) === Math.floor(first / g.n))) g.stat[before] = false;
+      if (after < g.n * g.n && (!horizontal || Math.floor(after / g.n) === Math.floor(last / g.n))) g.stat[after] = false;
+    }
+  }
   specials.forEach((s) => { g.tiles[s.at] = { c: s.c, sp: s.sp }; });
   gravity(g);
   return true;
@@ -118,7 +156,9 @@ export const mountMatch3: PuzzleMount<Match3Def> = (def, ctx) => {
   let sel: number | null = null;
   let busy = false, done = false;
 
-  const reveal = h('div', { class: 'm3-reveal' }, h('strong', { text: def.reveal.title }), ...def.reveal.lines.map((l) => h('span', { text: l })));
+  const splash = def.splash ?? 'ends';
+  const art = def.reveal.art ? REVEAL_ART[def.reveal.art] : undefined;
+  const reveal = h('div', { class: 'm3-reveal' }, art ? h('img', { src: art, alt: '', draggable: 'false' }) : null, h('strong', { text: def.reveal.title }), ...def.reveal.lines.map((l) => h('span', { text: l })));
   const grid = h('div', { class: 'm3-grid', style: { gridTemplateColumns: `repeat(${g.n}, 1fr)` } });
   const meter = h('div', { class: 'm3-meter' }, h('span'));
 
@@ -139,7 +179,7 @@ export const mountMatch3: PuzzleMount<Match3Def> = (def, ctx) => {
     });
     const left = staticLeft(g);
     (meter.firstChild as HTMLElement).style.width = `${100 - (left / total) * 100}%`;
-    ctx.status(left ? `Static remaining: ${left} cells` : 'Signal restored.');
+    ctx.status(left ? `Static left on ${left} square${left === 1 ? '' : 's'}` : 'Signal restored.');
   };
 
   const tryswap = async (a: number, b: number) => {
@@ -153,7 +193,7 @@ export const mountMatch3: PuzzleMount<Match3Def> = (def, ctx) => {
     }
     ctx.sfx('swap');
     let chain = 0;
-    while (step(g, chain === 0 ? [a, b] : [])) {
+    while (step(g, chain === 0 ? [a, b] : [], splash)) {
       chain++;
       ctx.sfx(chain > 1 ? 'combo' : 'clear'); ctx.haptic(8);
       draw(new Set(g.tiles.map((_, i) => i).filter(() => true)));
@@ -166,7 +206,11 @@ export const mountMatch3: PuzzleMount<Match3Def> = (def, ctx) => {
     }
     draw();
     busy = false;
-    if (!staticLeft(g)) { done = true; grid.classList.add('solved'); ctx.sfx('solve'); ctx.solved(); }
+    if (!staticLeft(g)) {
+      // Fade the tiles away and hold the finished frame before the evidence card covers it.
+      done = true; stack.classList.add('cleared'); ctx.sfx('solve');
+      ctx.solved(ctx.reducedMotion ? 800 : 2600);
+    }
   };
 
   let downAt: { i: number; x: number; y: number } | null = null;
@@ -190,7 +234,8 @@ export const mountMatch3: PuzzleMount<Match3Def> = (def, ctx) => {
     else { sel = i; draw(); }
   });
 
-  ctx.root.append(h('div', { class: 'board-frame m3-frame' }, meter, h('div', { class: 'm3-stack' }, reveal, grid)));
+  const stack = h('div', { class: 'm3-stack' }, reveal, grid);
+  ctx.root.append(h('div', { class: 'board-frame m3-frame' }, meter, stack));
   draw();
   return {};
 };
