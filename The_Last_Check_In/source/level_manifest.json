@@ -1,0 +1,1266 @@
+{
+  "chapters": [
+    {
+      "name": "THE EMPTY RECEPTION",
+      "subtitle": "Someone has vanished, and the night register is lying."
+    },
+    {
+      "name": "ROOM SEVENTEEN",
+      "subtitle": "A false guest. An older crime. A reason to disappear."
+    },
+    {
+      "name": "THE MISSING MINUTES",
+      "subtitle": "The evidence survived. So did the person who buried it."
+    },
+    {
+      "name": "BEFORE DAWN",
+      "subtitle": "Find Nina. Preserve the truth. Get out."
+    }
+  ],
+  "levels": [
+    {
+      "id": 1,
+      "chapter": 1,
+      "title": "Restore the Terminal",
+      "location": "reception",
+      "mechanic": "circuit",
+      "objective": "Rotate the connectors to carry backup power from the battery to the reception terminal.",
+      "clue": {
+        "title": "The impossible checkout",
+        "text": "Room 17 was checked out at 11:18 PM using Nina’s account, despite her handwritten warning."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "11:43 PM. Rain lashes the windows of the Mariner Motel. Nina’s shift should have ended ten minutes ago."
+        ],
+        [
+          "NARRATOR",
+          "Her handbag, phone, and car keys are behind the empty reception desk. The office telephone rings."
+        ],
+        [
+          "OWEN · PHONE",
+          "You’re late. Nina’s gone home. Just lock up the desk."
+        ],
+        [
+          "YOU",
+          "Her car’s still outside."
+        ],
+        [
+          "OWEN · PHONE",
+          "She got a lift. I’ll explain tomorrow."
+        ],
+        [
+          "NARRATOR",
+          "He hangs up. Beneath the keyboard is a folded note: “Room 17 checked out at 11:18. That’s impossible. Check the cameras.”"
+        ],
+        [
+          "YOU",
+          "The terminal’s dead. Maybe the backup panel still works."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "Power runs through the circuit. The reception monitor flickers awake."
+        ],
+        [
+          "TERMINAL",
+          "ROOM 17 — CHECKED OUT 11:18 PM — AUTHORISED: NINA S."
+        ],
+        [
+          "YOU",
+          "Her own account? Why leave a warning about a checkout she approved?"
+        ]
+      ]
+    },
+    {
+      "id": 2,
+      "chapter": 1,
+      "title": "The Night Register",
+      "location": "reception",
+      "mechanic": "sort",
+      "objective": "Arrange the physical receipts from earliest to latest to reveal the inconsistent entry.",
+      "clue": {
+        "title": "The unsigned receipt",
+        "text": "The 11:18 PM checkout for Room 17 has no guest signature. A guest in Room 12 confirms Nina was investigating false checkouts."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "A yellow alert flashes: REGISTER DOES NOT MATCH PHYSICAL RECEIPTS."
+        ],
+        [
+          "YOU",
+          "Nina always filed these in order. Someone’s moved them."
+        ],
+        [
+          "NARRATOR",
+          "Four receipts have been pulled from the register and stuffed beneath the cash drawer."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "YOU",
+          "The checkout receipt has Nina’s login, but no signed departure slip."
+        ],
+        [
+          "NARRATOR",
+          "A guest knocks on the reception glass. A woman in a raincoat waits under the awning."
+        ],
+        [
+          "CLAIRE",
+          "Is Nina working? She told me not to leave until she checked something."
+        ],
+        [
+          "YOU",
+          "What was she checking?"
+        ],
+        [
+          "CLAIRE",
+          "Rooms that were apparently empty... but weren’t."
+        ]
+      ]
+    },
+    {
+      "id": 3,
+      "chapter": 1,
+      "title": "The Security Cabinet",
+      "location": "security",
+      "mechanic": "slide",
+      "objective": "Slide the storage trays to open a path to the cabinet key.",
+      "clue": {
+        "title": "Forgotten backup",
+        "text": "A removable security backup drive survived even though the main recording system was tampered with."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The security office is unlocked. A recorder stands dark behind a glass-fronted cabinet."
+        ],
+        [
+          "YOU",
+          "The key’s in the sliding tray. Someone’s jammed it shut."
+        ],
+        [
+          "NARRATOR",
+          "Shift the trays into their numbered positions to free the lower-right compartment."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The cabinet opens. A removable backup drive is still connected."
+        ],
+        [
+          "YOU",
+          "Someone pulled the primary recorder, but missed this one."
+        ],
+        [
+          "NARRATOR",
+          "A torn label on the cabinet reads: “Service access logs — keep for audit.”"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "chapter": 1,
+      "title": "The Missing Footage",
+      "location": "security",
+      "mechanic": "sort",
+      "objective": "Reconstruct the CCTV log in chronological order.",
+      "clue": {
+        "title": "A second person at the desk",
+        "text": "The CCTV sequence places Nina in security at 11:12, while a maintenance-jacketed person operates her terminal at 11:18."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Four camera segments survived, but their index is scrambled."
+        ],
+        [
+          "YOU",
+          "The timestamps should tell me what happened first."
+        ],
+        [
+          "NARRATOR",
+          "The footage starts with Nina entering the security office and ends with a vehicle moving near the rear gate."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The reconstructed footage plays. At 11:18 someone at reception uses Nina’s still-open terminal."
+        ],
+        [
+          "YOU",
+          "Nina was in here at 11:12. Whoever checked out Room 17 wasn’t her."
+        ],
+        [
+          "NARRATOR",
+          "The figure at reception wears a maintenance jacket, face obscured by the camera angle."
+        ],
+        [
+          "OWEN · PHONE",
+          "Have you been in the security office? Don’t touch the recordings. I’m coming down."
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "chapter": 1,
+      "title": "The Tampered Reader",
+      "location": "service",
+      "mechanic": "screws",
+      "objective": "Remove the exposed fasteners in order to open the damaged access reader.",
+      "clue": {
+        "title": "The impossible access",
+        "text": "The service corridor was opened at 11:26 PM using a NIGHT SHIFT credential, 17 minutes before the player arrived."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The service door reader hangs crookedly from its housing."
+        ],
+        [
+          "YOU",
+          "Someone opened this after it was sealed for maintenance."
+        ],
+        [
+          "NARRATOR",
+          "A series of overlapping retaining plates protects the memory unit."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The casing falls free. Its display retains the last staff credential."
+        ],
+        [
+          "READER",
+          "11:26 PM — ACCESS GRANTED — NIGHT SHIFT"
+        ],
+        [
+          "YOU",
+          "That’s the credential name on my card. But I arrived at 11:43."
+        ],
+        [
+          "NARRATOR",
+          "A distant metallic impact echoes from the service wing."
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "chapter": 1,
+      "title": "The Backup Recorder",
+      "location": "security",
+      "mechanic": "circuit",
+      "objective": "Reconnect the recorder’s damaged power circuit.",
+      "clue": {
+        "title": "Nina’s last recording",
+        "text": "A backup audio recording captures Nina confronting an unidentified man before a struggle. Police have been notified."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The backup recorder contains one audio track that never reached the main system."
+        ],
+        [
+          "YOU",
+          "The cable was deliberately cut. I can bypass it with the spare connectors."
+        ],
+        [
+          "NARRATOR",
+          "The playback lights are dark; the rain suddenly seems very loud."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "A woman’s voice crackles through the speaker. It is Nina."
+        ],
+        [
+          "NINA · RECORDING",
+          "You weren’t supposed to find it."
+        ],
+        [
+          "NARRATOR",
+          "A man answers, too faintly to identify. Then a heavy thud. Silence."
+        ],
+        [
+          "YOU",
+          "Nina didn’t go home. I’m calling the police."
+        ],
+        [
+          "NARRATOR",
+          "Dispatch takes the report, but flooding has blocked the coastal road. Help is on its way."
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "chapter": 1,
+      "title": "The Last Image",
+      "location": "security",
+      "mechanic": "slide",
+      "objective": "Slide the damaged image fragments back into their correct positions.",
+      "clue": {
+        "title": "Two figures in the van",
+        "text": "At 11:34 PM, a grey van with registration ending 61 moved toward the rear gate. Two occupants were visible."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "One final still from the rear camera is broken into digital blocks."
+        ],
+        [
+          "YOU",
+          "I need to see who was in that van."
+        ],
+        [
+          "NARRATOR",
+          "An outline of the vehicle can be made out between scrambled strips."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The restored image shows a grey van at 11:34 PM. There are two silhouettes in the cabin."
+        ],
+        [
+          "YOU",
+          "One is driving. The other is slumped in the passenger seat."
+        ],
+        [
+          "NARRATOR",
+          "The van’s registration ends in 61. The south gate camera is conveniently missing."
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "chapter": 1,
+      "title": "The Contradiction",
+      "location": "security",
+      "mechanic": "match",
+      "objective": "Match each recorded event to the evidence that proves it happened.",
+      "clue": {
+        "title": "A cloned identity",
+        "text": "The NIGHT SHIFT credential is assigned to the player, yet it was used before arrival and again while the player remained in the security office."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The evidence no longer fits Owen’s story. You pin the most important findings beside the security monitor."
+        ],
+        [
+          "YOU",
+          "The timing matters. There has to be a connection."
+        ],
+        [
+          "NARRATOR",
+          "Match each event to its supporting record."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The case timeline updates. The NIGHT SHIFT credential used at 11:26 is assigned to you."
+        ],
+        [
+          "YOU",
+          "But my card is in my pocket..."
+        ],
+        [
+          "NARRATOR",
+          "The security monitor chimes: ACCESS GRANTED — ROOM 17 — 12:09 AM."
+        ],
+        [
+          "YOU",
+          "Someone just used my card again."
+        ],
+        [
+          "NARRATOR",
+          "Outside the security office, the corridor light goes out."
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "chapter": 2,
+      "title": "Through the Door",
+      "location": "room",
+      "mechanic": "keypad",
+      "objective": "Enter the four-digit room override Nina encoded in her note.",
+      "clue": {
+        "title": "Room 17 was staged",
+        "text": "Room 17 was cleaned recently, although its recorded guest never slept there. The guest name is Martin Hale."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "12:13 AM. The passage to Room 17 is empty. The guest’s keycard slot is sealed."
+        ],
+        [
+          "YOU",
+          "Nina underlined two parts of her note: “Room 17” and “11:18”."
+        ],
+        [
+          "NARRATOR",
+          "A pencilled instruction appears on the back: “Room + checkout minutes”."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The lock releases. Room 17 smells of fresh cleaning fluid, but the bathroom is still damp."
+        ],
+        [
+          "YOU",
+          "Someone cleaned in a hurry."
+        ],
+        [
+          "NARRATOR",
+          "The motel’s guest welcome card bears the name MARTIN HALE. The bed has not been slept in."
+        ]
+      ]
+    },
+    {
+      "id": 10,
+      "chapter": 2,
+      "title": "The Hidden Vent",
+      "location": "room",
+      "mechanic": "screws",
+      "objective": "Open the vent Nina marked without damaging the contents.",
+      "clue": {
+        "title": "The WARD memory card",
+        "text": "Nina hid a microSD card marked “WARD — 18 OCT 2019” in Room 17’s ventilation duct."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "A pale scratch beneath the windowsill forms a tiny arrow pointing to an air vent."
+        ],
+        [
+          "YOU",
+          "Nina left another mark. She wanted somebody to find this."
+        ],
+        [
+          "NARRATOR",
+          "The vent cover has overlapping screws and a delicate latch."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "Behind the vent is a waterproof sleeve containing a microSD card."
+        ],
+        [
+          "NARRATOR",
+          "On the sleeve: WARD — 18 OCT 2019."
+        ],
+        [
+          "YOU",
+          "Why would a six-year-old incident be hidden in a motel room?"
+        ],
+        [
+          "NARRATOR",
+          "A vehicle engine idles outside. It stops when you look through the curtain."
+        ]
+      ]
+    },
+    {
+      "id": 11,
+      "chapter": 2,
+      "title": "The Guest of Record",
+      "location": "room",
+      "mechanic": "match",
+      "objective": "Match the names on motel documents with the records that connect them.",
+      "clue": {
+        "title": "A false guest identity",
+        "text": "The Room 17 booking under Martin Hale was paid for by Daniel Price’s security company."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Three names keep appearing on the paperwork: Martin Hale, Daniel Price and Claire Bennett."
+        ],
+        [
+          "YOU",
+          "I need to know which records belong together."
+        ],
+        [
+          "NARRATOR",
+          "Receipts, contractor invoices and a booking slip are scattered across the desk."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "Martin Hale’s room charge was paid with a card belonging to PRICE SECURITY SERVICES."
+        ],
+        [
+          "YOU",
+          "Daniel Price. The contractor who fitted the motel’s access readers."
+        ],
+        [
+          "NARRATOR",
+          "Room 12 was paid in cash by Claire Bennett, who specifically asked about Room 17."
+        ]
+      ]
+    },
+    {
+      "id": 12,
+      "chapter": 2,
+      "title": "The Vehicle Trace",
+      "location": "yard",
+      "mechanic": "parking",
+      "objective": "Use the yard movement model to clear a route for the grey van.",
+      "clue": {
+        "title": "The van never left",
+        "text": "The grey van likely returned to the motel’s hidden loading bay rather than departing through the chained south gate."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The yard camera cannot show the south gate. It can show where all the parked vehicles were."
+        ],
+        [
+          "YOU",
+          "If I reconstruct the available route, I’ll know whether the van could have left."
+        ],
+        [
+          "NARRATOR",
+          "On the security map, select a vehicle and use the arrows to slide it within its lane."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "With the yard layout reconstructed, the van’s supposed exit route makes no sense."
+        ],
+        [
+          "YOU",
+          "It could reach the south lane, but the gate was chained. It must have doubled back."
+        ],
+        [
+          "NARRATOR",
+          "The back of the site contains a loading bay obscured from both main cameras."
+        ]
+      ]
+    },
+    {
+      "id": 13,
+      "chapter": 2,
+      "title": "The Dashcam Fragment",
+      "location": "yard",
+      "mechanic": "slide",
+      "objective": "Restore the obscured still from the van’s own camera.",
+      "clue": {
+        "title": "The rear-laundry turn",
+        "text": "A dashcam fragment places the grey van near the rear laundry entrance at 11:36 PM."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "A dashcam sync station in the loading bay contains a partial image from 11:36 PM."
+        ],
+        [
+          "YOU",
+          "The van’s own camera caught the turn."
+        ],
+        [
+          "NARRATOR",
+          "The corrupted still breaks into fragments whenever it loads."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The repaired frame shows the van turning left behind the laundry block."
+        ],
+        [
+          "YOU",
+          "They brought somebody back here."
+        ],
+        [
+          "NARRATOR",
+          "A chained corridor leads from the loading bay to the disused service wing."
+        ]
+      ]
+    },
+    {
+      "id": 14,
+      "chapter": 2,
+      "title": "The Ward File",
+      "location": "records",
+      "mechanic": "sort",
+      "objective": "Sort the incident documents into the order they were created.",
+      "clue": {
+        "title": "Mara Ward’s death",
+        "text": "Mara Ward was killed in a 2019 hit-and-run. Claire Bennett is her sister, Claire Ward, investigating the disappearance of evidence."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The microSD card holds scans of a police report, an insurance claim and motel maintenance notes."
+        ],
+        [
+          "YOU",
+          "They’re all about someone called Mara Ward."
+        ],
+        [
+          "NARRATOR",
+          "Arrange the documents by date to uncover what was filed—and what was changed."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "Mara Ward died following a hit-and-run on the coastal road on 18 October 2019."
+        ],
+        [
+          "CLAIRE",
+          "My name is Claire Ward. Mara was my sister."
+        ],
+        [
+          "YOU",
+          "You checked in under another name?"
+        ],
+        [
+          "CLAIRE",
+          "I tried using my own name once. Someone warned me to stop asking questions."
+        ],
+        [
+          "NARRATOR",
+          "Nina contacted Claire after discovering an old security archive."
+        ]
+      ]
+    },
+    {
+      "id": 15,
+      "chapter": 2,
+      "title": "The Sealed Recording",
+      "location": "records",
+      "mechanic": "keypad",
+      "objective": "Open the evidence archive using the incident year.",
+      "clue": {
+        "title": "The cover-up recording",
+        "text": "A 2019 recording implicates Owen Mercer and Daniel Price in suppressing evidence of Mara Ward’s death. A weak intercom call suggests Nina is alive."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The card includes a locked audio archive marked WARD / INCIDENT YEAR."
+        ],
+        [
+          "CLAIRE",
+          "Nina said she had proof the motel knew what happened."
+        ],
+        [
+          "YOU",
+          "The code prompt says four-digit incident year."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "OWEN · RECORDING",
+          "I changed the insurance paperwork, Daniel. You told me nobody was hurt."
+        ],
+        [
+          "DANIEL · RECORDING",
+          "Keep the camera logs where they are, Owen. Nobody needs to see the road."
+        ],
+        [
+          "NARRATOR",
+          "Owen helped conceal the old collision. But the recording doesn’t prove who was driving."
+        ],
+        [
+          "NARRATOR",
+          "A crackle comes through the building intercom. A faint female voice says, “...laundry... please...”"
+        ],
+        [
+          "YOU",
+          "Nina’s alive. Somewhere behind the service wing."
+        ]
+      ]
+    },
+    {
+      "id": 16,
+      "chapter": 3,
+      "title": "The Spare Credential",
+      "location": "security",
+      "mechanic": "match",
+      "objective": "Connect the access events to the staff and maintenance credentials.",
+      "clue": {
+        "title": "Who copied the card",
+        "text": "A contractor tool assigned to Daniel Price’s company duplicated the NIGHT SHIFT credential at 10:57 PM."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Daniel Price installed the motel’s new electronic readers last month."
+        ],
+        [
+          "YOU",
+          "He could have made a second card with the same identifier."
+        ],
+        [
+          "NARRATOR",
+          "The contractor audit lists three cards and their associated authorisations."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The NIGHT SHIFT identifier was duplicated by a contractor tool at 10:57 PM."
+        ],
+        [
+          "YOU",
+          "That explains why it registered before I arrived."
+        ],
+        [
+          "NARRATOR",
+          "The duplication token was issued to PRICE SECURITY SERVICES."
+        ]
+      ]
+    },
+    {
+      "id": 17,
+      "chapter": 3,
+      "title": "The Flooded Corridor",
+      "location": "service",
+      "mechanic": "circuit",
+      "objective": "Restore the drainage controls to reach the service wing.",
+      "clue": {
+        "title": "A trail to the laundry",
+        "text": "The service corridor shows fresh drag marks leading towards the disused laundry rooms."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The storm has flooded the corridor beyond the loading bay."
+        ],
+        [
+          "YOU",
+          "The drainage controls are here, but the power routing is broken."
+        ],
+        [
+          "NARRATOR",
+          "A faded diagram shows the battery line feeding the pump controller."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The emergency pump starts. Water drains from the service passage."
+        ],
+        [
+          "NARRATOR",
+          "Scuff marks run along the floor toward a locked laundry corridor."
+        ],
+        [
+          "YOU",
+          "Someone dragged a heavy load through here recently."
+        ]
+      ]
+    },
+    {
+      "id": 18,
+      "chapter": 3,
+      "title": "The Archived Film",
+      "location": "records",
+      "mechanic": "sort",
+      "objective": "Put the four surviving 2019 camera records in chronological order.",
+      "clue": {
+        "title": "The driver in 2019",
+        "text": "Recovered records identify Daniel Price as the driver involved in Mara Ward’s fatal collision. Owen subsequently helped conceal it."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "A second copy of the 2019 footage survived on the old service archive."
+        ],
+        [
+          "YOU",
+          "Four timestamps. They cover the minutes around Mara’s death."
+        ],
+        [
+          "NARRATOR",
+          "Rebuild the sequence before opening the images."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The sequence shows Daniel Price driving the motel company car. Mara walks along the shoulder."
+        ],
+        [
+          "NARRATOR",
+          "The car strikes her. Daniel gets out, calls Owen, then moves the vehicle."
+        ],
+        [
+          "YOU",
+          "Daniel was the driver."
+        ],
+        [
+          "NARRATOR",
+          "The original video is still damaged, but its sequence is clear."
+        ]
+      ]
+    },
+    {
+      "id": 19,
+      "chapter": 3,
+      "title": "The Owner’s Ledger",
+      "location": "records",
+      "mechanic": "sort",
+      "objective": "Reorder payments to expose the recurring transfer pattern.",
+      "clue": {
+        "title": "Years of payments",
+        "text": "The motel’s ledger records repeated large October payments from Owen Mercer to Daniel Price’s business after the 2019 crash."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Owen’s office contains a ledger marked SECURITY RETAINER."
+        ],
+        [
+          "CLAIRE",
+          "Nina said the payments always happened after the yearly insurance review."
+        ],
+        [
+          "YOU",
+          "Someone’s mixed the entries. I’ll put the dates back in order."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "Every October, Owen paid Daniel an unusually large “maintenance” fee."
+        ],
+        [
+          "YOU",
+          "He was paying to keep Daniel quiet."
+        ],
+        [
+          "CLAIRE",
+          "Then Owen has been afraid of him for years."
+        ],
+        [
+          "NARRATOR",
+          "A message arrives from Owen: “I’m at the front. Please, let me explain.”"
+        ]
+      ]
+    },
+    {
+      "id": 20,
+      "chapter": 3,
+      "title": "The Emergency Intercom",
+      "location": "service",
+      "mechanic": "circuit",
+      "objective": "Reroute power to the emergency intercom outside the laundry.",
+      "clue": {
+        "title": "Nina is in the laundry",
+        "text": "Nina confirms she is locked behind the disused laundry door and names Daniel as her captor."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Nina’s faint message came over the obsolete laundry intercom."
+        ],
+        [
+          "YOU",
+          "If I can make it transmit both ways, she might hear me."
+        ],
+        [
+          "NARRATOR",
+          "The electrical switchboard still has an emergency supply."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "YOU · INTERCOM",
+          "Nina? If you can hear me, knock twice."
+        ],
+        [
+          "NARRATOR",
+          "Two knocks carry through the wall."
+        ],
+        [
+          "NINA · INTERCOM",
+          "Behind the laundry door... Daniel has the key... he’s coming back."
+        ],
+        [
+          "NARRATOR",
+          "The line goes dead. Footsteps sound in the hall."
+        ]
+      ]
+    },
+    {
+      "id": 21,
+      "chapter": 3,
+      "title": "The Contractor’s Case",
+      "location": "service",
+      "mechanic": "screws",
+      "objective": "Remove the case’s security plates to inspect the contents.",
+      "clue": {
+        "title": "Daniel’s cloning equipment",
+        "text": "Daniel Price’s case contains a card encoder and a duplicate NIGHT SHIFT credential, directly linking him to the forged access events."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "A contractor’s tool case is tucked behind the service switchboard."
+        ],
+        [
+          "YOU",
+          "Price Security Services. He left this where nobody would look."
+        ],
+        [
+          "NARRATOR",
+          "The metal cover is secured with overlapping anti-tamper plates."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "Inside are a programmable keycard writer, a second NIGHT SHIFT card and an empty evidence sleeve."
+        ],
+        [
+          "YOU",
+          "He used my cloned credential. And he’s still searching for Nina’s memory card."
+        ],
+        [
+          "NARRATOR",
+          "The tool case also contains a laundry door override tag."
+        ]
+      ]
+    },
+    {
+      "id": 22,
+      "chapter": 3,
+      "title": "The Only Explanation",
+      "location": "security",
+      "mechanic": "match",
+      "objective": "Connect the three decisive pieces of evidence to the responsible person or act.",
+      "clue": {
+        "title": "Daniel identified",
+        "text": "The booking, duplicate credential and Nina’s testimony independently identify Daniel Price as the person who abducted her."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Owen arrives, pale and dripping rainwater. Claire keeps her distance."
+        ],
+        [
+          "OWEN",
+          "I hid what happened in 2019. That was my doing. But I didn’t take Nina."
+        ],
+        [
+          "YOU",
+          "Then tell me who did."
+        ],
+        [
+          "OWEN",
+          "Daniel. Nina found the old recording. He knew she’d shown Claire."
+        ],
+        [
+          "NARRATOR",
+          "Before trusting him, assemble the physical evidence."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The records independently place Daniel behind the false booking, duplicate credential and abduction."
+        ],
+        [
+          "OWEN",
+          "He thinks she has the only original footage. He locked her away until she tells him where it is."
+        ],
+        [
+          "YOU",
+          "We have the copy. But we still need Nina."
+        ],
+        [
+          "NARRATOR",
+          "From the service hall comes a sharp metallic bang. The laundry lights go out."
+        ]
+      ]
+    },
+    {
+      "id": 23,
+      "chapter": 4,
+      "title": "The Laundry Override",
+      "location": "laundry",
+      "mechanic": "keypad",
+      "objective": "Use the maintenance override printed on the contractor tag.",
+      "clue": {
+        "title": "Laundry entrance unlocked",
+        "text": "The maintenance override opened the outer laundry door. Nina is still alive beyond the boiler room."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "12:54 AM. You and Claire reach the disused laundry entrance."
+        ],
+        [
+          "CLAIRE",
+          "The door’s electrified. I can hear someone inside."
+        ],
+        [
+          "YOU",
+          "Daniel’s tool case has an override tag. L-6421."
+        ],
+        [
+          "NARRATOR",
+          "The keypad accepts the four digits after the L."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The outer door unlocks. A burst of hot air rolls through the opening."
+        ],
+        [
+          "NINA · DISTANT",
+          "I’m here! Please hurry!"
+        ],
+        [
+          "YOU",
+          "We’re coming. Keep talking to us."
+        ]
+      ]
+    },
+    {
+      "id": 24,
+      "chapter": 4,
+      "title": "The Boiler Bypass",
+      "location": "laundry",
+      "mechanic": "circuit",
+      "objective": "Reconnect the isolation control so the pressure door can be opened safely.",
+      "clue": {
+        "title": "Safe access to the inner corridor",
+        "text": "The boiler was isolated, allowing access to the inner laundry corridor without opening a pressurised door."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "A steaming boiler blocks the inner corridor. The safety interlock has been bypassed."
+        ],
+        [
+          "YOU",
+          "The pressure door will stay sealed until the isolation valve gets power."
+        ],
+        [
+          "CLAIRE",
+          "The diagram is still intact on the panel."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The isolation valve engages. Steam clears from the passage."
+        ],
+        [
+          "NINA · DISTANT",
+          "He told me he’d destroy everything if the police arrived."
+        ],
+        [
+          "YOU",
+          "We already backed up the card. Just stay away from the door."
+        ]
+      ]
+    },
+    {
+      "id": 25,
+      "chapter": 4,
+      "title": "The Last Barrier",
+      "location": "laundry",
+      "mechanic": "slide",
+      "objective": "Rearrange the jammed lock segments to release the inner safety gate.",
+      "clue": {
+        "title": "Nina rescued",
+        "text": "Nina has been freed from the laundry. Daniel Price is still on the property and knows the evidence was recovered."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The final gate is blocked by a damaged mechanical interlock."
+        ],
+        [
+          "YOU",
+          "These segments are out of position. The gate won’t release."
+        ],
+        [
+          "NINA · DISTANT",
+          "I can hear you. Daniel took my phone. Please don’t leave."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The gate slides free. Nina stumbles out, shaken but able to walk."
+        ],
+        [
+          "NINA",
+          "He wanted the card. I told him it was gone."
+        ],
+        [
+          "NARRATOR",
+          "A door slams at the far end of the passage."
+        ],
+        [
+          "DANIEL · DISTANT",
+          "You’ve made a terrible mistake."
+        ]
+      ]
+    },
+    {
+      "id": 26,
+      "chapter": 4,
+      "title": "The Original Frame",
+      "location": "records",
+      "mechanic": "slide",
+      "objective": "Rebuild the final undamaged video frame from the 2019 recording.",
+      "clue": {
+        "title": "The original frame",
+        "text": "The restored original video frame clearly identifies Daniel Price driving the car involved in Mara Ward’s fatal collision."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "Nina shows you a hidden duplicate of the last surviving camera frame."
+        ],
+        [
+          "NINA",
+          "I made another backup. Daniel was looking for the wrong card."
+        ],
+        [
+          "YOU",
+          "The one we found proves the timeline. This one can prove who was behind the wheel."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The repaired frame clearly shows Daniel Price behind the steering wheel of the company car."
+        ],
+        [
+          "CLAIRE",
+          "That’s the first image of him they’ve ever let me see."
+        ],
+        [
+          "NINA",
+          "Send it to the police before he reaches the switchboard."
+        ]
+      ]
+    },
+    {
+      "id": 27,
+      "chapter": 4,
+      "title": "The Emergency Uplink",
+      "location": "security",
+      "mechanic": "match",
+      "objective": "Match the physical evidence feeds to the three emergency upload channels.",
+      "clue": {
+        "title": "Evidence preserved off-site",
+        "text": "The CCTV, duplicate-card audit and original 2019 frame have been transferred to the police evidence server."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The police dispatcher is still connected on an emergency data link."
+        ],
+        [
+          "YOU",
+          "The upload board needs each file routed to the right channel."
+        ],
+        [
+          "DANIEL · DISTANT",
+          "I can shut this whole system down!"
+        ],
+        [
+          "NARRATOR",
+          "Match each evidence source to its secure destination."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "DISPATCH",
+          "Evidence received and time-stamped. Officers are entering the service road."
+        ],
+        [
+          "NINA",
+          "He can’t erase it now."
+        ],
+        [
+          "NARRATOR",
+          "Footsteps race towards the switchboard. The backup screen remains green."
+        ],
+        [
+          "YOU",
+          "We’re staying here. The police are almost through the gate."
+        ]
+      ]
+    },
+    {
+      "id": 28,
+      "chapter": 4,
+      "title": "The Final Account",
+      "location": "security",
+      "mechanic": "sort",
+      "objective": "Put the decisive six events into chronological order to complete the case statement.",
+      "clue": {
+        "title": "Case closed",
+        "text": "Nina was rescued; Daniel was detained; the recovered evidence exposed the 2019 collision, Owen’s cover-up, and the events at the motel."
+      },
+      "story_intro": [
+        [
+          "NARRATOR",
+          "The dispatcher requests a final sequence of events while officers approach."
+        ],
+        [
+          "DISPATCH",
+          "Confirm the chronology: the original death, the cover-up, and tonight’s abduction."
+        ],
+        [
+          "YOU",
+          "We have everything. The order will show how it all connects."
+        ],
+        [
+          "NARRATOR",
+          "Reconstruct the six key events, from earliest to latest."
+        ]
+      ],
+      "story_reveal": [
+        [
+          "NARRATOR",
+          "The statement is transmitted. Officers enter the laundry corridor and confront Daniel."
+        ],
+        [
+          "DISPATCH",
+          "Suspect detained. We have Nina and two witnesses safe."
+        ],
+        [
+          "CLAIRE",
+          "Mara spent seven years without anyone hearing the truth."
+        ],
+        [
+          "NINA",
+          "Someone finally listened."
+        ],
+        [
+          "NARRATOR",
+          "As morning breaks over the flooded coastline, investigators take Owen in for questioning about the cover-up."
+        ],
+        [
+          "NARRATOR",
+          "The records are preserved. The investigation can now proceed without the motel controlling the story."
+        ]
+      ]
+    }
+  ]
+}
