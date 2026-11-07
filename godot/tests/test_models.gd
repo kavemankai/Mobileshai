@@ -14,6 +14,7 @@ func _init() -> void:
 	test_match3(levels)
 	test_blockfit_tilt(levels)
 	test_panels(levels)
+	test_rooms(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -234,3 +235,13 @@ func test_panels(levels: Array) -> void:
 		rng.seed = 7919 * 4
 		var st := PanelsModel.shuffled_start(d, rng)
 		check(not PanelsModel.solved(d, st["slots"], st["views"]), "panels level %d starts solved" % i)
+
+
+func test_rooms(levels: Array) -> void:
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "room":
+			continue
+		var steps := RoomModel.auto_solve(d)
+		check(not steps.is_empty(), "room level %d cannot be completed" % i)
+		print("room level %d solved in %d steps" % [i, steps.size()])
