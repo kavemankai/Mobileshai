@@ -1,0 +1,52 @@
+[
+  {
+    "key": "service",
+    "source": "art-source/environment-pass-02/service.png",
+    "runtime": "src/assets/art/service-v2.webp",
+    "width": 941,
+    "height": 1672,
+    "bytes": 416516,
+    "prompt": "Use case: stylized-concept. Create one standalone production game environment painting for The Last Check-In. Reference image is STYLE AND MOTEL DESIGN REFERENCE ONLY; do not reproduce the art board, collage, labels, characters, borders or typography. Portrait 9:16 full bleed, ideally 1080x1920 or larger. Hand-painted cinematic realism, grounded tired 1970s/80s coastal roadside motel, teal painted timber, slate blue shadows, amber practical lamps, salt corrosion, rain and tactile worn materials. Present-day mystery in an ageing building; no supernatural elements, people, logos, UI or captions. Detailed readable central composition; main identifying elements in upper middle third to survive dialogue-header cropping; believable perspective, rich painterly texture matching reference. Scene: covered SERVICE CORRIDOR behind the Mariner Motel at night. Narrow utilitarian passage, exposed copper pipes along wall and ceiling, small steel fuse cupboard at left, dark alcove beneath pipes, scuffed burnt-red staff door at rear, mop bucket on damp concrete floor, old access reader hanging beside staff door. A single caged amber bulkhead light, faint blue rain spill from exterior doorway. Grounded maintenance clutter, legible distinct objects. This is a scene backdrop, not a hotspot diagram.",
+    "status": "painted scene backdrop; hotspot overlay retained"
+  },
+  {
+    "key": "corridor17",
+    "source": "art-source/environment-pass-02/corridor17.png",
+    "runtime": "src/assets/art/corridor17-v2.webp",
+    "width": 940,
+    "height": 1672,
+    "bytes": 380280,
+    "prompt": "Use case: stylized-concept. Create one standalone production game environment painting for The Last Check-In. Reference image is STYLE AND MOTEL DESIGN REFERENCE ONLY; do not reproduce the art board, collage, labels, characters, borders or typography. Portrait 9:16 full bleed, ideally 1080x1920 or larger. Hand-painted cinematic realism, grounded tired 1970s/80s coastal roadside motel, teal painted timber, slate blue shadows, amber practical lamps, salt corrosion, rain and tactile worn materials. Present-day mystery in an ageing building; no supernatural elements, people, logos, UI or captions. Detailed readable central composition; main identifying elements in upper middle third to survive dialogue-header cropping; believable perspective, rich painterly texture matching reference. Scene: Covered first-floor exterior ROOM CORRIDOR outside Room 17. Matching reference motel architecture. Close burnt-red door on left with EMPTY screw holes where brass number plate was removed, doormat below, housekeeping trolley farther down, small chalk housekeeping board partly behind trolley, cream ice machine at far end and staff keypad on far wall. Teal weatherboards, amber ceiling lamps receding, railing and driving night rain to right, distant red neon reflected on wet walkway. No legible text.",
+    "status": "painted scene backdrop; hotspot overlay retained"
+  },
+  {
+    "key": "yard",
+    "source": "art-source/environment-pass-02/yard.png",
+    "runtime": "src/assets/art/yard-v2.webp",
+    "width": 941,
+    "height": 1672,
+    "bytes": 499308,
+    "prompt": "Use case: stylized-concept. Create one standalone production game environment painting for The Last Check-In. Reference image is STYLE AND MOTEL DESIGN REFERENCE ONLY; do not reproduce the art board, collage, labels, characters, borders or typography. Portrait 9:16 full bleed, ideally 1080x1920 or larger. Hand-painted cinematic realism, grounded tired 1970s/80s coastal roadside motel, teal painted timber, slate blue shadows, amber practical lamps, salt corrosion, rain and tactile worn materials. Present-day mystery in an ageing building; no supernatural elements, people, logos, UI or captions. Detailed readable central composition; main identifying elements in upper middle third to survive dialogue-header cropping; believable perspective, rich painterly texture matching reference. Scene: REAR SERVICE YARD of the coastal motel in driving rain at night. Chain-link fence, industrial pump housing and pipe junctions, rusted utility shed, small electrical distribution cabinet, wet concrete puddles and drain, parked unmarked ageing utility van partly visible beyond fence. Amber wall lamp on teal motel rear wall, cool coastal mist and pine silhouettes. Readable spatial layout, no sinister figure, no legible text.",
+    "status": "painted scene backdrop; hotspot overlay retained"
+  },
+  {
+    "key": "records",
+    "source": "art-source/environment-pass-02/records.png",
+    "runtime": "src/assets/art/records-v2.webp",
+    "width": 1054,
+    "height": 1492,
+    "bytes": 332160,
+    "prompt": "Use case: stylized-concept. Create one standalone production game environment painting for The Last Check-In. Reference image is STYLE AND MOTEL DESIGN REFERENCE ONLY; do not reproduce the art board, collage, labels, characters, borders or typography. Portrait 9:16 full bleed, ideally 1080x1920 or larger. Hand-painted cinematic realism, grounded tired 1970s/80s coastal roadside motel, teal painted timber, slate blue shadows, amber practical lamps, salt corrosion, rain and tactile worn materials. Present-day mystery in an ageing building; no supernatural elements, people, logos, UI or captions. Detailed readable central composition; main identifying elements in upper middle third to survive dialogue-header cropping; believable perspective, rich painterly texture matching reference. Scene: Tiny RECORDS OFFICE behind reception. Wood-grain laminate desk with paper files and blank index cards, open filing cabinet and cluttered archive shelves, cream landline telephone, tape recorder and labelled-but-unreadable archive boxes, corkboard with indistinct map and pinned papers. Tired teal walls, small rain-streaked window high right, amber desk lamp and cool blue night window lighting. Evidence room mundane and believable, not gothic or Victorian. No readable text.",
+    "status": "painted scene backdrop; hotspot overlay retained"
+  },
+  {
+    "key": "laundry",
+    "source": "art-source/environment-pass-02/laundry.png",
+    "runtime": "src/assets/art/laundry-v2.webp",
+    "width": 941,
+    "height": 1672,
+    "bytes": 386732,
+    "prompt": "Use case: stylized-concept. Create one standalone production game environment painting for The Last Check-In. Reference image is STYLE AND MOTEL DESIGN REFERENCE ONLY; do not reproduce the art board, collage, labels, characters, borders or typography. Portrait 9:16 full bleed, ideally 1080x1920 or larger. Hand-painted cinematic realism, grounded tired 1970s/80s coastal roadside motel, teal painted timber, slate blue shadows, amber practical lamps, salt corrosion, rain and tactile worn materials. Present-day mystery in an ageing building; no supernatural elements, people, logos, UI or captions. Detailed readable central composition; main identifying elements in upper middle third to survive dialogue-header cropping; believable perspective, rich painterly texture matching reference. Scene: DISUSED MOTEL LAUNDRY ENTRANCE. Worn industrial washers on left, basket and faded towels, steam pipes with clipboard hanging, red fire extinguisher, a heavy closed steel door with old access keypad beside it in central upper-middle area. Small warped metal override tag hanging near door, flaking teal paint, rusty boiler fittings, damp concrete, subtle steam and amber caged light, cool blue rain through high narrow window. No people, no readable text.",
+    "status": "painted scene backdrop; hotspot overlay retained"
+  }
+]

@@ -12,17 +12,28 @@ import exteriorTitle from './art/exterior_title.webp';
 import reception from './art/reception.webp';
 import security from './art/security.webp';
 import room from './art/room.webp';
+import service from './art/service-v2.webp';
+import corridor17 from './art/corridor17-v2.webp';
+import yard from './art/yard-v2.webp';
+import records from './art/records-v2.webp';
+import laundry from './art/laundry-v2.webp';
 import nina from './portraits/nina.webp';
 import claire from './portraits/claire.webp';
 import owen from './portraits/owen.webp';
 import daniel from './portraits/daniel.webp';
 
-/** Scene backdrops. Placeholder studies from the first art pass; missing keys get a generated placeholder. */
+/** All nine locales have painted backdrops. Pass 02 fills the five previously unmapped scenes.
+ * These are atmosphere plates, not aligned puzzle layers; keep room prop overlays enabled. */
 export const SCENE_ART: Partial<Record<SceneKey, string>> = {
   exterior,
   reception,
   security,
   room17: room,
+  service,
+  corridor17,
+  yard,
+  records,
+  laundry,
 };
 
 export const TITLE_ART: string | null = exteriorTitle;

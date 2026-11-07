@@ -1,8 +1,10 @@
-# The Last Check-In (v0.2, code complete, placeholder art)
+# The Last Check-In (v0.2, painted environments, WIP puzzle art)
 
 A 28-puzzle crime mystery for phones. This folder is the rebuilt game. The old single-file prototype is in `../The_Last_Check_In/` for reference only.
 
-Art and sound are placeholders. Everything you need for the art and sound pass is listed in [ASSETS.md](ASSETS.md).
+All nine locations have painted scene backdrops; five new standalone paintings replace
+the remaining fallback scenes in environment pass 02. Portraits and the four earlier
+paintings are studies; puzzle objects and audio remain placeholders. See [ASSETS.md](ASSETS.md).
 
 ## Run it
 
@@ -77,7 +79,7 @@ A new mechanic is one file in `src/puzzles/` exporting a `PuzzleMount`, plus a l
 
 ## Known limits of this build
 
-- Placeholder art and synthesised sound throughout (see ASSETS.md).
+- Puzzle objects, portraits and earlier environment studies still need final art; sound remains synthesised (see ASSETS.md).
 - Progress saves at every dialogue line and phase change. A puzzle in progress restarts from the beginning after a reload.
 - Phone checks are Chromium emulation. It still needs a session on her actual phone: real touch feel, audio on the speaker, tilt permission on iPhone.
 - Board animation is CSS only. If the match-3 or sort boards feel flat after the art pass, those two are the candidates for PixiJS.
