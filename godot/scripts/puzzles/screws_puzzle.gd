@@ -142,19 +142,32 @@ class ScrewsBoard extends Control:
 		if busy or not wob.is_empty() or not flying.is_empty():
 			queue_redraw()
 
+	## Landscape puts the boxes and tray in a column on the left, so the plates get the full height.
+	func land() -> bool:
+		return size.x > size.y * 1.15
+
 	func _layout() -> void:
 		var w := size.x
-		var hole := minf(34.0, (w - 40.0) / 9.0)
-		top_h = hole * 2.0 + 44.0
-		var side := minf(w, size.y - top_h - 8.0)
-		area = Rect2(Vector2((w - side) / 2.0, top_h + 8.0), Vector2(side, side))
+		var h := hole()
+		if land():
+			var lw := h * 3.0 + 24.0 + 20.0
+			var side := minf(w - lw - 12.0, size.y - 8.0)
+			area = Rect2(Vector2(lw + (w - lw - side) / 2.0, (size.y - side) / 2.0), Vector2(side, side))
+			return
+		top_h = h * 2.0 + 44.0
+		var side2 := minf(w, size.y - top_h - 8.0)
+		area = Rect2(Vector2((w - side2) / 2.0, top_h + 8.0), Vector2(side2, side2))
 
 	func hole() -> float:
+		if land():
+			return clampf((size.y - 60.0) / 5.0, 22.0, 34.0)
 		return minf(34.0, (size.x - 40.0) / 9.0)
 
 	func box_rect(i: int) -> Rect2:
 		var h := hole()
 		var bw := h * 3.0 + 24.0
+		if land():
+			return Rect2(8.0 - box_slide[i] * 60.0, 6.0 + i * (h + 26.0), bw, h + 16.0)
 		var gap := 14.0
 		var x0 := (size.x - (bw * 2.0 + gap)) / 2.0
 		return Rect2(x0 + i * (bw + gap), 4.0 - box_slide[i] * 60.0, bw, h + 16.0)
@@ -166,6 +179,9 @@ class ScrewsBoard extends Control:
 
 	func tray_rect(slot: int) -> Rect2:
 		var h := hole()
+		if land():
+			var y0 := box_rect(1).end.y + 14.0
+			return Rect2(8.0 + (slot % 3) * (h + 6.0), y0 + (slot / 3) * (h + 6.0), h, h)
 		var n: int = p.m.tray_size
 		var total := n * h + (n - 1) * 6.0
 		var x0 := (size.x - total) / 2.0
@@ -320,7 +336,8 @@ class ScrewsBoard extends Control:
 		var waiting: int = p.m.queue.size() - p.m.next_box
 		if waiting > 0:
 			var r0 := box_rect(1)
-			draw_string(UI.font("mono_bold"), Vector2(r0.end.x + 6.0, r0.get_center().y + 4.0), "+%d" % waiting, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UI.MUTE)
+			var at := Vector2(r0.end.x + 6.0, r0.get_center().y + 4.0) if not land() else Vector2(r0.position.x, r0.end.y + 12.0 + hole() * 2.0 + 30.0)
+			draw_string(UI.font("mono_bold"), at, "+%d boxes to come" % waiting if land() else "+%d" % waiting, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UI.MUTE)
 		# tray
 		for s in p.m.tray_size:
 			var tr := tray_rect(s)
