@@ -118,7 +118,7 @@
    "ch": 0,
    "title": "The Night Register",
    "scene": "reception",
-   "task": "Search the reception desk. Find the four missing receipts, Nina’s spare key and the yellow sticky note.",
+   "task": "Clear the receipt pile. Tap a slip and it slides off the way it points, if nothing is in its path.",
    "intro": [
     [
      "NARRATOR",
@@ -168,74 +168,198 @@
     "text": "Room 17’s 11:18 PM checkout has no guest signature. Nina had flagged Room 17 as wrong. A guest in Room 12, “Bennett”, says Nina told her to wait."
    },
    "hints": [
-    "Receipts are small, curled and pale. There are four of them in different corners.",
-    "Check under the edges of things: one receipt is near the bottom left, one near the top right."
+    "Start with slips whose path to the edge is already clear.",
+    "Each slip you clear opens a path for the ones behind it. Work from the outside in."
    ],
    "puzzle": {
-    "kind": "hidden",
-    "scene": "reception",
-    "clutter": 55,
-    "clutterGlyphs": [
-     "☕",
-     "📎",
-     "🖊️",
-     "📚",
-     "🛎️",
-     "🗝️",
-     "🧴",
-     "📦",
-     "🪴",
-     "🗞️",
-     "💡",
-     "📞",
-     "🧷",
-     "✂️",
-     "📒",
-     "🗂️",
-     "🕯️",
-     "🧻",
-     "📄",
-     "💳"
-    ],
-    "targets": [
-     {
-      "id": "receipt",
-      "label": "Receipts",
-      "glyph": "🧾",
-      "x": 14,
-      "y": 84
-     },
-     {
-      "id": "key",
-      "label": "Nina’s spare key",
-      "glyph": "🔑",
-      "x": 62,
-      "y": 33
-     },
-     {
-      "id": "note",
-      "label": "Yellow sticky note",
-      "glyph": "📝",
-      "x": 40,
-      "y": 58
-     }
-    ],
-    "extra": {
-     "receipt": [
+    "kind": "arrows",
+    "caption": "NIGHT REGISTER · RECEIPT PILE",
+    "w": 6,
+    "h": 7,
+    "arrows": [
+     [
       [
-       85,
-       12
+       6,
+       2
       ],
       [
-       47,
-       26
+       6,
+       1
+      ]
+     ],
+     [
+      [
+       6,
+       0
       ],
       [
-       76,
-       71
+       5,
+       0
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       0
+      ],
+      [
+       4,
+       1
+      ]
+     ],
+     [
+      [
+       5,
+       4
+      ],
+      [
+       4,
+       4
+      ],
+      [
+       4,
+       3
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       5
+      ],
+      [
+       3,
+       5
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       6,
+       4
+      ],
+      [
+       6,
+       5
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       5
+      ],
+      [
+       0,
+       5
+      ],
+      [
+       0,
+       4
+      ]
+     ],
+     [
+      [
+       5,
+       1
+      ],
+      [
+       5,
+       2
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       2,
+       3
       ]
      ]
-    }
+    ]
    }
   },
   {
@@ -1708,7 +1832,7 @@
    "ch": 1,
    "title": "The Ward File",
    "scene": "records",
-   "task": "Search the records office for the five documents on Nina’s memory card list.",
+   "task": "Pull every file out of the jammed drawer. A file only slides out if nothing blocks the way it points.",
    "intro": [
     [
      "NARRATOR",
@@ -1750,70 +1874,257 @@
     "text": "Mara Ward was killed by a hit-and-run at Kestrel Bend on 18 October 2019. The motel logged damage, amended an insurance claim and destroyed the road camera archive. Claire Bennett is Mara’s sister, born Claire Ward."
    },
    "hints": [
-    "The documents are scattered through the whole room, including the edges.",
-    "The archive log is a tape near the top left. The photo is low on the right."
+    "Find the files pointing straight at the edge with nothing in front.",
+    "Look at what each blocked file is waiting for, and clear that first."
    ],
    "puzzle": {
-    "kind": "hidden",
-    "scene": "records",
-    "clutter": 60,
-    "clutterGlyphs": [
-     "📁",
-     "📂",
-     "🗂️",
-     "📦",
-     "📚",
-     "📄",
-     "📎",
-     "🖇️",
-     "🗃️",
-     "💾",
-     "📠",
-     "☕",
-     "🗒️",
-     "📰",
-     "✏️",
-     "🔩",
-     "📌",
-     "🕰️",
-     "🗄️"
-    ],
-    "targets": [
-     {
-      "id": "police",
-      "label": "Police report",
-      "glyph": "📋",
-      "x": 72,
-      "y": 22
-     },
-     {
-      "id": "insurance",
-      "label": "Insurance claim",
-      "glyph": "📑",
-      "x": 27,
-      "y": 47
-     },
-     {
-      "id": "maint",
-      "label": "Maintenance request",
-      "glyph": "🔧",
-      "x": 55,
-      "y": 64
-     },
-     {
-      "id": "archive",
-      "label": "Archive log",
-      "glyph": "📼",
-      "x": 12,
-      "y": 15
-     },
-     {
-      "id": "photo",
-      "label": "Photo of Mara",
-      "glyph": "🖼️",
-      "x": 86,
-      "y": 82
-     }
+    "kind": "arrows",
+    "caption": "RECORDS OFFICE · JAMMED DRAWER",
+    "w": 7,
+    "h": 8,
+    "arrows": [
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       6,
+       4
+      ],
+      [
+       6,
+       5
+      ],
+      [
+       6,
+       6
+      ],
+      [
+       5,
+       6
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ],
+      [
+       0,
+       4
+      ],
+      [
+       0,
+       5
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       6
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       4,
+       4
+      ],
+      [
+       4,
+       3
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       0
+      ],
+      [
+       5,
+       0
+      ],
+      [
+       5,
+       1
+      ]
+     ],
+     [
+      [
+       3,
+       5
+      ],
+      [
+       3,
+       6
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       6
+      ],
+      [
+       1,
+       5
+      ]
+     ],
+     [
+      [
+       7,
+       6
+      ],
+      [
+       7,
+       5
+      ]
+     ],
+     [
+      [
+       7,
+       4
+      ],
+      [
+       7,
+       3
+      ]
+     ],
+     [
+      [
+       6,
+       2
+      ],
+      [
+       6,
+       1
+      ],
+      [
+       7,
+       1
+      ],
+      [
+       7,
+       0
+      ]
+     ],
+     [
+      [
+       5,
+       4
+      ],
+      [
+       5,
+       5
+      ]
+     ],
+     [
+      [
+       4,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       4,
+       5
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ]
     ]
    }
   },

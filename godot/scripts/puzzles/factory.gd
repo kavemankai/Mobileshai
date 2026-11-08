@@ -5,7 +5,7 @@ extends RefCounted
 const LABEL := {
 	"zip": "Path", "hidden": "Search", "panels": "Frames", "match3": "Signal recovery", "timeline": "Timeline",
 	"logic": "Deduction", "cryptex": "Cryptex", "goods": "Sort", "water": "Pump tanks", "blockfit": "Reassemble",
-	"tilt": "Maze", "box": "Mechanism", "room": "Explore", "stakeout": "Stakeout", "screws": "Screws",
+	"tilt": "Maze", "box": "Mechanism", "room": "Explore", "stakeout": "Stakeout", "screws": "Screws", "arrows": "Arrows",
 }
 
 ## Add a case here as each puzzle is built. Anything missing falls back to the placeholder.
@@ -26,4 +26,5 @@ static func make(kind: String) -> PuzzleBase:
 		"box": return BoxPuzzle.new()
 		"stakeout": return StakeoutPuzzle.new()
 		"screws": return ScrewsPuzzle.new()
+		"arrows": return ArrowsPuzzle.new()
 	return PlaceholderPuzzle.new()

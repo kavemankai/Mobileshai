@@ -19,6 +19,7 @@ func _init() -> void:
 	test_hint_planners(levels)
 	test_stakeout(levels)
 	test_screws(levels)
+	test_arrows(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -335,3 +336,29 @@ func test_screws(levels: Array) -> void:
 		check(m.won(), "screws level %d cannot be cleared" % i)
 		print("screws level %d: %d screws, cleared in %d moves" % [i, m.screws.size(), moves])
 	check(n == 2, "expected 2 screws levels, found %d" % n)
+
+
+func test_arrows(levels: Array) -> void:
+	var n := 0
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "arrows":
+			continue
+		n += 1
+		var m := ArrowsModel.from_def(d)
+		var seen := {}
+		for a in m.arrows:
+			check(a.size() >= 2, "arrows level %d: an arrow shorter than two squares" % i)
+			for cell in a:
+				check(not seen.has(cell), "arrows level %d: two arrows share a square" % i)
+				seen[cell] = true
+		var rounds := 0
+		while not m.won() and rounds < 200:
+			var free := m.free_arrows()
+			if free.is_empty():
+				break
+			m.remove(free[0])
+			rounds += 1
+		check(m.won(), "arrows level %d cannot be cleared" % i)
+		print("arrows level %d: %dx%d, %d arrows" % [i, m.w, m.h, m.arrows.size()])
+	check(n == 2, "expected 2 arrows levels, found %d" % n)
