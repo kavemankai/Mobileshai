@@ -99,6 +99,28 @@ try {
     console.log(ok ? 'PASS offline reload (engine started with the network off)' : 'FAIL offline reload');
     if (!ok) failed++;
     await browser.close();
+  } else if (opt('hints', false)) {
+    // every level: press Hint twice and check that the board hint appears without errors
+    const s = await session(W, H);
+    const c = helpers(s, 'hint');
+    const n = (await s.page.evaluate(() => window.__lci.meta())).levels;
+    const tap = async (id) => { for (let k = 0; k < 6; k++) { const r = (await c.rects()).find((x) => x.id === id); if (r && r.y + r.h < H - 2 && r.y > 0) { await c.click(r.x + r.w / 2, r.y + r.h / 2); return true; } await s.page.mouse.move(W / 2, 200); await s.page.mouse.wheel(0, r && r.y < 0 ? -200 : 200); await sleep(200); } return false; };
+    for (let i = 0; i < n; i++) {
+      await s.page.evaluate((k) => window.__lci.jump(k), i);
+      await sleep(900);
+      const kind = await s.page.evaluate((k) => window.__lci.level(k).kind, i);
+      const before = await s.page.evaluate(() => window.__lci.rects().length);
+      let ok = await tap('puzzle.hint'); await sleep(500);
+      await c.shot(`L${String(i + 1).padStart(2, '0')}-${kind}-h1`);
+      ok = ok && await tap('puzzle.hint'); await sleep(500);
+      await c.shot(`L${String(i + 1).padStart(2, '0')}-${kind}-h2`);
+      const st = await c.state();
+      const bad = s.errors.splice(0);
+      const good = ok && st.hints && st.hints[String(i)] === 2 && !bad.length;
+      console.log(`${good ? 'PASS' : 'FAIL'} hints level ${i + 1} ${kind}${bad.length ? ' errors: ' + bad[0] : ''}`);
+      if (!good) failed++;
+    }
+    await s.browser.close();
   } else if (opt('full', false)) {
     // title to ending in one continuous run, with real saves: no jumps, no sandbox
     const s = await session(W, H);

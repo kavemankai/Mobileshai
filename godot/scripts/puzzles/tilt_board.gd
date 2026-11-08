@@ -243,3 +243,14 @@ func _valve(ctr: Vector2) -> void:
 		var a := spin * 0.5 + k * TAU / 3.0
 		draw_line(ctr, ctr + Vector2(cos(a), sin(a)) * r, UI.AMBER2, maxf(2.0, cell * 0.06), true)
 	draw_circle(ctr, r * 0.22, UI.AMBER2)
+
+
+## The next tilt toward the valve, and where the ball should come to rest.
+func next_tilt() -> Dictionary:
+	var sol := TiltModel.solve(rows, ball_cell)
+	if sol.is_empty():
+		return {}
+	var d: String = sol[0]
+	var res := TiltModel.roll(rows, ball_cell, d)
+	var end: Vector2i = res["path"][-1]
+	return {"dir": d, "rest": Rect2(origin + Vector2(end.y, end.x) * cell, Vector2(cell, cell)), "ball": Rect2(origin + Vector2(ball_cell.y, ball_cell.x) * cell, Vector2(cell, cell))}

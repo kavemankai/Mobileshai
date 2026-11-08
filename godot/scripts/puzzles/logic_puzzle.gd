@@ -85,6 +85,25 @@ func _accuse_pick(i: int, b: Control) -> void:
 		say(String(wrong.get(str(i), "The evidence doesn't support that.")))
 
 
+func board_hint(level: int) -> Dictionary:
+	if _grid_done:
+		return {}
+	var sol: Array = def["solution"]
+	var cats: Array = def["categories"]
+	for a in m.n:
+		for pair in [["AB", int(sol[a][0])], ["AC", int(sol[a][1])]]:
+			var g: String = pair[0]
+			var j: int = pair[1]
+			if m.marks[g][a][j] != 2:
+				var name := String(cats[0]["items"][a])
+				if level < 2:
+					var r0: Rect2 = grid.cell_rect(g, a, 0)
+					var r1: Rect2 = grid.cell_rect(g, a, m.n - 1)
+					return {"rects": [view_rect(grid, r0.merge(r1))], "text": "Work on %s's row next. The clues settle it." % name}
+				var other := String(cats[1 if g == "AB" else 2]["items"][j])
+				return {"rects": [view_rect(grid, grid.cell_rect(g, a, j))], "text": "%s goes with %s. Tap twice for a tick." % [name, other]}
+	return {}
+
 func qa_state() -> Dictionary:
 	var cells := {}
 	for g in ["AB", "AC", "CB"]:

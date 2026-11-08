@@ -27,6 +27,7 @@ jobs:
         with:
           path: |
             ~/.cache/godot-tools
+            ~/.cache/android-sdk
             ~/.local/share/godot/export_templates
           key: godot-4.6.2-${{ hashFiles('godot/tools/setup_godot.py') }}
       - name: Install Godot 4.6.2 and the web export templates
@@ -41,6 +42,17 @@ jobs:
         run: |
           mkdir -p godot/build/web
           ~/.cache/godot-tools/godot-4.6.2/godot --headless --path godot --export-release Web build/web/index.html
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 17
+      - name: Android SDK pieces and the debug key
+        run: python3 godot/tools/setup_android.py
+      - name: Export the Android APK (served next to the web build for sideloading)
+        run: |
+          mkdir -p godot/build/android
+          ~/.cache/godot-tools/godot-4.6.2/godot --headless --path godot --export-debug Android build/android/last-check-in.apk
+          cp godot/build/android/last-check-in.apk godot/build/web/last-check-in.apk
       - uses: actions/upload-artifact@v4
         with:
           name: godot-web

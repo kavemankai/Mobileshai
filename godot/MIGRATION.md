@@ -16,6 +16,20 @@ node .game-toolkit/adapters/web/serve.mjs --dir godot/build/web --port 4180
 
 `cd godot && $G --headless --quit-after 60` runs the project for 60 frames and prints any script errors.
 
+## Android (sideload)
+
+```bash
+python3 godot/tools/setup_godot.py      # also fetches the Android templates
+python3 godot/tools/setup_android.py    # command-line tools, build-tools, platform-tools, debug key, editor settings
+$G --headless --path godot --export-debug Android build/android/last-check-in.apk
+```
+
+The APK is arm64 only (about 48 MB), portrait, immersive, with the vibrate permission and no internet permission. It is signed with the debug key in `tools/debug.keystore`, which is kept in the repo on purpose so every build installs over the previous one without losing the save. CI builds it too and publishes it at `/godot/last-check-in.apk` on the Pages site.
+
+To install: open that link on the phone, download, allow "Install unknown apps" for the browser when Android asks, and install. Updates install the same way.
+
+Phone-specific behaviour: one UI unit is one density-independent pixel, the screens keep clear of the camera cut-out and gesture bar, and Back closes the top sheet, otherwise opens the pause menu, and on the title leaves the app.
+
 ## Findings that shaped the build
 
 These were found by trying, not assumed. Each one cost an hour somewhere if forgotten.

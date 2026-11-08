@@ -254,6 +254,22 @@ func _check_clear() -> void:
 			r.clear()
 
 
+func board_hint(level: int) -> Dictionary:
+	if _busy:
+		return {}
+	var mv := GoodsModel.suggest(def, _as_types())
+	if mv.is_empty():
+		return {}
+	var a: int = mv[0]
+	var sl: int = mv[1]
+	var b: int = mv[2]
+	var rects := [view_rect(_board, Rect2(slot_pos(a, sl), Vector2(_cw, _ch)))]
+	var text := "Move this card."
+	if level >= 2:
+		rects.append(view_rect(_board, _rack_rects[b]))
+		text = "Move this card to the teal rack."
+	return {"rects": rects, "text": text}
+
 func qa_state() -> Dictionary:
 	var pts := []
 	for ri in racks.size():

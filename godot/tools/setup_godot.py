@@ -32,6 +32,7 @@ TEMPLATES = "Godot_v{v}-stable_export_templates.tpz"
 WANTED_TEMPLATES = {
     "templates/web_nothreads_release.zip", "templates/web_nothreads_debug.zip",
     "templates/web_release.zip", "templates/web_debug.zip", "templates/version.txt",
+    "templates/android_debug.apk", "templates/android_release.apk",
 }
 
 

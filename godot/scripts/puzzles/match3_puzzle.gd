@@ -422,6 +422,32 @@ func _win() -> void:
 	finish(2600 if Fx.motion() else 800)
 
 
+func board_hint(level: int) -> Dictionary:
+	if _busy:
+		return {}
+	var best := []
+	var score := -1
+	for mv in _legal():
+		m.swap_tiles(mv[0], mv[1])
+		var cells: Dictionary = m.find_matches()["cells"]
+		m.swap_tiles(mv[0], mv[1])
+		var n := 0
+		for i in cells:
+			if m.stat[i]:
+				n += 2
+			n += 1
+		if n > score:
+			score = n
+			best = mv
+	if best.is_empty():
+		return {}
+	var rects := [view_rect(_stage, Rect2(_cell_pos(best[0]), Vector2(_cell, _cell)))]
+	var text := "This tile has a good move."
+	if level >= 2:
+		rects.append(view_rect(_stage, Rect2(_cell_pos(best[1]), Vector2(_cell, _cell))))
+		text = "Swap these two."
+	return {"rects": rects, "text": text}
+
 func qa_state() -> Dictionary:
 	var grid := []
 	var centers := []

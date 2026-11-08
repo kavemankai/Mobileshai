@@ -42,3 +42,60 @@ static func solved(tubes: Array, cap: int) -> bool:
 			if ch != s[0]:
 				return false
 	return true
+
+
+## First pour of a shortest solution from here: [from, to], or [] if none is found.
+static func first_move(tubes: Array, cap: int) -> Array:
+	var start := "|".join(tubes)
+	var prev := {start: null}
+	var queue := [tubes]
+	var head := 0
+	while head < queue.size() and prev.size() < 30000:
+		var t: Array = queue[head]
+		head += 1
+		if solved(t, cap):
+			var k := "|".join(t)
+			var mv = null
+			while prev[k] != null:
+				mv = prev[k][1]
+				k = prev[k][0]
+			return mv if mv != null else []
+		var kt := "|".join(t)
+		for a in t.size():
+			for b in t.size():
+				if can_pour(t, cap, a, b):
+					var n := pour(t, cap, a, b)
+					var kn := "|".join(n)
+					if not prev.has(kn):
+						prev[kn] = [kt, [a, b]]
+						queue.append(n)
+	return _dfs_first(tubes, cap)
+
+
+## Deep boards run past the breadth-first budget: find any solution depth-first, best-looking pours first.
+static func _dfs_first(tubes: Array, cap: int) -> Array:
+	var seen := {"|".join(tubes): true}
+	var stack := [[tubes, []]]
+	while not stack.is_empty() and seen.size() < 200000:
+		var item: Array = stack.pop_back()
+		var t: Array = item[0]
+		var first: Array = item[1]
+		if solved(t, cap):
+			return first
+		var moves := []
+		for a in t.size():
+			for b in t.size():
+				if can_pour(t, cap, a, b):
+					# pouring onto the same liquid scores higher than into an empty tank
+					var score := 2 if not String(t[b]).is_empty() else 0
+					if String(t[a]).length() == amount(t, cap, a, b):
+						score -= 1
+					moves.append([score, a, b])
+		moves.sort_custom(func(x: Array, y: Array) -> bool: return x[0] < y[0])
+		for mv in moves:
+			var n := pour(t, cap, mv[1], mv[2])
+			var k := "|".join(n)
+			if not seen.has(k):
+				seen[k] = true
+				stack.append([n, first if not first.is_empty() else [mv[1], mv[2]]])
+	return []

@@ -170,6 +170,31 @@ func _draw_board() -> void:
 		_board.draw_circle(pt, 5.0, col)
 
 
+func board_hint(level: int) -> Dictionary:
+	var sols := PanelsModel.solutions(def)
+	if sols.is_empty():
+		return {}
+	var tgt: Dictionary = sols[0]
+	for slot in slots.size():
+		if slots[slot] != tgt["slots"][slot]:
+			var f: Frame = frames[tgt["slots"][slot]]
+			var rects := [view_rect(_board, Rect2(f.position, f.size))]
+			var text := "This frame is in the wrong place."
+			if level >= 2:
+				var g: Frame = frames[slots[slot]]
+				rects.append(view_rect(_board, Rect2(g.position, g.size)))
+				text = "Swap the glowing frame with the teal one."
+			return {"rects": rects, "text": text}
+	for pi in views.size():
+		if views[pi] != tgt["views"][pi]:
+			var f2: Frame = frames[pi]
+			var zr := f2.zoom_rect()
+			var rects2 := [view_rect(_board, Rect2(f2.position, f2.size))]
+			if level >= 2:
+				rects2 = [view_rect(_board, Rect2(f2.position + zr.position, zr.size)), view_rect(_board, Rect2(f2.position, f2.size))]
+			return {"rects": rects2, "text": "This frame needs the other view." if level < 2 else "Zoom this frame %s." % ("in" if views[pi] == 0 else "out")}
+	return {}
+
 func qa_state() -> Dictionary:
 	var cs := []
 	var zs := []

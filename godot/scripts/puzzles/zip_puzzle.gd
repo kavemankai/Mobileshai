@@ -40,6 +40,29 @@ func _update_status() -> void:
 		say("%d of %d squares · next number: %d" % [p.size(), m.open_count, mini(m.reached(p) + 1, m.mark_count)])
 
 
+func board_hint(level: int) -> Dictionary:
+	var p: Array = _board.path
+	var k := 0
+	while k < p.size() and k < m.solution.size() and p[k] == m.solution[k]:
+		k += 1
+	if k >= m.solution.size():
+		return {}
+	var rects := []
+	var text := ""
+	if k < p.size():
+		# the line went wrong after square k-1: point back to the last good square
+		rects.append(view_rect(_board, _board.cell_rect(m.solution[maxi(k - 1, 0)])))
+		text = "The line goes wrong after the glowing square. Back up to it."
+		if level >= 2:
+			rects.append(view_rect(_board, _board.cell_rect(m.solution[k])))
+			text = "Back up to the glowing square, then go to the teal one."
+	else:
+		var upto := 1 if level < 2 else 3
+		for j in range(k, mini(k + upto, m.solution.size())):
+			rects.append(view_rect(_board, _board.cell_rect(m.solution[j])))
+		text = "Try here next." if level < 2 else "The next few squares, in order."
+	return {"rects": rects, "text": text}
+
 func qa_state() -> Dictionary:
 	var cells := []
 	var b := _board

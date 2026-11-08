@@ -108,6 +108,19 @@ func _on_undo() -> void:
 	_refresh()
 
 
+func board_hint(level: int) -> Dictionary:
+	if _busy:
+		return {}
+	var mv := WaterModel.first_move(tubes, cap)
+	if mv.is_empty():
+		return {"text": "This mix cannot be separated from here. Undo a few pours."}
+	var rects := [view_rect(_board, _board.tube_rect(mv[0]))]
+	var text := "Pour from this tank."
+	if level >= 2:
+		rects.append(view_rect(_board, _board.tube_rect(mv[1])))
+		text = "Pour from the glowing tank into the teal one."
+	return {"rects": rects, "text": text}
+
 func qa_state() -> Dictionary:
 	var pts := []
 	for i in tubes.size():

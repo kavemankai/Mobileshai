@@ -268,6 +268,19 @@ class ScrewStage extends Base:
 		draw_circle(Vector2.ZERO, 8.0, Color("c9d3d7", a))
 		_head_glyph(kind, a, 0.8)
 
+	func stage_hint(level: int) -> Dictionary:
+		for i in count:
+			var sc: Dictionary = screws[i]
+			if not sc["gone"] and int(sc["num"]) == next_num:
+				var p := _pos(i)
+				var rects := [Rect2(p - Vector2(18, 18), Vector2(36, 36))]
+				var text := "Screw %d comes out next." % next_num
+				if level >= 2:
+					rects = [_bit_rect(int(sc["head"])), Rect2(p - Vector2(18, 18), Vector2(36, 36))]
+					text = "Take the %s bit, then turn screw %d round." % [HEADS[int(sc["head"])], next_num]
+				return {"rects": rects, "text": text}
+		return {}
+
 	func qa() -> Dictionary:
 		var pts := []
 		var order := []
@@ -410,6 +423,48 @@ class SliderStage extends Base:
 			draw_style_box(UI.flat(col, 7, Color("5b707a"), 2, 0), Rect2(kx - 14, cy - 15, 28, 30))
 			draw_string(font, Vector2(kx - 4, cy + 5), str(int(round(float(pos[i])))), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, UI.DARK_INK)
 
+	func stage_hint(level: int) -> Dictionary:
+		var n := targets.size()
+		var start := ",".join(val.map(func(x: int) -> String: return str(x)))
+		var prev := {start: null}
+		var queue := [val.duplicate()]
+		var head := 0
+		while head < queue.size():
+			var v: Array = queue[head]
+			head += 1
+			var ok := true
+			for i in n:
+				if int(v[i]) != int(targets[i]):
+					ok = false
+			if ok:
+				var k := ",".join(v.map(func(x: int) -> String: return str(x)))
+				var mv = null
+				while prev[k] != null:
+					mv = prev[k][1]
+					k = prev[k][0]
+				if mv == null:
+					return {}
+				var i0: int = mv[0]
+				var to: int = mv[1]
+				var t := _track(i0)
+				if level < 2:
+					return {"rects": [t], "text": "Move this stop first."}
+				return {"rects": [t, Rect2(Vector2(_x_of(i0, float(to)) - 16, t.get_center().y - 18), Vector2(32, 36))], "text": "Slide this stop to %d." % to}
+			var kv := ",".join(v.map(func(x: int) -> String: return str(x)))
+			for i in n:
+				for k2 in 5:
+					if k2 == int(v[i]):
+						continue
+					var o := v.duplicate()
+					var d := k2 - int(v[i])
+					o[i] = k2
+					o[(i + 1) % n] = posmod(int(v[(i + 1) % n]) - d, 5)
+					var ko := ",".join(o.map(func(x: int) -> String: return str(x)))
+					if not prev.has(ko):
+						prev[ko] = [kv, [i, k2]]
+						queue.append(o)
+		return {}
+
 	func qa() -> Dictionary:
 		var tr := []
 		for i in targets.size():
@@ -500,6 +555,46 @@ class DialStage extends Base:
 				await get_tree().create_timer(0.7).timeout
 			done.emit()
 
+	func stage_hint(level: int) -> Dictionary:
+		var n := wheels.size()
+		var goal := []
+		for ch in code:
+			goal.append(int(ch))
+		var key := func(v: Array) -> String: return ",".join(v.map(func(x: int) -> String: return str(x)))
+		var prev := {key.call(val): null}
+		var queue := [val.duplicate()]
+		var head := 0
+		while head < queue.size() and prev.size() < 20000:
+			var v: Array = queue[head]
+			head += 1
+			if v == goal:
+				var k: String = key.call(v)
+				var mv = null
+				while prev[k] != null:
+					mv = prev[k][1]
+					k = prev[k][0]
+				if mv == null:
+					return {}
+				var w: Control = wheels[mv[0]]
+				var r := get_global_transform().affine_inverse() * w.get_global_transform() * Rect2(Vector2.ZERO, w.size)
+				var d: int = mv[1]
+				if level < 2:
+					return {"rects": [r], "text": "Start with this wheel."}
+				return {"rects": [r], "text": "Turn this wheel %s by %d." % ["up" if d > 0 else "down", absi(d)]}
+			var kv: String = key.call(v)
+			for i in n:
+				for d in range(-5, 5):
+					if d == 0:
+						continue
+					var o := v.duplicate()
+					o[i] = posmod(int(v[i]) + d, 10)
+					o[(i + 1) % n] = posmod(int(v[(i + 1) % n]) - d, 10)
+					var ko: String = key.call(o)
+					if not prev.has(ko):
+						prev[ko] = [kv, [i, d]]
+						queue.append(o)
+		return {}
+
 	func qa() -> Dictionary:
 		var cs := []
 		for w in wheels:
@@ -588,6 +683,15 @@ class LeverStage extends Base:
 			draw_circle(Vector2(c.x - 2, hy - 2), r.size.x * 0.07, Color(1, 1, 1, 0.5))
 			if a > 0.5:
 				draw_circle(Vector2(r.end.x - 9, r.position.y + 9), 4.0, Color(UI.TEAL, 0.9))
+
+	func stage_hint(level: int) -> Dictionary:
+		var press := BoxModel.lever_solve(state)
+		if press.is_empty():
+			return {}
+		var rects := []
+		for k in (press.size() if level >= 2 else 1):
+			rects.append(_rect(int(press[k])))
+		return {"rects": rects, "text": "Flip this lever." if level < 2 else "Flip each glowing lever once, in any order."}
 
 	func qa() -> Dictionary:
 		var pts := []
@@ -698,6 +802,16 @@ class PressStage extends Base:
 			var dust := int((1.1 - float(wear[i])) * 60.0) + 2
 			for k in dust:
 				draw_circle(rr.position + Vector2(fmod(i * 17.0 + k * 23.0, rr.size.x), fmod(i * 11.0 + k * 31.0, rr.size.y)), 1.2, Color(0.7, 0.65, 0.55, 0.28))
+
+	func stage_hint(level: int) -> Dictionary:
+		if level >= 2:
+			return {"rects": [_rect(target)], "text": "Press and hold this one."}
+		var order := range(count)
+		order.sort_custom(func(a: int, b: int) -> bool: return float(wear[a]) > float(wear[b]))
+		var rects := []
+		for k in mini(3, count):
+			rects.append(_rect(order[k]))
+		return {"rects": rects, "text": "It is one of the cleanest three. Hold each until one gives."}
 
 	func qa() -> Dictionary:
 		var pts := []
@@ -828,6 +942,17 @@ class PatchStage extends Base:
 			var b2 := _jack_rect(1, int(_bad[i])).get_center() - Vector2(_jack_rect(1, int(_bad[i])).size.x / 2.0 - 8, 0)
 			_cable(a2, b2, 1.0, UI.RED, 4.0)
 
+	func stage_hint(level: int) -> Dictionary:
+		for i in left.size():
+			if not linked.has(i):
+				var rects := [_jack_rect(0, i)]
+				var text := "Plug this cable in next. Read the chart again."
+				if level >= 2:
+					rects.append(_jack_rect(1, int(pairs[i])))
+					text = "%s goes to %s." % [left[i], right[pairs[i]]]
+				return {"rects": rects, "text": text}
+		return {}
+
 	func qa() -> Dictionary:
 		var l := []
 		var r := []
@@ -865,6 +990,14 @@ class TiltStage extends Base:
 		_rows = st["rows"]
 
 	var _rows: Array = []
+
+	func stage_hint(level: int) -> Dictionary:
+		var h := board.next_tilt()
+		if h.is_empty():
+			return {}
+		var xf := get_global_transform().affine_inverse() * board.get_global_transform()
+		var names := {"U": "up", "D": "down", "L": "left", "R": "right"}
+		return {"rects": [xf * Rect2(h["rest"])], "text": "Get the bearing to stop on the glowing square." if level < 2 else "Tilt %s." % names[h["dir"]]}
 
 	func qa() -> Dictionary:
 		return {"solution": TiltModel.solve(_rows), "center": QA.css(board, board.size / 2.0), "cell": board.cell, "moving": board.moving}

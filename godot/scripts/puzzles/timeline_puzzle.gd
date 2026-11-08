@@ -214,6 +214,20 @@ func _win() -> void:
 	finish(1200 if Fx.motion() else 300)
 
 
+func board_hint(level: int) -> Dictionary:
+	var sol: Array = def["order"]
+	for i in sol.size():
+		if order[i] != sol[i]:
+			var want: TLCard = cards[sol[i]]
+			var rects := [view_rect(want, Rect2(Vector2.ZERO, want.size))]
+			var text := "This one is in the wrong place."
+			if level >= 2:
+				var slot: TLCard = cards[order[i]]
+				rects.append(view_rect(slot, Rect2(Vector2.ZERO, slot.size)))
+				text = "Move the glowing card to position %d." % (i + 1)
+			return {"rects": rects, "text": text}
+	return {"rects": [view_rect(_check, Rect2(Vector2.ZERO, _check.size))], "text": "The order is right. Check it."}
+
 func qa_state() -> Dictionary:
 	var grips := {}
 	for id in cards:
