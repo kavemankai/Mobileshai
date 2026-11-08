@@ -11,9 +11,11 @@ var _stage: Control
 var _scene_holder: Control
 var _bg: TextureRect
 var _list: HFlowContainer
+var _root: BoxContainer
 var _idle := 0.0
 var _glint: Control
 var _w := 300.0
+var _fs := 26.0
 var _h := 400.0
 
 
@@ -30,7 +32,10 @@ func build() -> void:
 				n += 1
 		need[t["id"]] = n
 		got[t["id"]] = 0
-	var col := UI.vbox(8)
+	var col := BoxContainer.new()
+	_root = col
+	col.vertical = true
+	col.add_theme_constant_override("separation", 8)
 	col.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(col)
 	_scene_holder = Control.new()
@@ -90,6 +95,7 @@ func build() -> void:
 		row.add_child(UI.label(String(t["glyph"]), 16, Color.WHITE, "sans", HORIZONTAL_ALIGNMENT_CENTER, false))
 		row.add_child(UI.label(String(t["label"]), 12, UI.INK, "sans", HORIZONTAL_ALIGNMENT_LEFT, false))
 		var cnt := UI.label("", 12, UI.TEAL, "mono_bold", HORIZONTAL_ALIGNMENT_LEFT, false)
+		cnt.custom_minimum_size.x = 30.0
 		row.add_child(cnt)
 		panel.add_child(row)
 		_list.add_child(panel)
@@ -107,6 +113,13 @@ func _target(id: String) -> Dictionary:
 
 
 func _relayout() -> void:
+	if _list == null:
+		return
+	var land := landscape
+	if land == _root.vertical:
+		_root.vertical = not land
+		_list.custom_minimum_size.x = 200.0 if land else 0.0
+		return
 	var s := _scene_holder.size
 	if s.x < 40.0:
 		return
@@ -118,15 +131,16 @@ func _relayout() -> void:
 	_stage.size = Vector2(_w, _h)
 	_stage.position = Vector2((s.x - _w) / 2.0, 0)
 	_bg.size = _stage.size
+	_fs = clampf(_w / 300.0 * 26.0, 14.0, 26.0)
 	for c in _stage.get_children():
 		if c.has_meta("pct"):
+			(c as Label).add_theme_font_size_override("font_size", int(_fs))
 			var pct: Vector2 = c.get_meta("pct")
 			c.size = Vector2(40, 40)
 			c.pivot_offset = c.size / 2.0
 			c.position = Vector2(pct.x / 100.0 * _w, pct.y / 100.0 * _h) - c.size / 2.0
 	var need_h := _w / 0.75 * 0.0 + minf(s.x, 480.0) / 0.75 * 0.66 + 90.0
-	if absf(custom_minimum_size.y - need_h) > 1.0:
-		custom_minimum_size.y = need_h
+	ask_height(need_h)
 
 
 func _process(d: float) -> void:
@@ -167,7 +181,7 @@ func _stage_input(e: InputEvent) -> void:
 		return
 	if e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT and e.pressed:
 		var best := -1
-		var bd := 26.0
+		var bd := _fs
 		for i in spots.size():
 			if spots[i]["found"]:
 				continue

@@ -2,9 +2,9 @@ module.exports = async (c) => {
   await c.shot('0-start');
   let s = await c.st();
   const tap = async (g,r,cc)=>{
-    for (let k=0;k<6;k++){ const st=await c.st(); st.view=[110,c.H-130]; const e = st.cells[g].find(q=>q[0]===r&&q[1]===cc);
-      if (e[3]>st.view[0]+10 && e[3]<st.view[1]-10){ await c.click(e[2],e[3]); await c.sleep(150); return; }
-      await c.p.mouse.move(c.W/2, 120); await c.p.mouse.wheel(0, e[3]>st.view[1]?150:-150); await c.sleep(200); }
+    for (let k=0;k<6;k++){ const st=await c.st(); const e = st.cells[g].find(q=>q[0]===r&&q[1]===cc);
+      if (e[3]>Math.max(st.view[0],0)+14 && e[3]<Math.min(st.view[1],c.H)-14){ await c.click(e[2],e[3]); await c.sleep(150); return; }
+      const lo=Math.max(st.view[0],0), hi=Math.min(st.view[1],c.H), mid=(lo+hi)/2; await c.p.mouse.move(st.view_x, Math.min(Math.max(mid,60),c.H-60)); await c.p.mouse.wheel(0, e[3]>mid?80:-80); await c.sleep(200); }
     throw new Error('cell not reachable'); };
   // one deliberate cross first
   await tap('AB',0,1); await c.shot('1-cross');

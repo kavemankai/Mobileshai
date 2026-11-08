@@ -130,8 +130,8 @@ func _relayout() -> void:
 			nd.position = _cell_pos(i)
 	# keep the page asking for a square board plus the meter
 	var need := minf(s.x, 480.0) + 20.0
-	if absf(custom_minimum_size.y - need) > 1.0 and s.x > 0.0:
-		custom_minimum_size.y = need
+	if s.x > 0.0:
+		ask_height(need)
 
 
 func _cell_pos(i: int) -> Vector2:

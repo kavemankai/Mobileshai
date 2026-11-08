@@ -76,6 +76,8 @@ func _settle(id: int) -> void:
 		c.size = Vector2(w, _card_h)
 	var total := cards.size() * (_card_h + _gap) - _gap
 	_list.custom_minimum_size = Vector2(0, total)
+	# ask for the whole list so a small phone scrolls the page, not a window onto the list
+	ask_height(30.0 + total + 56.0 + 20.0)
 	_spine.position = Vector2(25, 0)
 	_spine.size = Vector2(2, total)
 	_place(false)

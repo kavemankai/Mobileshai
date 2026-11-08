@@ -5,7 +5,7 @@ module.exports = async (c) => {
   const chk = await rect('tl.check');
   await c.click(chk.x+chk.w/2, chk.y+chk.h/2); await c.sleep(300);
   await c.shot('1-wrong');
-  const visible = (s,id)=>{ const g=s.grips[id]; return g[1]>s.view[0]+15 && g[1]<s.view[1]-15; };
+  const visible = (s,id)=>{ const g=s.grips[id]; return g[1]>s.view[0]+25 && g[1]<s.view[1]-25; };
   let drags=0, arrows=0;
   for (let i=0;i<s.solution.length;i++){
     for (let guard=0; guard<60; guard++){
@@ -14,12 +14,12 @@ module.exports = async (c) => {
       if (j===i) break;
       const g = s.grips[want];
       const dy = (i-j)*s.step_css;
-      if (visible(s,want) && g[1]+dy>s.view[0]+15 && g[1]+dy<s.view[1]-15){
+      if (visible(s,want) && g[1]+dy>s.view[0]+25 && g[1]+dy<s.view[1]-25){
         await c.drag([[g[0],g[1]],[g[0],g[1]+dy/2],[g[0],g[1]+dy]],90); drags++;
         await c.sleep(350);
       } else {
         // out of view: scroll toward it, then use the arrow
-        if (!visible(s,want)){ await c.p.mouse.move(g[0]+60, (s.view[0]+s.view[1])/2); await c.p.mouse.wheel(0, g[1]>s.view[1]?160:-160); await c.sleep(250); continue; }
+        if (!visible(s,want)){ await c.p.mouse.move(g[0]+60, (s.view[0]+s.view[1])/2); await c.p.mouse.wheel(0, g[1]>(s.view[0]+s.view[1])/2?70:-70); await c.sleep(250); continue; }
         const r = await rect('tl.up.'+want); await c.click(r.x+r.w/2, r.y+r.h/2); arrows++; await c.sleep(300);
       }
     }

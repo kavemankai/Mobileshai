@@ -18,7 +18,7 @@ const require = createRequire(import.meta.url);
 const { chromium } = require('playwright');
 const args = process.argv.slice(2);
 const opt = (name, dflt) => { const i = args.indexOf('--' + name); return i < 0 ? dflt : (args[i + 1]?.startsWith('--') || args[i + 1] === undefined ? true : args[i + 1]); };
-const webRoot = path.resolve(here, '../../build/web');
+const webRoot = path.resolve(opt('build', path.resolve(here, '../../build/web')));
 const shotDir = path.resolve(opt('shots', path.join(here, 'out')));
 fs.mkdirSync(shotDir, { recursive: true });
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));

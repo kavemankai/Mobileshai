@@ -20,6 +20,8 @@ var _actions := VBoxContainer.new()
 var _is_land := false
 var _page := ScrollContainer.new()
 var _holder := VBoxContainer.new()
+var _pad: MarginContainer
+var _spacer := UI.spacer(0, true)
 var _solved := false
 
 
@@ -77,6 +79,7 @@ func _ready() -> void:
 	_left.size_flags_stretch_ratio = 1.25
 	_right.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	var pad := MarginContainer.new()
+	_pad = pad
 	pad.set_anchors_preset(Control.PRESET_FULL_RECT)
 	for side in ["left", "right", "top", "bottom"]:
 		pad.add_theme_constant_override("margin_" + side, 16)
@@ -105,6 +108,9 @@ func layout() -> void:
 	if land != _is_land:
 		_is_land = land
 		_adopt_layout()
+		if view:
+			view.set_landscape(_is_land)
+		_fit_frame()
 
 
 func _adopt(n: Node, parent: Node) -> void:
@@ -117,16 +123,18 @@ func _adopt_layout() -> void:
 	if _is_land:
 		_col.visible = false
 		_row.visible = true
-		_adopt(_header, _left)
-		_adopt(_frame, _left)
+		# the whole left half is the board; everything else stacks on the right
+		_adopt(_header, _right)
 		_adopt(_head, _right)
 		_adopt(_status, _right)
 		_adopt(_hint_box, _right)
-		_adopt(UI.spacer(0, true) if _right.get_child_count() == 3 else _actions, _right)
-		if _actions.get_parent() != _right:
-			_adopt(_actions, _right)
+		_adopt(_spacer, _right)
+		_adopt(_actions, _right)
+		_adopt(_frame, _left)
 		_adopt(_left, _row)
 		_adopt(_right, _row)
+		for side in ["top", "bottom"]:
+			_pad.add_theme_constant_override("margin_" + side, 10)
 	else:
 		_row.visible = false
 		_col.visible = true
@@ -136,6 +144,8 @@ func _adopt_layout() -> void:
 		_adopt(_status, _col)
 		_adopt(_hint_box, _col)
 		_adopt(_actions, _col)
+		for side in ["top", "bottom"]:
+			_pad.add_theme_constant_override("margin_" + side, 16)
 
 
 ## Builds (or rebuilds, for Reset) the puzzle view inside the board.
@@ -150,6 +160,7 @@ func _mount() -> void:
 	view.solved.connect(_on_solved)
 	_board.add_child(view)
 	view.setup(l["puzzle"], (int(Game.save["level"]) + 1) * 7919, Game.earned_clues())
+	view.set_landscape(_is_land)
 	view.minimum_size_changed.connect(_fit_frame)
 	_fit_frame()
 	if Fx.motion():
@@ -159,7 +170,8 @@ func _mount() -> void:
 ## A puzzle that needs more height than the window gives sets its own minimum; the page then scrolls.
 func _fit_frame() -> void:
 	if view:
-		_frame.custom_minimum_size.y = maxf(200.0, view.custom_minimum_size.y + 16.0)
+		# landscape has no height to give: boards fit the window and scroll inside themselves if they must
+		_frame.custom_minimum_size.y = 200.0 if _is_land else maxf(200.0, view._asked + 16.0)
 
 
 func _on_solved(hold_ms: int) -> void:

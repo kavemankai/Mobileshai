@@ -52,12 +52,13 @@ func _relayout() -> void:
 	var rows := int(def["rows"])
 	var cols := int(def["cols"])
 	var s := _board.size
-	_fs = floorf(minf((s.x - _gap * (cols - 1)) / cols, (s.y - _gap * (rows - 1)) / rows))
-	_fs = clampf(_fs, 60.0, 220.0)
+	# frames size from the width; a tall grid makes the page scroll rather than shrinking the pictures
+	var fs_w := clampf(floorf((s.x - _gap * (cols - 1)) / cols), 60.0, 190.0)
+	_fs = clampf(minf(fs_w, floorf((s.y - _gap * (rows - 1)) / rows)), 48.0, fs_w)
 	_origin = Vector2(floorf((s.x - (_fs * cols + _gap * (cols - 1))) / 2.0), 0.0)
-	var need := rows * _fs + (rows - 1) * _gap + 36.0
-	if absf(custom_minimum_size.y - need) > 1.0 and s.x > 0.0:
-		custom_minimum_size.y = need
+	var need := rows * fs_w + (rows - 1) * _gap + 36.0
+	if s.x > 0.0:
+		ask_height(need)
 	for f in frames:
 		f.size = Vector2(_fs, _fs)
 		f.pivot_offset = f.size / 2.0

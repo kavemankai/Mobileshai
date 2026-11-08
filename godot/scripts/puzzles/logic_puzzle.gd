@@ -7,14 +7,21 @@ var m: LogicModel
 var grid: LogicGrid
 var _accuse := VBoxContainer.new()
 var _grid_done := false
+var _scroll: ScrollContainer
 
 
 func build() -> void:
 	m = LogicModel.new(def["categories"][0]["items"].size())
+	# scrolls inside the frame only when the window is too short (landscape); portrait asks the page for the room
+	var scroll := ScrollContainer.new()
+	_scroll = scroll
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
 	var col := UI.vbox(8)
-	col.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(col)
-	col.minimum_size_changed.connect(func() -> void: custom_minimum_size.y = col.get_combined_minimum_size().y)
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(col)
+	col.minimum_size_changed.connect(func() -> void: ask_height(col.get_combined_minimum_size().y))
 	var lines := []
 	for i in def["clues"].size():
 		lines.append("%d. %s" % [i + 1, def["clues"][i]["text"]])
@@ -26,6 +33,7 @@ func build() -> void:
 	_accuse.visible = false
 	_accuse.add_theme_constant_override("separation", 6)
 	col.add_child(_accuse)
+	col.add_child(UI.spacer(28))
 	say("Tap once for ✗, twice for ✓. A ✓ rules out the rest of its row and column.")
 
 
@@ -56,6 +64,9 @@ func _show_accuse() -> void:
 		row.add_child(b)
 	_accuse.add_child(row)
 	Fx.fade_in(_accuse, 0.4)
+	for _f in 3:
+		await get_tree().process_frame
+	_scroll.ensure_control_visible(_accuse)
 	say("The grid is complete. Now make the call.")
 
 
@@ -84,7 +95,8 @@ func qa_state() -> Dictionary:
 				arr.append([r, c, pt[0], pt[1]])
 		cells[g] = arr
 	return {"kind": "logic", "marks": m.marks.duplicate(true), "solution": def["solution"], "cells": cells,
-		"grid_done": _grid_done, "accuse": def.has("accuse"), "done": is_done()}
+		"grid_done": _grid_done, "accuse": def.has("accuse"), "done": is_done(),
+		"view": [QA.css(_scroll, Vector2.ZERO)[1], QA.css(_scroll, _scroll.size)[1]], "view_x": QA.css(_scroll, _scroll.size / 2.0)[0]}
 
 
 class LogicGrid extends Control:

@@ -37,8 +37,8 @@ func build() -> void:
 		col.add_child(tbtn)
 	board.resized.connect(func() -> void:
 		var need := 30.0 + board.size.x * float(board.R) / float(board.C) + 56.0 + (56.0 if col.get_child_count() > 3 else 0.0) + 28.0
-		if absf(custom_minimum_size.y - need) > 1.0 and board.size.x > 0.0:
-			custom_minimum_size.y = need)
+		if board.size.x > 0.0:
+			ask_height(need))
 	say("The ball only stops at a wall. It has to stop on the gold valve.")
 
 

@@ -14,9 +14,13 @@ var _shown := 0
 
 
 func build() -> void:
+	var scroll := ScrollContainer.new()
+	scroll.set_anchors_preset(Control.PRESET_FULL_RECT)
+	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	add_child(scroll)
 	var col := UI.vbox(8)
-	col.set_anchors_preset(Control.PRESET_FULL_RECT)
-	add_child(col)
+	col.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	scroll.add_child(col)
 	var head := UI.hbox(8)
 	var name_l := UI.label(String(def["name"]), 16, UI.PAPER, "serif_bold", HORIZONTAL_ALIGNMENT_LEFT, false)
 	name_l.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -33,11 +37,12 @@ func build() -> void:
 	_holder = Control.new()
 	_holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	_holder.custom_minimum_size.y = 230
+	_holder.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	col.add_child(_holder)
 	col.add_child(UI.eyebrow("Found on the mechanism", UI.MUTE))
 	_notes = UI.vbox(4)
 	col.add_child(_notes)
-	custom_minimum_size.y = 470
+	ask_height(470)
 	_show()
 
 

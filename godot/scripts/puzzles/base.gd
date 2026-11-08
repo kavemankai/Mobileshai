@@ -13,6 +13,9 @@ var seed_value := 1
 var clues: Array = []
 var rng := RandomNumberGenerator.new()
 var _done := false
+## Set by the puzzle screen: in landscape there is no spare height to ask the page for.
+var landscape := false
+var _asked := 0.0
 
 
 func setup(def_: Dictionary, seed_: int, clues_: Array) -> void:
@@ -42,6 +45,19 @@ func finish(hold_ms: int = 900) -> void:
 		return
 	_done = true
 	solved.emit(hold_ms)
+
+
+## A board that needs more height than the window gives asks for it; the page then scrolls.
+func ask_height(h: float) -> void:
+	_asked = h
+	var v := 0.0 if landscape else h
+	if absf(custom_minimum_size.y - v) > 0.5:
+		custom_minimum_size.y = v
+
+
+func set_landscape(on: bool) -> void:
+	landscape = on
+	ask_height(_asked)
 
 
 func is_done() -> bool:

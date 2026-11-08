@@ -163,8 +163,8 @@ class BFField extends Control:
 		layout_tray(false)
 		# ask the page for room: board plus a tray of two rows
 		var need := tray_top + 2.0 * (um * 3.0 + 12.0) + 50.0
-		if absf(p.custom_minimum_size.y - need) > 1.0 and size.x > 0.0:
-			p.custom_minimum_size.y = need
+		if size.x > 0.0:
+			p.ask_height(need)
 
 	func cell_center(r: int, c: int) -> Vector2:
 		return org + (Vector2(c, r) + Vector2(0.5, 0.5)) * u

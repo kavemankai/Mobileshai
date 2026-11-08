@@ -7,7 +7,9 @@ var st := RoomModel.new()
 var _stage: Control
 var _bg: TextureRect
 var _msg: Label
-var _inv: HBoxContainer
+var _inv: HFlowContainer
+var _root: BoxContainer
+var _side: VBoxContainer
 var _cards := {}            # hotspot id -> Panel
 var _item_cards := {}       # item id -> ItemCard
 var _selected := ""
@@ -24,7 +26,10 @@ var _done_goal := false
 
 
 func build() -> void:
-	var col := UI.vbox(8)
+	var col := BoxContainer.new()
+	_root = col
+	col.vertical = true
+	col.add_theme_constant_override("separation", 8)
 	col.set_anchors_preset(Control.PRESET_FULL_RECT)
 	add_child(col)
 	var holder := Control.new()
@@ -57,14 +62,19 @@ func build() -> void:
 		card.set_meta("spot", s)
 		_cards[s["id"]] = card
 		_stage.add_child(card)
+	_side = UI.vbox(8)
+	_side.size_flags_vertical = Control.SIZE_EXPAND_FILL if false else Control.SIZE_FILL
+	col.add_child(_side)
 	_msg = UI.label("Look around. Tap anything that stands out.", 14, UI.INK, "serif_italic", HORIZONTAL_ALIGNMENT_CENTER)
 	_msg.custom_minimum_size.y = 40
-	col.add_child(_msg)
+	_side.add_child(_msg)
 	var inv_panel := UI.panel(Color("0c171c"), 10, UI.LINE, 1, 6)
-	_inv = UI.hbox(8)
+	_inv = HFlowContainer.new()
+	_inv.add_theme_constant_override("h_separation", 8)
+	_inv.add_theme_constant_override("v_separation", 8)
 	_inv.custom_minimum_size.y = 58
 	inv_panel.add_child(_inv)
-	col.add_child(inv_panel)
+	_side.add_child(inv_panel)
 	_ghost = Control.new()
 	_ghost.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	_ghost.visible = false
@@ -76,6 +86,14 @@ func build() -> void:
 
 
 func _relayout(holder: Control) -> void:
+	if _side == null:
+		return
+	var land := landscape
+	if land == _root.vertical:
+		_root.vertical = not land
+		_side.custom_minimum_size.x = 230.0 if land else 0.0
+		_side.size_flags_vertical = Control.SIZE_EXPAND_FILL if land else Control.SIZE_FILL
+		return
 	var s := holder.size
 	if s.x < 40.0:
 		return
@@ -94,8 +112,7 @@ func _relayout(holder: Control) -> void:
 		c.size = Vector2(float(sp["w"]) / 100.0 * _w, float(sp["h"]) / 100.0 * _h)
 		c.pivot_offset = c.size / 2.0
 	var need := minf(s.x, 480.0) / 0.8 * 0.72 + 130.0
-	if absf(custom_minimum_size.y - need) > 1.0:
-		custom_minimum_size.y = need
+	ask_height(need)
 
 
 func _refresh(animate: bool) -> void:
