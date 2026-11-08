@@ -472,7 +472,7 @@
    "ch": 0,
    "title": "The Tampered Reader",
    "scene": "service",
-   "task": "Search the service corridor and get the staff-door reader open.",
+   "task": "Strip the reader's cover plates. Each screw goes in the box of its colour; spares wait in the tray.",
    "intro": [
     [
      "NARRATOR",
@@ -506,84 +506,155 @@
     "text": "The staff door opened at 11:26 PM on the NIGHT SHIFT credential. That is your card, and you arrived at 11:43. Your card never left your pocket."
    },
    "hints": [
-    "Tap things to search them. Some things need something from your pockets first.",
-    "Torch from the fuse cupboard, use it on the dark alcove, then use the screwdriver on the reader."
+    "Look at which colour boxes are open before you tap. A screw with nowhere to go fills the tray.",
+    "Clear the top plates first: every plate that drops uncovers more screws to choose from."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "service",
-    "goal": "readerOpen",
-    "items": {
-     "torch": {
-      "label": "Torch",
-      "icon": "🔦"
+    "kind": "screws",
+    "caption": "STAFF-DOOR READER · COVER PLATES",
+    "plates": [
+     {
+      "rect": [
+       0.154,
+       0.408,
+       0.605,
+       0.304
+      ],
+      "screws": [
+       [
+        0.686,
+        0.457,
+        "G"
+       ],
+       [
+        0.456,
+        0.56,
+        "B"
+       ],
+       [
+        0.226,
+        0.663,
+        "R"
+       ]
+      ]
      },
-     "screwdriver": {
-      "label": "Screwdriver",
-      "icon": "🪛"
+     {
+      "rect": [
+       0.452,
+       0.346,
+       0.494,
+       0.318
+      ],
+      "screws": [
+       [
+        0.887,
+        0.397,
+        "R"
+       ],
+       [
+        0.512,
+        0.397,
+        "Y"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.315,
+       0.673,
+       0.383,
+       0.279
+      ],
+      "screws": [
+       [
+        0.361,
+        0.907,
+        "R"
+       ],
+       [
+        0.506,
+        0.813,
+        "B"
+       ],
+       [
+        0.652,
+        0.718,
+        "B"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.445,
+       0.389,
+       0.47,
+       0.24
+      ],
+      "screws": [
+       [
+        0.501,
+        0.427,
+        "G"
+       ],
+       [
+        0.501,
+        0.591,
+        "Y"
+       ],
+       [
+        0.858,
+        0.591,
+        "G"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.053,
+       0.453,
+       0.483,
+       0.307
+      ],
+      "screws": [
+       [
+        0.111,
+        0.502,
+        "R"
+       ],
+       [
+        0.478,
+        0.711,
+        "R"
+       ],
+       [
+        0.111,
+        0.711,
+        "R"
+       ],
+       [
+        0.478,
+        0.502,
+        "Y"
+       ]
+      ]
      }
-    },
-    "hotspots": [
-     {
-      "id": "fuse",
-      "label": "Fuse cupboard",
-      "icon": "🗄️",
-      "x": 4,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "text": "The door sticks, then gives. A torch is clipped inside.",
-      "doneText": "Fuses. One empty slot where the reception fuse should be.",
-      "gives": "torch"
-     },
-     {
-      "id": "alcove",
-      "label": "Dark alcove",
-      "icon": "🕸️",
-      "x": 62,
-      "y": 8,
-      "w": 32,
-      "h": 20,
-      "needs": "torch",
-      "needsText": "Too dark to see what’s back there.",
-      "text": "The torch finds a toolbox shoved under the pipes. Inside: a flat screwdriver.",
-      "doneText": "An empty toolbox.",
-      "gives": "screwdriver"
-     },
-     {
-      "id": "door",
-      "label": "Staff door",
-      "icon": "🚪",
-      "x": 36,
-      "y": 30,
-      "w": 26,
-      "h": 22,
-      "text": "Locked from this side. Fresh scuffs at the bottom, like something heavy was dragged through."
-     },
-     {
-      "id": "bucket",
-      "label": "Mop bucket",
-      "icon": "🪣",
-      "x": 6,
-      "y": 58,
-      "w": 28,
-      "h": 16,
-      "text": "Grey water. Someone mopped this floor tonight. Nobody mops the service corridor."
-     },
-     {
-      "id": "reader",
-      "label": "Access reader",
-      "icon": "📟",
-      "x": 60,
-      "y": 56,
-      "w": 32,
-      "h": 20,
-      "needs": "screwdriver",
-      "needsText": "The casing is hanging off one screw. You need something to undo it.",
-      "text": "Two turns and the casing swings open. The memory unit is intact.",
-      "sets": "readerOpen"
-     }
-    ]
+    ],
+    "boxes": [
+     "Y",
+     "G",
+     "R",
+     "B",
+     "R"
+    ],
+    "tray": 5,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
@@ -916,7 +987,7 @@
    "ch": 1,
    "title": "The Hidden Vent",
    "scene": "room17",
-   "task": "Search Room 17 for whatever the intruder was looking for.",
+   "task": "Get the vent grille off. Screws go in their colour's box; the tray only holds five.",
    "intro": [
     [
      "YOU",
@@ -924,7 +995,7 @@
     ],
     [
      "NARRATOR",
-     "Nina knew this motel better than anyone. She’d have left a mark only staff would notice."
+     "Nina knew this motel better than anyone. The vent grille above the bed has been screwed back on by someone in a hurry."
     ]
    ],
    "reveal": [
@@ -950,108 +1021,223 @@
     "text": "Nina hid a microSD card marked “WARD · 18 OCT 2019” in Room 17’s air vent. Whoever searched the room missed it."
    },
    "hints": [
-    "Nina leaves marks. Look at the window, then find something to open the vent with.",
-    "The windowsill scratch points at the vent. The coin from the drawer turns the screws. The grille is painted shut: the bathroom cabinet has something to lever it."
+    "Plan two boxes ahead. Leave screws in place until their colour's box opens.",
+    "If the tray is filling up, use Undo and take a different screw first."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "room17",
-    "goal": "ventOpen",
-    "items": {
-     "coin": {
-      "label": "50c coin",
-      "icon": "🪙"
+    "kind": "screws",
+    "caption": "ROOM 17 · VENT GRILLE",
+    "plates": [
+     {
+      "rect": [
+       0.265,
+       0.09,
+       0.492,
+       0.251
+      ],
+      "screws": [
+       [
+        0.698,
+        0.13,
+        "R"
+       ],
+       [
+        0.324,
+        0.301,
+        "B"
+       ],
+       [
+        0.698,
+        0.301,
+        "R"
+       ],
+       [
+        0.324,
+        0.13,
+        "B"
+       ]
+      ]
      },
-     "screwdriver": {
-      "label": "Screwdriver",
-      "icon": "🪛"
+     {
+      "rect": [
+       0.145,
+       0.319,
+       0.417,
+       0.288
+      ],
+      "screws": [
+       [
+        0.513,
+        0.562,
+        "B"
+       ],
+       [
+        0.195,
+        0.366,
+        "Y"
+       ],
+       [
+        0.513,
+        0.366,
+        "R"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.463,
+       0.168,
+       0.468,
+       0.342
+      ],
+      "screws": [
+       [
+        0.519,
+        0.455,
+        "R"
+       ],
+       [
+        0.875,
+        0.455,
+        "Y"
+       ],
+       [
+        0.875,
+        0.223,
+        "R"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.369,
+       0.114,
+       0.54,
+       0.291
+      ],
+      "screws": [
+       [
+        0.433,
+        0.358,
+        "P"
+       ],
+       [
+        0.843,
+        0.358,
+        "P"
+       ],
+       [
+        0.638,
+        0.259,
+        "Y"
+       ],
+       [
+        0.843,
+        0.16,
+        "G"
+       ],
+       [
+        0.433,
+        0.16,
+        "R"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.339,
+       0.408,
+       0.537,
+       0.337
+      ],
+      "screws": [
+       [
+        0.403,
+        0.691,
+        "Y"
+       ],
+       [
+        0.403,
+        0.462,
+        "B"
+       ],
+       [
+        0.812,
+        0.691,
+        "G"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.431,
+       0.167,
+       0.404,
+       0.226
+      ],
+      "screws": [
+       [
+        0.633,
+        0.28,
+        "B"
+       ],
+       [
+        0.479,
+        0.203,
+        "B"
+       ],
+       [
+        0.786,
+        0.203,
+        "Y"
+       ],
+       [
+        0.479,
+        0.357,
+        "P"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.217,
+       0.617,
+       0.42,
+       0.275
+      ],
+      "screws": [
+       [
+        0.267,
+        0.661,
+        "Y"
+       ],
+       [
+        0.587,
+        0.848,
+        "G"
+       ]
+      ]
      }
-    },
-    "hotspots": [
-     {
-      "id": "drawer",
-      "label": "Bedside drawer",
-      "icon": "🗄️",
-      "x": 4,
-      "y": 6,
-      "w": 28,
-      "h": 16,
-      "text": "Pulled out and dumped on the carpet. In the mess, a fifty-cent coin.",
-      "doneText": "Hotel notepad, a pen, a Bible with the bookmark ripped out.",
-      "gives": "coin"
-     },
-     {
-      "id": "sill",
-      "label": "Windowsill",
-      "icon": "🪟",
-      "x": 36,
-      "y": 6,
-      "w": 28,
-      "h": 16,
-      "text": "A pale scratch in the paint. Fresh. A tiny arrow pointing down and to the right.",
-      "sets": "arrow"
-     },
-     {
-      "id": "bed",
-      "label": "Bed",
-      "icon": "🛏️",
-      "x": 66,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "text": "Mattress half off. They checked under it, inside the pillowcases, under the base."
-     },
-     {
-      "id": "bin",
-      "label": "Bin",
-      "icon": "🗑️",
-      "x": 4,
-      "y": 56,
-      "w": 26,
-      "h": 16,
-      "text": "Empty, fresh liner. Someone cleaned this room before someone else wrecked it."
-     },
-     {
-      "id": "bath",
-      "label": "Bathroom cabinet",
-      "icon": "🚿",
-      "x": 34,
-      "y": 56,
-      "w": 26,
-      "h": 16,
-      "text": "Bleach smell. The cabinet hangs open, empty except for a maintenance screwdriver taped under the shelf.",
-      "doneText": "Bleach and an empty shelf.",
-      "gives": "screwdriver"
-     },
-     {
-      "id": "vent",
-      "label": "Air vent",
-      "icon": "🌀",
-      "x": 64,
-      "y": 56,
-      "w": 30,
-      "h": 16,
-      "visibleIf": "arrow",
-      "needs": "coin",
-      "needsText": "The vent screws are slotted, painted over. A coin would turn them.",
-      "text": "The screws give. The grille is still stuck, painted shut along every edge.",
-      "sets": "ventScrews"
-     },
-     {
-      "id": "grille",
-      "label": "Vent grille",
-      "icon": "🔳",
-      "x": 64,
-      "y": 34,
-      "w": 30,
-      "h": 16,
-      "visibleIf": "ventScrews",
-      "needs": "screwdriver",
-      "needsText": "Painted shut. You need something thin to lever it.",
-      "text": "The paint cracks and the grille swings open. Taped to the duct wall, a waterproof sleeve.",
-      "sets": "ventOpen"
-     }
-    ]
+    ],
+    "boxes": [
+     "R",
+     "Y",
+     "P",
+     "G",
+     "Y",
+     "B",
+     "B",
+     "R"
+    ],
+    "tray": 5,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {

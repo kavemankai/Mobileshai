@@ -18,6 +18,7 @@ func _init() -> void:
 	test_box(levels)
 	test_hint_planners(levels)
 	test_stakeout(levels)
+	test_screws(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -306,3 +307,31 @@ func test_stakeout(levels: Array) -> void:
 			check(m.solved(), "stakeout level %d: the solution does not check" % i)
 		print("stakeout level %d: %dx%d" % [i, m.n, m.n])
 	check(n == 3, "expected 3 stakeout levels, found %d" % n)
+
+
+func test_screws(levels: Array) -> void:
+	var n := 0
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "screws":
+			continue
+		n += 1
+		var m := ScrewsModel.from_def(d)
+		var per := {}
+		for s in m.screws:
+			per[s["color"]] = int(per.get(s["color"], 0)) + 1
+		var want := {}
+		for c in m.queue:
+			want[c] = int(want.get(c, 0)) + 3
+		check(per == want, "screws level %d: screw colours %s do not match the boxes %s" % [i, per, want])
+		# play the solver's moves all the way through
+		var moves := 0
+		while not m.won() and moves < 200:
+			var k := m.first_move()
+			if k < 0:
+				break
+			m.take(k)
+			moves += 1
+		check(m.won(), "screws level %d cannot be cleared" % i)
+		print("screws level %d: %d screws, cleared in %d moves" % [i, m.screws.size(), moves])
+	check(n == 2, "expected 2 screws levels, found %d" % n)
