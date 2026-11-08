@@ -24,7 +24,12 @@ func _ready() -> void:
 ## One UI unit is one CSS pixel on a phone. Bigger windows scale up a little, capped, so the column stays readable.
 func _fit() -> void:
 	var win := get_window()
-	var dpr := DisplayServer.screen_get_scale() if OS.has_feature("web") else 1.0
+	var dpr := 1.0
+	if OS.has_feature("web"):
+		dpr = DisplayServer.screen_get_scale()
+	elif OS.has_feature("mobile"):
+		# one UI unit is one Android density-independent pixel, the same size as a CSS pixel on the web build
+		dpr = maxf(1.0, float(DisplayServer.screen_get_dpi()) / 160.0)
 	var css := Vector2(win.size) / dpr
 	var s := clampf(minf(css.x / 420.0, css.y / 640.0), 1.0, 1.5)
 	win.content_scale_factor = dpr * s
@@ -35,6 +40,21 @@ func _unhandled_key_input(e: InputEvent) -> void:
 		var top := _top_sheet()
 		if top and top.dismissable:
 			top.close()
+
+
+## Android back: close the top sheet, else open the pause menu, else (on the title) leave the app.
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_GO_BACK_REQUEST:
+		var top := _top_sheet()
+		if top:
+			if top.dismissable:
+				top.close()
+		elif has_overlay():
+			pass
+		elif screen is TitleScreen:
+			get_tree().quit()
+		else:
+			open_menu()
 
 
 func _top_sheet() -> Sheet:
