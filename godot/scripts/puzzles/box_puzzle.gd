@@ -102,6 +102,17 @@ func _stage_done(st: Dictionary) -> void:
 		_show()
 
 
+func board_hint(level: int) -> Dictionary:
+	if _busy or _stage == null or not _stage.has_method("stage_hint"):
+		return {}
+	var h: Dictionary = _stage.stage_hint(level)
+	if h.is_empty():
+		return {}
+	var rects := []
+	for r in h.get("rects", []):
+		rects.append(view_rect(_stage, r))
+	return {"rects": rects, "text": String(h.get("text", ""))}
+
 func qa_state() -> Dictionary:
 	var st: Dictionary = def["stages"][_shown]
 	return {"kind": "box", "stage": _shown, "stages": def["stages"].size(), "type": st["type"], "def": st,

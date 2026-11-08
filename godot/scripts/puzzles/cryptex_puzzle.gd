@@ -46,6 +46,17 @@ func ring_settled(i: int, p: int) -> void:
 	finish(1400 if Fx.motion() else 300)
 
 
+func board_hint(level: int) -> Dictionary:
+	var word := String(def["word"])
+	for i in pos.size():
+		var ring := String(def["rings"][i])
+		if ring[int(pos[i])] != word[i]:
+			var r: DrumWheel = rings[i]
+			if level < 2:
+				return {"rects": [view_rect(r, Rect2(Vector2.ZERO, r.size))], "text": "This ring is wrong. Read Nina's note again."}
+			return {"rects": [view_rect(r, Rect2(Vector2.ZERO, r.size))], "text": "Ring %d should show %s." % [i + 1, word[i]]}
+	return {}
+
 func qa_state() -> Dictionary:
 	var centers := []
 	for r in rings:

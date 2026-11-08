@@ -385,6 +385,30 @@ func _check_goal() -> void:
 		finish(1200 if Fx.motion() else 300)
 
 
+func board_hint(level: int) -> Dictionary:
+	if _modal:
+		return {"text": "The code is in what you have found in this room."}
+	var step := RoomModel.next_step(def, st)
+	if step.is_empty():
+		return {}
+	var spot: Dictionary = {}
+	for s in def["hotspots"]:
+		if s["id"] == step[0]:
+			spot = s
+	var r := Rect2(float(spot["x"]) / 100.0 * _w, float(spot["y"]) / 100.0 * _h, float(spot["w"]) / 100.0 * _w, float(spot["h"]) / 100.0 * _h)
+	var item: String = step[1]
+	if level < 2:
+		return {"rects": [view_rect(_stage, r)], "text": "Have another look at the %s." % String(spot["label"]).to_lower()}
+	var rects := []
+	if item != "" and _item_cards.has(item):
+		var c: Control = _item_cards[item]
+		rects.append(view_rect(c, Rect2(Vector2.ZERO, c.size)))
+	rects.append(view_rect(_stage, r))
+	var text := "Use the %s on the %s." % [String(def["items"][item]["label"]).to_lower(), String(spot["label"]).to_lower()] if item != "" else "Tap the %s." % String(spot["label"]).to_lower()
+	if step[2] == "keypad":
+		text = "Open the keypad. The code is in what you have read here."
+	return {"rects": rects, "text": text}
+
 func qa_state() -> Dictionary:
 	var spots := []
 	for s in def["hotspots"]:

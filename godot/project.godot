@@ -11,6 +11,10 @@ config/description="A crime mystery told through puzzles, one night at the Marin
 run/main_scene="res://main.tscn"
 config/features=PackedStringArray("4.6", "GL Compatibility")
 config/icon="res://icon.svg"
+boot_splash/bg_color=Color(0.043, 0.082, 0.125, 1)
+boot_splash/image="res://splash.png"
+boot_splash/fullsize=true
+boot_splash/use_filter=true
 
 [autoload]
 

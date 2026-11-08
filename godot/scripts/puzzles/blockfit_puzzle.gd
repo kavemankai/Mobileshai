@@ -80,6 +80,30 @@ func _win() -> void:
 	finish(1300 if Fx.motion() else 300)
 
 
+func board_hint(level: int) -> Dictionary:
+	for i in pieces.size():
+		var pc: Dictionary = pieces[i]
+		if pc["placed"] != null:
+			continue
+		var s: float = pc["s"]
+		var bb := Rect2()
+		var first := true
+		for cell in pc["shape"]:
+			var r := Rect2(pc["pos"] + Vector2(cell.y, cell.x) * s, Vector2(s, s))
+			bb = r if first else bb.merge(r)
+			first = false
+		var rects := [view_rect(field, bb)]
+		var text := "Try this strip next."
+		if level >= 2:
+			for r in def["solution"].size():
+				var line: String = def["solution"][r]
+				for c in line.length():
+					if line[c] == String(pc["id"]):
+						rects.append(view_rect(field, Rect2(field.org + Vector2(c, r) * field.u, Vector2(field.u, field.u))))
+			text = "It goes where the teal squares are. Rotate it to match."
+		return {"rects": rects, "text": text}
+	return {}
+
 func qa_state() -> Dictionary:
 	var out := []
 	for i in pieces.size():

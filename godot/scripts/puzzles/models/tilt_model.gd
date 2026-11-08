@@ -36,9 +36,11 @@ static func roll(rows: Array, from: Vector2i, dir: String) -> Dictionary:
 
 
 ## Shortest tilt sequence from S to rest on G, or [] if there is none.
-static func solve(rows: Array) -> Array:
-	var s := find(rows, "S")
+static func solve(rows: Array, from: Vector2i = Vector2i(-1, -1)) -> Array:
+	var s := find(rows, "S") if from.x < 0 else from
 	var g := find(rows, "G")
+	if s == g:
+		return []
 	var prev := {s: null}
 	var frontier := [s]
 	while not frontier.is_empty():

@@ -16,6 +16,7 @@ func _init() -> void:
 	test_panels(levels)
 	test_rooms(levels)
 	test_box(levels)
+	test_hint_planners(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -268,3 +269,16 @@ func test_box(levels: Array) -> void:
 					for p in st["pairs"]:
 						check(not seen.has(p), "patch pairs must be a permutation")
 						seen[p] = true
+
+
+func test_hint_planners(levels: Array) -> void:
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] == "water":
+			check(not WaterModel.first_move(d["tubes"].duplicate(), int(d["capacity"])).is_empty(), "water level %d: no hint from the start" % i)
+		if d["kind"] == "goods":
+			check(not GoodsModel.suggest(d, GoodsModel.init_racks(d)).is_empty(), "goods level %d: no hint from the start" % i)
+		if d["kind"] == "room":
+			check(not RoomModel.next_step(d, RoomModel.new()).is_empty(), "room level %d: no hint from the start" % i)
+		if d["kind"] == "tilt":
+			check(not TiltModel.solve(d["rows"], TiltModel.find(d["rows"], "S")).is_empty(), "tilt level %d: no hint from the start" % i)

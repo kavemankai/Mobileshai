@@ -77,3 +77,35 @@ static func auto_solve(def: Dictionary) -> Array:
 		if not progressed:
 			return []
 	return steps if st.goal_reached(def) else []
+
+
+func copy() -> RoomModel:
+	var c := RoomModel.new()
+	c.flags = flags.duplicate()
+	c.items = items.duplicate()
+	c.used = used.duplicate()
+	return c
+
+
+## The next useful step from here: [hotspot, item or "", "keypad" or ""], or [].
+static func next_step(def: Dictionary, st: RoomModel) -> Array:
+	for s in def["hotspots"]:
+		if not spot_visible(s, st) or st.used.has(s["id"]):
+			continue
+		if s.get("keypad", false):
+			if not st.flags.has(def["keypad"]["sets"]):
+				# only worth it once everything else that gives information has been seen
+				continue
+			continue
+		var tries := [""]
+		for it in st.items:
+			tries.append(it)
+		for it in tries:
+			var probe := st.copy()
+			var r := probe.use_spot(def, s, it)
+			if r["ok"] and not r["keypad"]:
+				return [s["id"], it, ""]
+	for s in def["hotspots"]:
+		if s.get("keypad", false) and spot_visible(s, st) and not st.flags.has(def["keypad"]["sets"]):
+			return [s["id"], "", "keypad"]
+	return []

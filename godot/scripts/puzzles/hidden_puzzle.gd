@@ -251,6 +251,17 @@ func _refresh() -> void:
 		pnl.modulate.a = 0.6 if done else 1.0
 
 
+func board_hint(level: int) -> Dictionary:
+	for s in spots:
+		if s["found"]:
+			continue
+		var n: Label = s["node"]
+		var c: Vector2 = n.position + n.size / 2.0
+		var half := 46.0 if level < 2 else 18.0
+		var t := _target(String(s["id"]))
+		return {"rects": [view_rect(_stage, Rect2(c - Vector2(half, half), Vector2(half, half) * 2.0))], "text": "Look around here for the %s." % String(t["label"]).to_lower()}
+	return {}
+
 func qa_state() -> Dictionary:
 	var pts := []
 	for s in spots:

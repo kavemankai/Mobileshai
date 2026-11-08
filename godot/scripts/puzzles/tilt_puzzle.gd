@@ -42,6 +42,16 @@ func build() -> void:
 	say("The ball only stops at a wall. It has to stop on the gold valve.")
 
 
+func board_hint(level: int) -> Dictionary:
+	var h := board.next_tilt()
+	if h.is_empty():
+		return {}
+	var names := {"U": "up", "D": "down", "L": "left", "R": "right"}
+	if level < 2:
+		return {"rects": [view_rect(board, h["rest"])], "text": "Get the ball to stop on the glowing square first."}
+	var btn: Control = _pad_buttons[h["dir"]]
+	return {"rects": [view_rect(btn, Rect2(Vector2.ZERO, btn.size)), view_rect(board, h["rest"])], "text": "Tilt %s." % names[h["dir"]]}
+
 func qa_state() -> Dictionary:
 	return {"kind": "tilt", "ball": [board.ball_cell.x, board.ball_cell.y], "goal": [board.goal.x, board.goal.y],
 		"solution": TiltModel.solve(def["rows"]), "moving": board.moving, "moves": board.moves,

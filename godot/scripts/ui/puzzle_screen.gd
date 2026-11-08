@@ -36,7 +36,16 @@ func _ready() -> void:
 	var kind := String(l["puzzle"]["kind"])
 	_head.add_theme_constant_override("separation", 4)
 	_head.add_child(UI.eyebrow("%s · %s" % [Puzzles.LABEL.get(kind, kind), l["title"]]))
-	_head.add_child(UI.label(Game.fill(String(l["task"])), 16, UI.INK))
+	# the task stays to two lines so the board owns the screen; tap it to read the rest
+	var task := UI.label(Game.fill(String(l["task"])), 15, UI.INK2)
+	task.max_lines_visible = 2
+	task.text_overrun_behavior = TextServer.OVERRUN_TRIM_ELLIPSIS
+	task.mouse_filter = Control.MOUSE_FILTER_STOP
+	task.gui_input.connect(func(e: InputEvent) -> void:
+		if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT:
+			task.max_lines_visible = -1 if task.max_lines_visible > 0 else 2)
+	UI.qa(task, "puzzle.task")
+	_head.add_child(task)
 
 	_frame = UI.panel(UI.BG2, 16, UI.LINE, 1, 8)
 	_frame.size_flags_vertical = Control.SIZE_EXPAND_FILL
@@ -53,8 +62,9 @@ func _ready() -> void:
 
 	_actions.add_theme_constant_override("separation", 8)
 	var row := UI.hbox(10)
-	var reset := FxButton.new("↺ Reset")
-	reset.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+	var reset := FxButton.new("↺")
+	reset.custom_minimum_size.x = 64
+	reset.tooltip_text = "Reset"
 	reset.pressed.connect(_on_reset)
 	UI.qa(reset, "puzzle.reset")
 	row.add_child(reset)
@@ -69,7 +79,6 @@ func _ready() -> void:
 		dev.pressed.connect(func() -> void: app.win(true))
 		UI.qa(dev, "puzzle.dev_skip")
 		_actions.add_child(dev)
-	_actions.add_child(UI.label("No timer. No penalties. Progress saves automatically.", 12, UI.MUTE, "sans", HORIZONTAL_ALIGNMENT_CENTER))
 
 	_col.add_theme_constant_override("separation", 10)
 	_row.add_theme_constant_override("separation", 16)
@@ -86,6 +95,9 @@ func _ready() -> void:
 	content.add_child(pad)
 	# a board that needs more room than the window has makes the page scroll, instead of squeezing the board
 	_page.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_DISABLED
+	# no visible bar: a bar that appears and disappears changes the width, which changes the board's height request,
+	# which brings the bar back... and the page never settles. Touch and wheel scrolling still work.
+	_page.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	_page.follow_focus = false
 	pad.add_child(_page)
 	_holder.size_flags_horizontal = Control.SIZE_EXPAND_FILL
@@ -198,8 +210,14 @@ func _refresh_hints() -> void:
 	var hints: Array = Game.current_level()["hints"]
 	for i in mini(n, 2):
 		var p := UI.panel(Color(UI.AMBER, 0.08), 8, Color(0, 0, 0, 0), 0, 10)
-		var t := UI.label("Hint %d: %s" % [i + 1, Game.fill(String(hints[i]))], 15, UI.INK)
+		var t := UI.label("Hint %d: %s" % [i + 1, Game.fill(String(hints[i]))], 14, UI.INK)
 		p.add_child(t)
+		var level := i + 1
+		p.mouse_filter = Control.MOUSE_FILTER_STOP
+		p.gui_input.connect(func(e: InputEvent) -> void:
+			if e is InputEventMouseButton and e.pressed and e.button_index == MOUSE_BUTTON_LEFT and view:
+				view.show_board_hint(level))
+		UI.qa(p, "puzzle.hint_panel.%d" % level)
 		_hint_box.add_child(p)
 	_hint_btn.text = "Hint %d" % (n + 1) if n < 2 else "Skip puzzle"
 
@@ -215,5 +233,7 @@ func _on_hint() -> void:
 		await get_tree().process_frame
 		if p and is_instance_valid(p) and p is Control:
 			Fx.fade_in(p, 0.3)
+		if view:
+			view.show_board_hint(Game.hints_used(lvl))
 	else:
 		app.confirm("Skip this puzzle? You still get the evidence and the story carries on. No penalty.", "Skip it", func() -> void: app.win(true))
