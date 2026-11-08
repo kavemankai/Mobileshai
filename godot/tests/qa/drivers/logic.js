@@ -19,7 +19,8 @@ module.exports = async (c) => {
   s = await c.st(); console.log('grid_done', s.grid_done, 'accuse', s.accuse);
   await c.shot('3-grid');
   if (s.accuse){
-    await c.sleep(600); const wrong = (await c.rects()).find(r=>r.id==='logic.accuse.0'); await c.click(wrong.x+wrong.w/2, wrong.y+wrong.h/2); await c.sleep(300); await c.shot('4-wrong');
+    await c.sleep(600); for (let k=0;k<8;k++){ const r0=(await c.rects()).find(r=>r.id==='logic.accuse.0'); if (r0 && r0.y+r0.h < c.H-10) break; await c.p.mouse.move(c.W/2, 150); await c.p.mouse.wheel(0, 120); await c.sleep(200); }
+    const wrong = (await c.rects()).find(r=>r.id==='logic.accuse.0'); await c.click(wrong.x+wrong.w/2, wrong.y+wrong.h/2); await c.sleep(300); await c.shot('4-wrong');
     const ok = (await c.rects()).find(r=>r.id==='logic.accuse.2'); await c.click(ok.x+ok.w/2, ok.y+ok.h/2);
   }
   await c.sleep(2800);

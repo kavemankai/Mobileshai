@@ -1,7 +1,12 @@
 module.exports = async (c) => {
-  const rect = async id => (await c.rects()).find(r=>r.id===id);
+  const rect = async id => {
+    for (let k=0;k<10;k++){ const r=(await c.rects()).find(r=>r.id===id); if (r && r.y>60 && r.y+r.h<c.H-4) return r;
+      await c.p.mouse.move(c.W/2, 120); await c.p.mouse.wheel(0, r && r.y<60 ? -120 : 120); await c.sleep(200); }
+    return (await c.rects()).find(r=>r.id===id); };
   await c.shot('0-start');
   let s = await c.st();
+  const clip = st => { st.view = [Math.max(st.view[0],0), Math.min(st.view[1],c.H)]; return st; };
+  s = clip(s);
   const chk = await rect('tl.check');
   await c.click(chk.x+chk.w/2, chk.y+chk.h/2); await c.sleep(300);
   await c.shot('1-wrong');
@@ -9,7 +14,7 @@ module.exports = async (c) => {
   let drags=0, arrows=0;
   for (let i=0;i<s.solution.length;i++){
     for (let guard=0; guard<60; guard++){
-      s = await c.st();
+      s = clip(await c.st());
       const want = s.solution[i]; const j = s.order.indexOf(want);
       if (j===i) break;
       const g = s.grips[want];

@@ -79,16 +79,26 @@ const [W, H] = String(opt('viewport', '390x844')).split('x').map(Number);
 let failed = 0;
 try {
   if (opt('offline', false)) {
-    const s = await session(W, H);
-    await s.page.evaluate(async () => { await navigator.serviceWorker?.ready; });
-    await sleep(4000);
-    await s.context.setOffline(true);
-    await s.page.reload();
-    await s.page.waitForFunction(() => window.__lci && window.__lci.meta, null, { timeout: 90000 });
-    const m = await s.page.evaluate(() => window.__lci.meta());
-    console.log(m.levels === 28 ? 'PASS offline reload' : 'FAIL offline reload', JSON.stringify(m));
-    if (m.levels !== 28) failed++;
-    await s.browser.close();
+    // The service worker caches the plain URL, so this check uses it (no ?debug=1) and looks for a running engine.
+    const browser = await chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });
+    const context = await browser.newContext({ viewport: { width: W, height: H } });
+    const page = await context.newPage();
+    const plain = base.replace('?debug=1', '');
+    await page.goto(plain);
+    await page.waitForFunction(() => document.querySelector('#status')?.style.visibility === 'hidden' || !document.querySelector('#status'), null, { timeout: 90000 });
+    await page.evaluate(async () => { await navigator.serviceWorker?.ready; });
+    // Godot's service worker caches the engine and data on the first load it controls, i.e. the second visit
+    await page.reload();
+    await page.waitForFunction(() => !!document.querySelector('canvas') && !document.body.innerText.includes('You are offline') && (document.querySelector('#status')?.style.visibility === 'hidden' || !document.querySelector('#status')), null, { timeout: 90000 });
+    await sleep(Number(opt('sw-wait', 15000)));
+    await context.setOffline(true);
+    await page.reload();
+    let ok = true;
+    try { await page.waitForFunction(() => !document.body.innerText.includes('You are offline') && !!document.querySelector('canvas') && (document.querySelector('#status')?.style.visibility === 'hidden' || !document.querySelector('#status')), null, { timeout: 90000 }); } catch { ok = false; }
+    await page.screenshot({ path: path.join(shotDir, `offline-${W}x${H}.png`) });
+    console.log(ok ? 'PASS offline reload (engine started with the network off)' : 'FAIL offline reload');
+    if (!ok) failed++;
+    await browser.close();
   } else if (opt('full', false)) {
     // title to ending in one continuous run, with real saves: no jumps, no sandbox
     const s = await session(W, H);
