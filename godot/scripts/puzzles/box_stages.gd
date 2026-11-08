@@ -27,6 +27,8 @@ class Base extends Control:
 	signal done
 	signal status(text: String)
 	var finished := false
+	## A line the box shows under the clue when the stage has a rule the player has to discover.
+	var hint := ""
 
 	func _init() -> void:
 		set_anchors_preset(Control.PRESET_FULL_RECT)
@@ -40,55 +42,149 @@ class Base extends Control:
 
 
 # ---------------------------------------------------------------- screws
+## Four bits, four kinds of head, and the plate only comes off if the screws go in the order stamped beside them.
+## Pick the matching bit, then turn the screw about a turn and a half with a circular drag.
 class ScrewStage extends Base:
+	const HEADS := ["slot", "cross", "hex", "star"]
 	var count := 4
 	var plate := ""
-	var screws: Array = []   # {a, rot, lift, gone, fall}
+	var screws: Array = []   # {a, head, num, turn, lift, gone, fall}
+	var bit := -1
+	var next_num := 1
 	var plate_drop := 0.0:
 		set(v):
 			plate_drop = v
 			queue_redraw()
 	var left := 4
+	var _active := -1
+	var _last_ang := 0.0
+	var _shake := {}
 
 	func _init(st: Dictionary) -> void:
 		super()
 		count = int(st["count"])
 		plate = String(st["plate"])
 		left = count
+		hint = "Match the bit to the head, then unscrew in the order stamped on the plate. Turn the screw round with your finger."
+		var r := RandomNumberGenerator.new()
+		r.seed = hash(plate + str(count))
+		var nums := range(1, count + 1)
+		for i in range(count - 1, 0, -1):
+			var j := r.randi_range(0, i)
+			var t = nums[i]
+			nums[i] = nums[j]
+			nums[j] = t
 		for i in count:
-			screws.append({"a": float(i) / count * TAU + 0.6, "rot": 0.0, "lift": 0.0, "gone": false, "fall": 0.0})
-		status.emit.call_deferred("Unscrew the plate.")
+			screws.append({"a": float(i) / count * TAU + 0.6, "head": r.randi_range(0, 3), "num": nums[i], "turn": 0.0, "lift": 0.0, "gone": false, "fall": 0.0})
+		# every bit is needed at least once when there are four or more screws
+		if count >= 4:
+			for i in 4:
+				screws[i]["head"] = i
+			for i in range(count - 1, 0, -1):
+				var j := r.randi_range(0, i)
+				var t = screws[i]["head"]
+				screws[i]["head"] = screws[j]["head"]
+				screws[j]["head"] = t
+		status.emit.call_deferred("Pick a bit, then a screw.")
 
 	func _plate() -> Rect2:
 		var w := minf(size.x - 16.0, 320.0)
-		var h := minf(size.y - 8.0, w * 0.62)
-		return Rect2((size - Vector2(w, h)) / 2.0, Vector2(w, h))
+		var h := minf(size.y - 76.0, w * 0.6)
+		return Rect2(Vector2((size.x - w) / 2.0, 4.0), Vector2(w, h))
 
 	func _pos(i: int) -> Vector2:
 		var r := _plate()
-		return r.get_center() + Vector2(cos(screws[i]["a"]) * r.size.x * 0.38, sin(screws[i]["a"]) * r.size.y * 0.34)
+		return r.get_center() + Vector2(cos(screws[i]["a"]) * r.size.x * 0.38, sin(screws[i]["a"]) * r.size.y * 0.32)
+
+	func _bit_rect(k: int) -> Rect2:
+		var w := minf((size.x - 20.0) / 4.0, 70.0)
+		var total := w * 4.0
+		return Rect2((size.x - total) / 2.0 + k * w, size.y - 62.0, w - 6.0, 56.0)
+
+	func _process(_d: float) -> void:
+		if _shake.size() > 0:
+			queue_redraw()
 
 	func _gui_input(e: InputEvent) -> void:
 		if finished:
 			return
-		if e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT and e.pressed:
-			for i in count:
-				if not screws[i]["gone"] and _pos(i).distance_to(e.position) < 24.0:
-					_turn(i)
-					return
+		if e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT:
+			if e.pressed:
+				for k in 4:
+					if _bit_rect(k).has_point(e.position):
+						bit = k
+						Sound.sfx("pick")
+						queue_redraw()
+						return
+				for i in count:
+					if not screws[i]["gone"] and _pos(i).distance_to(e.position) < 26.0:
+						_grab(i, e.position)
+						return
+			else:
+				_active = -1
+		elif e is InputEventMouseMotion and _active >= 0:
+			var c := _pos(_active)
+			var ang: float = (e.position - c).angle()
+			var d: float = wrapf(ang - _last_ang, -PI, PI)
+			_last_ang = ang
+			if e.position.distance_to(c) > 8.0:
+				_turn(_active, d)
 
-	func _turn(i: int) -> void:
+	func _grab(i: int, p: Vector2) -> void:
+		var s: Dictionary = screws[i]
+		if bit < 0:
+			status.emit("Pick a bit from the tray first.")
+			Sound.sfx("invalid")
+			_wobble(i)
+			return
+		if bit != int(s["head"]):
+			status.emit("That bit slips. Look at the head of the screw.")
+			Sound.sfx("invalid")
+			Fx.haptic(14)
+			_wobble(i)
+			return
+		if int(s["num"]) != next_num:
+			status.emit("It binds. The plate has to come off in the stamped order.")
+			Sound.sfx("static")
+			Fx.haptic(14)
+			_wobble(i)
+			return
+		_active = i
+		_last_ang = float((p - _pos(i)).angle())
+
+	func _wobble(i: int) -> void:
+		if not Fx.motion():
+			return
+		_shake[i] = 1.0
+		var tw := create_tween()
+		tw.tween_method(func(v: float) -> void:
+			_shake[i] = v
+			queue_redraw(), 1.0, 0.0, 0.35)
+		tw.tween_callback(func() -> void:
+			_shake.erase(i)
+			queue_redraw())
+
+	func _turn(i: int, d: float) -> void:
+		var s: Dictionary = screws[i]
+		s["turn"] = clampf(float(s["turn"]) + absf(d) / (TAU * 1.5), 0.0, 1.0)
+		if int(float(s["turn"]) * 12.0) != int(float(s["turn"]) * 12.0 - absf(d) / (TAU * 1.5) * 12.0):
+			Sound.sfx("ratchet", 0.08)
+		queue_redraw()
+		if float(s["turn"]) >= 1.0:
+			_active = -1
+			_out(i)
+
+	func _out(i: int) -> void:
 		var s: Dictionary = screws[i]
 		s["gone"] = true
 		left -= 1
-		Sound.sfx("ratchet", 0.05)
-		Fx.haptic(10)
+		next_num += 1
+		Fx.haptic(12)
 		if Fx.motion():
 			var tw := create_tween()
 			tw.tween_method(func(v: float) -> void:
-				s["rot"] = v * TAU * 3.0
-				s["lift"] = minf(v * 2.0, 1.0)
-				queue_redraw(), 0.0, 1.0, 0.55)
+				s["lift"] = v
+				queue_redraw(), 0.0, 1.0, 0.25)
 			tw.tween_method(func(v: float) -> void:
 				s["fall"] = v
 				queue_redraw(), 0.0, 1.0, 0.35).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
@@ -97,7 +193,7 @@ class ScrewStage extends Base:
 		if left == 0:
 			finished = true
 			if Fx.motion():
-				await get_tree().create_timer(0.85).timeout
+				await get_tree().create_timer(0.8).timeout
 				Sound.sfx("metal")
 				var tw2 := create_tween()
 				tw2.tween_property(self, "plate_drop", 1.0, 0.5).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
@@ -115,40 +211,72 @@ class ScrewStage extends Base:
 		draw_set_transform(off, plate_drop * 0.25, Vector2.ONE)
 		BoxStages.metal(r, self, 12.0)
 		var font := UI.font("mono_bold")
-		var ts := font.get_string_size(plate, HORIZONTAL_ALIGNMENT_LEFT, -1, 12)
-		draw_string(font, r.get_center() + Vector2(-ts.x / 2.0, 4), plate, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, Color("8fa3ac"))
+		var ts := font.get_string_size(plate, HORIZONTAL_ALIGNMENT_LEFT, -1, 11)
+		draw_string(font, r.get_center() + Vector2(-ts.x / 2.0, 4), plate, HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("8fa3ac"))
 		for i in count:
 			var s: Dictionary = screws[i]
 			var p := _pos(i)
+			var sh := Vector2(sin(Time.get_ticks_msec() * 0.06) * 4.0 * float(_shake.get(i, 0.0)), 0)
+			draw_circle(p, 10.0, Color(0, 0, 0, 0.55))
+			var ns := str(int(s["num"]))
+			draw_string(font, p + Vector2(-4, -17), ns, HORIZONTAL_ALIGNMENT_LEFT, -1, 12, UI.AMBER2 if int(s["num"]) >= next_num else Color("5b707a"))
+			if s["gone"] and float(s["fall"]) >= 1.0:
+				continue
+			var lp := p + sh
+			var sc := 1.0
+			var a := 1.0
 			if s["gone"]:
-				if s["fall"] >= 1.0:
-					draw_circle(p, 9.0, Color(0, 0, 0, 0.55))      # the hole it leaves
-					continue
-				draw_circle(p, 9.0, Color(0, 0, 0, 0.55))
-				var lp: Vector2 = p + Vector2(0, -10.0 * s["lift"] + 140.0 * s["fall"])
-				var sc: float = 1.0 + 0.35 * s["lift"]
-				draw_set_transform(off + lp, s["rot"], Vector2(sc, sc))
-				_screw_shape(Vector2.ZERO, 1.0 - s["fall"])
-				draw_set_transform(off, plate_drop * 0.25, Vector2.ONE)
-			else:
-				draw_set_transform(off + p, 0.0, Vector2.ONE)
-				_screw_shape(Vector2.ZERO, 1.0)
-				draw_set_transform(off, plate_drop * 0.25, Vector2.ONE)
+				lp += Vector2(0, -10.0 * float(s["lift"]) + 140.0 * float(s["fall"]))
+				sc = 1.0 + 0.35 * float(s["lift"])
+				a = 1.0 - float(s["fall"])
+			draw_set_transform(off + lp, float(s["turn"]) * TAU * 1.5, Vector2(sc, sc))
+			_screw_shape(int(s["head"]), a)
+			draw_set_transform(off, plate_drop * 0.25, Vector2.ONE)
+			if not s["gone"] and float(s["turn"]) > 0.0:
+				draw_arc(p, 16.0, -PI / 2.0, -PI / 2.0 + TAU * float(s["turn"]), 24, UI.AMBER2, 2.5, true)
 		draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
+		# the bit tray
+		for k in 4:
+			var br := _bit_rect(k)
+			draw_style_box(UI.flat(Color("22323a"), 8, UI.AMBER if bit == k else Color("4a5d66"), 2 if bit == k else 1, 0), br)
+			draw_set_transform(br.get_center(), 0.0, Vector2.ONE)
+			_head_glyph(k, 1.0, 0.8)
+			draw_set_transform(Vector2.ZERO, 0.0, Vector2.ONE)
 
-	func _screw_shape(c: Vector2, a: float) -> void:
-		draw_circle(c + Vector2(1, 2), 11.0, Color(0, 0, 0, 0.35 * a))
-		draw_circle(c, 11.0, Color("a7b4ba", a))
-		draw_circle(c, 8.0, Color("c9d3d7", a))
-		draw_line(c + Vector2(-6, 0), c + Vector2(6, 0), Color("4a5a62", a), 2.5)
-		draw_line(c + Vector2(0, -6), c + Vector2(0, 6), Color("4a5a62", a), 2.5)
+	func _head_glyph(kind: int, a: float, scale_: float) -> void:
+		var col := Color("4a5a62", a)
+		var k := 6.0 * scale_ * 1.4
+		match kind:
+			0:
+				draw_line(Vector2(-k, 0), Vector2(k, 0), col, 3.0)
+			1:
+				draw_line(Vector2(-k, 0), Vector2(k, 0), col, 3.0)
+				draw_line(Vector2(0, -k), Vector2(0, k), col, 3.0)
+			2:
+				var pts := PackedVector2Array()
+				for q in 6:
+					pts.append(Vector2(cos(q * TAU / 6.0), sin(q * TAU / 6.0)) * k)
+				draw_colored_polygon(pts, col)
+			3:
+				for q in 3:
+					var ang: float = q * PI / 3.0
+					draw_line(Vector2(cos(ang), sin(ang)) * -k, Vector2(cos(ang), sin(ang)) * k, col, 2.5)
+
+	func _screw_shape(kind: int, a: float) -> void:
+		draw_circle(Vector2(1, 2), 11.0, Color(0, 0, 0, 0.35 * a))
+		draw_circle(Vector2.ZERO, 11.0, Color("a7b4ba", a))
+		draw_circle(Vector2.ZERO, 8.0, Color("c9d3d7", a))
+		_head_glyph(kind, a, 0.8)
 
 	func qa() -> Dictionary:
 		var pts := []
+		var order := []
 		for i in count:
-			if not screws[i]["gone"]:
-				pts.append(css(_pos(i)))
-		return {"pts": pts}
+			order.append({"num": screws[i]["num"], "head": screws[i]["head"], "gone": screws[i]["gone"], "pt": css(_pos(i))})
+		var bits := []
+		for k in 4:
+			bits.append(css(_bit_rect(k).get_center()))
+		return {"screws": order, "bits": bits, "radius": 14.0}
 
 
 # ---------------------------------------------------------------- sliders
@@ -157,6 +285,7 @@ class SliderStage extends Base:
 	var pos: Array = []          # animated float positions
 	var val: Array = []          # snapped ints
 	var _drag := -1
+	var _from := 0
 	var _ok := 0.0:
 		set(v):
 			_ok = v
@@ -165,9 +294,22 @@ class SliderStage extends Base:
 	func _init(st: Dictionary) -> void:
 		super()
 		targets = st["targets"]
-		for t in targets:
-			val.append((int(t) + 2) % 5)
-			pos.append(float((int(t) + 2) % 5))
+		hint = "The stops are linked: moving one drags the next one the other way (and the last drags the first)."
+		# start from the answer and undo a few linked moves, so the box can always be opened
+		var r := RandomNumberGenerator.new()
+		r.seed = hash(String(st["clue"]))
+		var v := targets.duplicate()
+		for _k in 7:
+			var i := r.randi_range(0, v.size() - 1)
+			var d := r.randi_range(1, 4)
+			v[i] = posmod(int(v[i]) + d, 5)
+			v[(i + 1) % v.size()] = posmod(int(v[(i + 1) % v.size()]) - d, 5)
+		if v == targets:
+			v[0] = posmod(int(v[0]) + 1, 5)
+			v[1] = posmod(int(v[1]) - 1, 5)
+		for x in v:
+			val.append(int(x))
+			pos.append(float(x))
 		status.emit.call_deferred(String(st["clue"]))
 
 	func _track(i: int) -> Rect2:
@@ -181,11 +323,6 @@ class SliderStage extends Base:
 		var t := _track(i)
 		return t.position.x + 22.0 + (t.size.x - 44.0) * p / 4.0
 
-	func _notch_at(i: int, x: float) -> int:
-		var t := _track(i)
-		var f := (x - t.position.x - 22.0) / (t.size.x - 44.0) * 4.0
-		return clampi(roundi(f), 0, 4)
-
 	func _gui_input(e: InputEvent) -> void:
 		if finished:
 			return
@@ -194,34 +331,50 @@ class SliderStage extends Base:
 				for i in targets.size():
 					if _track(i).grow(4.0).has_point(e.position):
 						_drag = i
+						_from = int(val[i])
 						pos[i] = clampf((e.position.x - _track(i).position.x - 22.0) / (_track(i).size.x - 44.0) * 4.0, 0.0, 4.0)
 						queue_redraw()
 						return
 			elif _drag >= 0:
-				_settle(_drag)
+				_release(_drag)
 				_drag = -1
 		elif e is InputEventMouseMotion and _drag >= 0:
 			var t := _track(_drag)
 			var f := clampf((e.position.x - t.position.x - 22.0) / (t.size.x - 44.0) * 4.0, 0.0, 4.0)
 			pos[_drag] = f
-			var near := roundi(f)
-			if near != val[_drag]:
-				val[_drag] = near
-				Sound.sfx("click", 0.05)
-				Fx.haptic(4)
+			if roundi(f) != roundi(float(pos[_drag]) - 0.0001) or true:
+				var near := roundi(f)
+				if near != val[_drag] and near != _last_tick:
+					_last_tick = near
+					Sound.sfx("click", 0.05)
+					Fx.haptic(4)
 			queue_redraw()
 
-	func _settle(i: int) -> void:
+	var _last_tick := -1
+
+	func _release(i: int) -> void:
 		var k := roundi(float(pos[i]))
+		var d := k - _from
 		val[i] = k
+		_last_tick = -1
+		_glide(i, float(k))
+		if d != 0:
+			# the neighbour is dragged the other way, wrapping round the notches
+			var j := (i + 1) % targets.size()
+			val[j] = posmod(int(val[j]) - d, 5)
+			Sound.sfx("ratchet", 0.05)
+			_glide(j, float(val[j]))
+		_check()
+
+	func _glide(i: int, to: float) -> void:
 		if Fx.motion():
 			var from: float = pos[i]
 			create_tween().tween_method(func(v: float) -> void:
 				pos[i] = v
-				queue_redraw(), from, float(k), 0.12).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+				queue_redraw(), from, to, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		else:
-			pos[i] = float(k)
-		_check()
+			pos[i] = to
+			queue_redraw()
 
 	func _check() -> void:
 		if finished:
@@ -245,17 +398,17 @@ class SliderStage extends Base:
 			var x0 := t.position.x + 22.0
 			var x1 := t.end.x - 22.0
 			draw_style_box(UI.flat(Color("0b1217"), 6, Color("2e4048"), 1, 0), Rect2(x0 - 6, cy - 6, x1 - x0 + 12, 12))
+			# a small gear between linked stops
+			if i < targets.size() - 1:
+				draw_string(font, Vector2(size.x / 2.0 - 4, t.end.y + 3), "⇅", HORIZONTAL_ALIGNMENT_LEFT, -1, 11, Color("4a5d66"))
 			for k in 5:
 				var x := x0 + (x1 - x0) * k / 4.0
 				draw_line(Vector2(x, cy - 12), Vector2(x, cy - 8), Color("5b707a"), 2.0)
-				var s := str(k)
-				draw_string(font, Vector2(x - 3, cy + 24), s, HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("8fa3ac"))
+				draw_string(font, Vector2(x - 3, cy + 24), str(k), HORIZONTAL_ALIGNMENT_LEFT, -1, 10, Color("8fa3ac"))
 			var kx := _x_of(i, float(pos[i]))
-			var ok := int(val[i]) == int(targets[i]) and _ok > 0.0
-			var col := Color("c9d3d7").lerp(UI.TEAL, _ok if ok or finished else 0.0)
+			var col := Color("c9d3d7").lerp(UI.TEAL, _ok if finished else 0.0)
 			draw_style_box(UI.flat(col, 7, Color("5b707a"), 2, 0), Rect2(kx - 14, cy - 15, 28, 30))
-			var txt := str(int(round(float(pos[i]))))
-			draw_string(font, Vector2(kx - 4, cy + 5), txt, HORIZONTAL_ALIGNMENT_LEFT, -1, 14, UI.DARK_INK)
+			draw_string(font, Vector2(kx - 4, cy + 5), str(int(round(float(pos[i])))), HORIZONTAL_ALIGNMENT_LEFT, -1, 14, UI.DARK_INK)
 
 	func qa() -> Dictionary:
 		var tr := []
@@ -272,11 +425,12 @@ class DialStage extends Base:
 	var code := ""
 	var wheels: Array = []
 	var val: Array = []
-	var _evidence: Control
+	var _silent := {}
 
 	func _init(st: Dictionary, clues: Array) -> void:
 		super()
 		code = String(st["code"])
+		hint = "The wheels are geared together: turning one turns the next the other way."
 		var col := UI.vbox(8)
 		col.set_anchors_preset(Control.PRESET_FULL_RECT)
 		add_child(col)
@@ -287,10 +441,23 @@ class DialStage extends Base:
 		row.set_anchors_preset(Control.PRESET_FULL_RECT)
 		row.alignment = BoxContainer.ALIGNMENT_CENTER
 		mid.add_child(row)
+		# start from the code and undo a few geared turns, so there is always a way in
+		var r := RandomNumberGenerator.new()
+		r.seed = hash(code + String(st["clue"]))
+		var v := []
+		for ch in code:
+			v.append(int(ch))
+		for _k in 6:
+			var i := r.randi_range(0, v.size() - 1)
+			var d := r.randi_range(1, 9)
+			v[i] = posmod(v[i] + d, 10)
+			v[(i + 1) % v.size()] = posmod(v[(i + 1) % v.size()] - d, 10)
+		if "".join(v.map(func(x: int) -> String: return str(x))) == code:
+			v[0] = posmod(v[0] + 3, 10)
+			v[1] = posmod(v[1] - 3, 10)
 		for i in code.length():
-			var start := (int(code[i]) + 5) % 10
-			val.append(start)
-			var w := DrumWheel.new(i, "0123456789", start)
+			val.append(v[i])
+			var w := DrumWheel.new(i, "0123456789", v[i])
 			w.custom_minimum_size = Vector2(48, 140)
 			w.size_flags_vertical = Control.SIZE_EXPAND_FILL
 			w.settled.connect(_settled)
@@ -303,7 +470,22 @@ class DialStage extends Base:
 		status.emit.call_deferred(String(st["clue"]))
 
 	func _settled(i: int, p: int) -> void:
+		var old: int = val[i]
 		val[i] = p
+		if _silent.get(i, 0) > 0:
+			_silent[i] = int(_silent[i]) - 1
+		elif p != old:
+			# the geared neighbour turns the other way by the same amount
+			var d := posmod(p - old + 5, 10) - 5
+			var j := (i + 1) % wheels.size()
+			var target := posmod(int(val[j]) - d, 10)
+			_silent[j] = int(_silent.get(j, 0)) + 1
+			Sound.sfx("ratchet", 0.05)
+			wheels[j].set_value(target)
+			return
+		_check()
+
+	func _check() -> void:
 		if finished:
 			return
 		var s := ""
@@ -419,14 +601,27 @@ class PressStage extends Base:
 	var count := 6
 	var target := 0
 	var sink: Array = []
-	var _clue_text := ""
+	var wear: Array = []
+	var _held := -1
+	var _held_t := 0.0
 
 	func _init(st: Dictionary) -> void:
 		super()
 		count = int(st["count"])
 		target = int(st["target"])
+		hint = "Press and hold a panel. Solid ones do not move. The one that is loose will give."
+		var r := RandomNumberGenerator.new()
+		r.seed = hash(String(st["clue"]))
 		for i in count:
 			sink.append(0.0)
+			# dust everywhere; the loose panel is only a little cleaner, and two decoys are about as clean
+			wear.append(r.randf_range(0.82, 1.0))
+		var decoys := 0
+		for i in count:
+			if i != target and decoys < 2:
+				wear[i] = r.randf_range(1.0, 1.08)
+				decoys += 1
+		wear[target] = 1.07
 		status.emit.call_deferred(String(st["clue"]))
 
 	func _cols() -> int:
@@ -442,53 +637,67 @@ class PressStage extends Base:
 	func _gui_input(e: InputEvent) -> void:
 		if finished:
 			return
-		if e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT and e.pressed:
-			for i in count:
-				if _rect(i).has_point(e.position):
-					_push(i)
-					return
+		if e is InputEventMouseButton and e.button_index == MOUSE_BUTTON_LEFT:
+			if e.pressed:
+				for i in count:
+					if _rect(i).has_point(e.position):
+						_held = i
+						_held_t = 0.0
+						Sound.sfx("tap", 0.05)
+						return
+			else:
+				_release()
 
-	func _push(i: int) -> void:
-		var hit := i == target
-		if Fx.motion():
-			var tw := create_tween()
-			tw.tween_method(func(v: float) -> void:
+	func _release() -> void:
+		if _held < 0:
+			return
+		var i := _held
+		_held = -1
+		if not finished and float(sink[i]) > 0.0 and Fx.motion():
+			var from: float = sink[i]
+			create_tween().tween_method(func(v: float) -> void:
 				sink[i] = v
-				queue_redraw(), 0.0, 1.0 if hit else 0.25, 0.12)
-			if not hit:
-				tw.tween_method(func(v: float) -> void:
-					sink[i] = v
-					queue_redraw(), 0.25, 0.0, 0.18).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
+				queue_redraw(), from, 0.0, 0.2).set_trans(Tween.TRANS_BACK).set_ease(Tween.EASE_OUT)
 		else:
-			sink[i] = 1.0 if hit else 0.0
-		if hit:
+			sink[i] = 0.0
+		if _held_t < 0.45 and i != target:
+			status.emit("Solid. Hold a little longer to feel for give.")
+
+	func _process(d: float) -> void:
+		if _held < 0 or finished:
+			return
+		_held_t += d
+		var i := _held
+		# solid panels barely move; the loose one gives under a steady press
+		var limit := 1.0 if i == target else 0.14
+		sink[i] = minf(float(sink[i]) + d * (2.2 if i == target else 1.0), limit)
+		queue_redraw()
+		if i == target and float(sink[i]) >= 1.0:
 			finished = true
+			_held = -1
 			Sound.sfx("latch")
 			Fx.haptic(16)
-			if Fx.motion():
-				await get_tree().create_timer(0.35).timeout
-			queue_redraw()
-			done.emit()
-		else:
-			Sound.sfx("tap")
-			status.emit("Solid. Nothing moves.")
+			_finish_press()
+
+	func _finish_press() -> void:
+		if Fx.motion():
+			await get_tree().create_timer(0.35).timeout
+		done.emit()
 
 	func _draw() -> void:
 		for i in count:
 			var r := _rect(i)
 			var s: float = sink[i]
-			var odd := i == target
-			var tone := 1.25 if odd else 0.85
 			var rr := Rect2(r.position + Vector2(0, 4.0 * s), r.size).grow(-3.0 * s)
-			BoxStages.metal(rr, self, 8.0, tone * (1.0 - 0.25 * s))
+			BoxStages.metal(rr, self, 8.0, float(wear[i]) * (1.0 - 0.25 * s))
 			for k in 4:
 				var cx := rr.position.x + (10.0 if k % 2 == 0 else rr.size.x - 10.0)
 				var cy := rr.position.y + (10.0 if k < 2 else rr.size.y - 10.0)
 				draw_circle(Vector2(cx, cy), 3.0, Color("1c262b"))
-			if not odd:
-				# dust
-				for k in 6:
-					draw_circle(rr.position + Vector2(fmod(i * 17.0 + k * 23.0, rr.size.x), fmod(i * 11.0 + k * 31.0, rr.size.y)), 1.3, Color(0.7, 0.65, 0.55, 0.25))
+			# dust, thicker where the panel is dirtier
+			var dust := int((1.1 - float(wear[i])) * 60.0) + 2
+			for k in dust:
+				draw_circle(rr.position + Vector2(fmod(i * 17.0 + k * 23.0, rr.size.x), fmod(i * 11.0 + k * 31.0, rr.size.y)), 1.2, Color(0.7, 0.65, 0.55, 0.28))
 
 	func qa() -> Dictionary:
 		var pts := []

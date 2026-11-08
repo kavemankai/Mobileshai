@@ -17,6 +17,10 @@ const TABLE := {
 }
 
 
+## Textures must stay referenced: a draw call holds only the GPU handle, so a texture nobody owns is freed and draws white.
+static var _cache := {}
+
+
 ## {tex, src} where src is the part of the picture to show in a square frame.
 static func get_crop(key: String) -> Dictionary:
 	if not TABLE.has(key):
@@ -25,7 +29,9 @@ static func get_crop(key: String) -> Dictionary:
 	var path := "res://assets/%s" % e["f"]
 	if not ResourceLoader.exists(path):
 		return {}
-	var tex: Texture2D = load(path)
+	if not _cache.has(path):
+		_cache[path] = load(path)
+	var tex: Texture2D = _cache[path]
 	var tw := float(tex.get_width())
 	var th := float(tex.get_height())
 	var s := minf(tw, th)
