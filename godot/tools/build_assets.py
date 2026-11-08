@@ -67,9 +67,13 @@ def convert_audio() -> None:
 def emoji_codepoints() -> str:
     """Every emoji the story data and the code ask for, so the subset never misses one."""
     text = ""
-    for path in (os.path.join(ROOT, "game", "src", "story", "levels.ts"),):
+    # the level data, plus every script (some icons are written in code)
+    paths = [os.path.join(ROOT, "godot", "data", "levels.json")]
+    for base, _dirs, files in os.walk(os.path.join(ROOT, "godot", "scripts")):
+        paths += [os.path.join(base, f) for f in files if f.endswith(".gd")]
+    for path in paths:
         text += open(path, encoding="utf-8").read()
-    extra = "🔦🪛🕸🔳🧰🔲🪙🧤"
+    extra = "🔦🪛🕸🔳🧰🔲🪙🧤👆"
     cps = set()
     for ch in text + extra:
         cp = ord(ch)
@@ -108,3 +112,11 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
+
+
+
+def build_emoji_only() -> None:
+    """Rebuilds just the emoji subset, when new icons appear in the data or code."""
+    out = os.path.join(DST, "fonts")
+    subprocess.run([sys.executable, "-m", "fontTools.subset", EMOJI_SRC, f"--unicodes={emoji_codepoints()},U+FE0F",
+                    f"--output-file={os.path.join(out, 'emoji_subset.ttf')}"], check=True)

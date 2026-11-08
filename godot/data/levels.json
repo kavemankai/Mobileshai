@@ -725,7 +725,7 @@
    "ch": 0,
    "title": "The Contradiction",
    "scene": "security",
-   "task": "Put tonight’s events in order. No times on the cards: use what you know.",
+   "task": "Mark the camera map: one watcher in every row, column and coloured zone. Watchers can't touch, not even at the corners.",
    "intro": [
     [
      "NARRATOR",
@@ -739,7 +739,7 @@
    "reveal": [
     [
      "NARRATOR",
-     "Laid out in order, there’s no room for Owen’s version. Nina was taken before you arrived. On your card."
+     "With every watcher placed, the map leaves no room for Owen’s version. Nina was taken before you arrived. On your card."
     ],
     [
      "NARRATOR",
@@ -763,51 +763,19 @@
     "text": "Your NIGHT SHIFT credential was used at 11:26 PM before you arrived, and again at 12:09 AM to enter Room 17 while you were in the security office. Someone has a copy of your card."
    },
    "hints": [
-    "Nina saw the checkout before she wrote the note. She was taken through the staff door.",
-    "Order: Nina enters security, the checkout, the note, the staff door, the van, you arrive."
+    "Start with the zone that has the fewest squares. A watcher crosses out its row, column, zone and every square around it.",
+    "If one zone fits entirely inside a single row, nobody else can use that row."
    ],
    "puzzle": {
-    "kind": "timeline",
-    "prompt": "Tonight, earliest at the top.",
-    "order": [
-     "a",
-     "b",
-     "c",
-     "d",
-     "e",
-     "f"
-    ],
-    "cards": [
-     {
-      "id": "a",
-      "title": "Nina walks into the security office",
-      "detail": "Corridor camera. She is carrying a folder and checking her watch."
-     },
-     {
-      "id": "b",
-      "title": "A maintenance jacket checks out Room 17",
-      "detail": "Reception camera. The terminal is still logged in as Nina."
-     },
-     {
-      "id": "c",
-      "title": "Nina writes you a note",
-      "detail": "“I watched it happen on the security monitor.”"
-     },
-     {
-      "id": "d",
-      "title": "The staff door opens on your card",
-      "detail": "The reader log. Nina’s recording ends around now."
-     },
-     {
-      "id": "e",
-      "title": "The grey van rolls toward the gate",
-      "detail": "Two people in the cab. One isn’t moving."
-     },
-     {
-      "id": "f",
-      "title": "You walk in, late",
-      "detail": "Rain, an empty desk, a handbag under it."
-     }
+    "kind": "stakeout",
+    "caption": "CORRIDOR CAMERA MAP",
+    "regions": [
+     "CCCBAA",
+     "CBBBDA",
+     "CCCBDD",
+     "CCEDDD",
+     "EEEEFD",
+     "EEEEFD"
     ]
    }
   },
@@ -1950,7 +1918,7 @@
    "ch": 2,
    "title": "The Archived Film",
    "scene": "records",
-   "task": "Order the surviving frames from the 2019 road camera.",
+   "task": "Rebuild the road camera grid: one marker in every row, column and zone, none touching.",
    "intro": [
     [
      "NARRATOR",
@@ -1962,13 +1930,13 @@
     ],
     [
      "NARRATOR",
-     "Six frames, no timestamps."
+     "The camera grid survives, the frames don’t. One car per lane, one per post, one per zone."
     ]
    ],
    "reveal": [
     [
      "NARRATOR",
-     "In order, the frames show a motel company car taking Kestrel Bend too fast. The impact. The driver getting out and making a call."
+     "Laid on the grid, the surviving frames line up: a motel company car taking Kestrel Bend too fast. The impact. The driver getting out and making a call."
     ],
     [
      "NARRATOR",
@@ -2000,51 +1968,20 @@
     "text": "The 2019 frames show a motel company car hitting Mara Ward, the driver calling someone, and Owen arriving afterwards. The driver’s face is hidden by glare."
    },
    "hints": [
-    "Think about what has to happen before what. The second vehicle arrives after the phone call.",
-    "Empty road, the car, impact, the driver gets out, Owen arrives, the car backs away."
+    "Look for a zone squeezed into one row or column. That line belongs to it.",
+    "Two zones that only cover the same two columns own both columns. Cross out everything else there."
    ],
    "puzzle": {
-    "kind": "timeline",
-    "prompt": "18 October 2019, earliest at the top.",
-    "order": [
-     "a",
-     "b",
-     "c",
-     "d",
-     "e",
-     "f"
-    ],
-    "cards": [
-     {
-      "id": "a",
-      "title": "Headlights on a wet road",
-      "detail": "Nothing in frame but a woman walking on the shoulder."
-     },
-     {
-      "id": "b",
-      "title": "A car takes Kestrel Bend",
-      "detail": "Motel livery on the door. Too fast for the wet."
-     },
-     {
-      "id": "c",
-      "title": "Impact",
-      "detail": "The windscreen whites out in the glare."
-     },
-     {
-      "id": "d",
-      "title": "The driver gets out",
-      "detail": "Kneels on the road, then stands and makes a phone call."
-     },
-     {
-      "id": "e",
-      "title": "A second vehicle arrives",
-      "detail": "Owen’s ute. He walks to the car, not to her."
-     },
-     {
-      "id": "f",
-      "title": "The company car backs out of frame",
-      "detail": "One headlight broken. Owen stays behind with a torch."
-     }
+    "kind": "stakeout",
+    "caption": "ROUTE 9 · ROAD CAMERA GRID",
+    "regions": [
+     "AAAABBB",
+     "AAABBBB",
+     "CCCDDDB",
+     "CCFFDDB",
+     "CEFFDDD",
+     "EEGFFDD",
+     "EGGFFDD"
     ]
    }
   },
@@ -2956,7 +2893,7 @@
    "ch": 3,
    "title": "The Final Account",
    "scene": "security",
-   "task": "Give the dispatcher the whole chronology, earliest first.",
+   "task": "Post the officers: one in every row, column and wing of the floor plan, none side by side.",
    "intro": [
     [
      "NARRATOR",
@@ -2964,11 +2901,11 @@
     ],
     [
      "DISPATCH",
-     "For the statement: walk me through it in order. The crash, the cover-up, tonight."
+     "Before the statement: I need officers on every row of the floor plan, one per wing, nobody side by side."
     ],
     [
      "YOU",
-     "All of it. In order."
+     "Give me the plan."
     ]
    ],
    "reveal": [
@@ -3010,63 +2947,21 @@
     "text": "Nina is safe. Daniel Price is in custody for the abduction and the 2019 death of Mara Ward. Owen Mercer is being questioned over the cover-up. The evidence is safe off-site."
    },
    "hints": [
-    "The evidence board has every time you need. Seven years ago comes first, tonight comes last.",
-    "Crash, insurance change, first payment, card cloned, checkout, Nina taken, Room 17 searched, upload."
+    "Find zones trapped in a single row or column first, then pairs of zones sharing two rows.",
+    "If placing a marker on a square would leave some zone with no room at all, that square is out."
    ],
    "puzzle": {
-    "kind": "timeline",
-    "prompt": "The whole case, earliest at the top.",
-    "order": [
-     "a",
-     "b",
-     "c",
-     "d",
-     "e",
-     "f",
-     "g",
-     "h"
-    ],
-    "cards": [
-     {
-      "id": "a",
-      "title": "Mara Ward dies at Kestrel Bend",
-      "detail": "The road camera was still working that night."
-     },
-     {
-      "id": "b",
-      "title": "Owen changes the insurance paperwork",
-      "detail": "“You told me nobody was hurt.”"
-     },
-     {
-      "id": "c",
-      "title": "The first retainer payment",
-      "detail": "The first October after the crash."
-     },
-     {
-      "id": "d",
-      "title": "Daniel clones your NIGHT SHIFT card",
-      "detail": "The encoder’s own clock: 22:57."
-     },
-     {
-      "id": "e",
-      "title": "Room 17 is checked out on Nina’s login",
-      "detail": "The checkout she watched on the monitor."
-     },
-     {
-      "id": "f",
-      "title": "Nina is taken through the staff door",
-      "detail": "Your cloned card opens it."
-     },
-     {
-      "id": "g",
-      "title": "Room 17 is searched",
-      "detail": "Your card again, while you sat in security."
-     },
-     {
-      "id": "h",
-      "title": "The evidence reaches the police server",
-      "detail": "Before dawn."
-     }
+    "kind": "stakeout",
+    "caption": "MARINER FLOOR PLAN · OFFICER POSTS",
+    "regions": [
+     "AAAAABBC",
+     "AAAABBBC",
+     "DDABBCCC",
+     "DDBBBCEF",
+     "DDBBHEEF",
+     "DHBBHHEF",
+     "GHHBHHFF",
+     "GHHHHHFF"
     ]
    }
   }

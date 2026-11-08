@@ -16,6 +16,12 @@ node .game-toolkit/adapters/web/serve.mjs --dir godot/build/web --port 4180
 
 `cd godot && $G --headless --quit-after 60` runs the project for 60 frames and prints any script errors.
 
+## Level data
+
+`data/levels.json` is the source of truth from the Stakeout change on. The web build in `game/` is frozen; it cannot play the new puzzle kinds, and `tools/export_levels.ts` must not be run again (it would overwrite the new levels with the old ones).
+
+New Stakeout boards come from `tools/gen_stakeout.py --size N --level L --seed S`. It only prints boards with exactly one solution, graded by the reasoning they need (1 singles, 2 a zone confined to a row or column, 3 a trial). `tests/test_models.gd` re-checks uniqueness for every Stakeout level.
+
 ## Android (sideload)
 
 ```bash
@@ -47,7 +53,7 @@ These were found by trying, not assumed. Each one cost an hour somewhere if forg
 ```
 godot/
   project.godot, export_presets.cfg, main.tscn
-  data/levels.json            generated from game/src/story/levels.ts (tools/export_levels.ts)
+  data/levels.json            the level data: edit this directly (see below)
   assets/                     art, portraits, items, tiles, cctv, audio (ogg), fonts
   scripts/autoload/           Game (state, saves, settings), Sound, QA (browser test bridge)
   scripts/core/               UI helpers, Fx (juice), FxButton

@@ -17,6 +17,7 @@ func _init() -> void:
 	test_rooms(levels)
 	test_box(levels)
 	test_hint_planners(levels)
+	test_stakeout(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -282,3 +283,26 @@ func test_hint_planners(levels: Array) -> void:
 			check(not RoomModel.next_step(d, RoomModel.new()).is_empty(), "room level %d: no hint from the start" % i)
 		if d["kind"] == "tilt":
 			check(not TiltModel.solve(d["rows"], TiltModel.find(d["rows"], "S")).is_empty(), "tilt level %d: no hint from the start" % i)
+
+
+func test_stakeout(levels: Array) -> void:
+	var n := 0
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "stakeout":
+			continue
+		n += 1
+		var m := StakeoutModel.from_def(d)
+		var sols := m.solutions(3)
+		check(sols.size() == 1, "stakeout level %d has %d solutions, wants exactly 1" % [i, sols.size()])
+		var zones := {}
+		for r in m.n:
+			for c in m.n:
+				zones[m.zone[r][c]] = true
+		check(zones.size() == m.n, "stakeout level %d: %d zones on a %d grid" % [i, zones.size(), m.n])
+		if sols.size() == 1:
+			for r in m.n:
+				m.marks[r][int(sols[0][r])] = 2
+			check(m.solved(), "stakeout level %d: the solution does not check" % i)
+		print("stakeout level %d: %dx%d" % [i, m.n, m.n])
+	check(n == 3, "expected 3 stakeout levels, found %d" % n)
