@@ -142,3 +142,57 @@ class HintGlow extends Control:
 			if i > 0 and level >= 2:
 				var a: Rect2 = rects[0]
 				draw_line(a.get_center(), r.get_center(), Color(col, 0.5 + 0.3 * pulse), 3.0, true)
+
+
+# ---------- first-time teaching ----------
+
+## Override: a demonstration move for the first time this kind of puzzle appears.
+## {from: Vector2, to: Vector2 (same as from for a tap), text: String}, in this view's coordinates, or {}.
+func ghost_move() -> Dictionary:
+	return {}
+
+
+func show_ghost() -> void:
+	var g := ghost_move()
+	if g.is_empty():
+		return
+	if g.has("text"):
+		say(String(g["text"]))
+	add_child(GhostHand.new(g["from"], g.get("to", g["from"])))
+
+
+## A pointing hand that shows one move twice, then fades. It never touches the puzzle.
+class GhostHand extends Control:
+	var a := Vector2.ZERO
+	var b := Vector2.ZERO
+	var t := 0.0
+	var hand: Label
+
+	func _init(from: Vector2, to: Vector2) -> void:
+		a = from
+		b = to
+		set_anchors_preset(Control.PRESET_FULL_RECT)
+		mouse_filter = Control.MOUSE_FILTER_IGNORE
+		z_index = 45
+		hand = UI.label("👆", 40, Color.WHITE, "sans", HORIZONTAL_ALIGNMENT_CENTER, false)
+		hand.size = Vector2(56, 56)
+		add_child(hand)
+
+	func _process(d: float) -> void:
+		t += d
+		var cycle := fmod(t, 1.8)
+		var k := clampf((cycle - 0.35) / 0.9, 0.0, 1.0)
+		var pos := a.lerp(b, k * k * (3.0 - 2.0 * k))
+		hand.position = pos + Vector2(-14, -4)
+		var press := 1.0 - 0.15 * (1.0 if cycle > 0.2 and cycle < 0.4 else 0.0)
+		hand.scale = Vector2(press, press)
+		modulate.a = 1.0 if t < 3.6 else maxf(0.0, 1.0 - (t - 3.6) / 0.5)
+		if t > 4.1:
+			queue_free()
+		queue_redraw()
+
+	func _draw() -> void:
+		var cycle := fmod(t, 1.8)
+		if cycle > 0.2 and cycle < 0.6:
+			var r := 10.0 + 30.0 * (cycle - 0.2)
+			draw_arc(a, r, 0.0, TAU, 24, Color(1, 1, 1, 0.6 - (cycle - 0.2)), 2.0, true)

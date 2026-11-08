@@ -1,6 +1,6 @@
 # Migration to Godot
 
-The web build in `game/` (TypeScript, Vite) stays at the site root and is the reference until the Godot build is approved. The Godot project lives here, in `godot/`. The Pages workflow builds both: the Godot build is published at `/godot/`. Nothing in `game/` changed.
+The Godot project lives here, in `godot/`, and is the game. The Pages workflow still builds the frozen web build in `game/` (TypeScript, Vite), but the site root now forwards to `/godot/` and unregisters the old build's service worker. The old build stays reachable only by its asset paths.
 
 **Engine:** Godot 4.6.2, GL Compatibility renderer (the only one that exports to web), single-threaded web export (no COOP/COEP headers needed, so it works on GitHub Pages).
 
@@ -15,6 +15,12 @@ node .game-toolkit/adapters/web/serve.mjs --dir godot/build/web --port 4180
 ```
 
 `cd godot && $G --headless --quit-after 60` runs the project for 60 frames and prints any script errors.
+
+## Level data
+
+`data/levels.json` is the source of truth from the Stakeout change on. The web build in `game/` is frozen; it cannot play the new puzzle kinds, and `tools/export_levels.ts` must not be run again (it would overwrite the new levels with the old ones).
+
+New Stakeout boards come from `tools/gen_stakeout.py --size N --level L --seed S`. It only prints boards with exactly one solution, graded by the reasoning they need (1 singles, 2 a zone confined to a row or column, 3 a trial). `tests/test_models.gd` re-checks uniqueness for every Stakeout level.
 
 ## Android (sideload)
 
@@ -47,7 +53,7 @@ These were found by trying, not assumed. Each one cost an hour somewhere if forg
 ```
 godot/
   project.godot, export_presets.cfg, main.tscn
-  data/levels.json            generated from game/src/story/levels.ts (tools/export_levels.ts)
+  data/levels.json            the level data: edit this directly (see below)
   assets/                     art, portraits, items, tiles, cctv, audio (ogg), fonts
   scripts/autoload/           Game (state, saves, settings), Sound, QA (browser test bridge)
   scripts/core/               UI helpers, Fx (juice), FxButton
@@ -60,12 +66,11 @@ godot/
 
 ## Status
 
-All 28 levels play in Godot: the story, saves, settings, the evidence board and all 13 puzzle kinds are built and animated.
+All 28 levels play in Godot: the story, saves, settings, the evidence board and all 14 puzzle kinds are built and animated.
 
 | Kind | View | What moves |
 |---|---|---|
 | Path (zip) | `zip_puzzle.gd` | glowing trail that glides after the finger, retracts when you back up, numbers light up, line sweeps and bursts on a solve |
-| Timeline | `timeline_puzzle.gd` | grip drag with live reorder (cards slide aside), arrows, tap-to-swap, ticks on a wrong check, thread lights up on a solve |
 | Deduction (logic) | `logic_puzzle.gd` | ink-draw crosses and ticks, spreading auto-crosses, row and column highlight, accusation step |
 | Cryptex | `cryptex_puzzle.gd` + `core/drum_wheel.gd` | cylinder drums with inertia, snap and click, golden lock-in |
 | Sort (goods) | `goods_puzzle.gd` | cards fly in an arc and land with a squash, locked sets flash and burst |
@@ -74,11 +79,13 @@ All 28 levels play in Godot: the story, saves, settings, the evidence board and 
 | Reassemble (blockfit) | `blockfit_puzzle.gd` | drag a strip with a ghost that turns green or red, snap, tap to lift back |
 | Maze (tilt) | `tilt_board.gd` | rolling ball with trail, squash on walls, hole swirl, spinning valve; swipe, keys, buttons, phone tilt |
 | Frames (panels) | `panels_puzzle.gd` | frames glide on swap, crossfade and punch zoom, lit path with a travelling bead |
-| Search (hidden) | `hidden_puzzle.gd` | items pop and fly to the list, miss ripples, idle glimmer |
 | Mechanism (box) | `box_puzzle.gd`, `box_stages.gd` | screws spin and drop, notched sliders, drum dials, spring levers, patch cables with sparks, maze stage |
-| Explore (room) | `room_puzzle.gd` | items fly to the pockets, drag an item onto the scene, lit keypad |
+| Stakeout | `stakeout_puzzle.gd` | tap cycles ✕ / watcher, drag paints ✕, conflicts glow red, zones in colour and letter |
+| Screws | `screws_puzzle.gd` | screws spin out and fly to their box or the tray, full boxes leave, plates drop, Undo |
+| Arrows | `arrows_puzzle.gd` | arrows snake off the board, blocked ones bump and return |
+| Jam | `jam_puzzle.gd` | drag blocks square by square, they leave through a matching gate, moves against par |
 
-Rules live in `scripts/puzzles/models/` as plain GDScript with no nodes, so `tests/test_models.gd` can check every level headless: Path and Cryptex are solvable, every Deduction level has exactly one solution, Water, Sort and Maze levels are solvable, every Frames level has a solution, every room can be finished, every lever stage can be lit, and random match-3 play clears the static.
+Rules live in `scripts/puzzles/models/` as plain GDScript with no nodes, so `tests/test_models.gd` can check every level headless: Path and Cryptex are solvable, every Deduction level has exactly one solution, Water, Sort and Maze levels are solvable, every Frames level has a solution, every Stakeout level has one solution, every Screws, Arrows and Jam level can be cleared, every lever stage can be lit, and random match-3 play clears the static.
 
 ## Tests
 
@@ -116,13 +123,17 @@ Not run: any real device, TalkBack or VoiceOver, text-scale 2 and 3 sweeps, safe
 
 ## Layout notes learned the hard way
 
-- A wrapped `Label` reports its real height two or three frames after its width is set. Anything positioned from `get_combined_minimum_size()` has to wait (see `title_screen.gd`, `timeline_puzzle.gd`, the keypad).
+- A wrapped `Label` reports its real height two or three frames after its width is set. Anything positioned from `get_combined_minimum_size()` has to wait (see `title_screen.gd`).
 - Tweening `position` on a child of a `Container` fights the container. Boards are plain `Control`s with manual layout; containers only hold UI.
 - A node that defines `_input` receives every event in window coordinates. Board input uses `gui_input` instead; only the Maze defines `_input` on purpose, so arrow keys work wherever focus is.
-- A puzzle that needs more room than the window gives calls `ask_height()`; in portrait `PuzzleScreen` makes the page scroll instead of squeezing the board. In landscape the request is dropped, the header moves to the right column, and the board fits the window (Deduction and Mechanism scroll inside themselves; Explore and Search go side by side).
+- A puzzle that needs more room than the window gives calls `ask_height()`; in portrait `PuzzleScreen` makes the page scroll instead of squeezing the board. In landscape the request is dropped, the header moves to the right column, and the board fits the window (Deduction and Mechanism scroll inside themselves; Screws puts its boxes and tray in a side column).
 
 ## Known limits of a Godot web build
 
 - **No screen-reader support.** The game draws to a canvas, so there is no DOM text for TalkBack or VoiceOver. Keyboard focus order and target sizes are covered; screen readers are not, and this is a loss against the web build.
 - **Larger first download** than the 8 MB web build, and iOS Safari is the platform most likely to show audio or memory quirks. Neither can be tested without a device.
 - **Saves**: Godot web stores `user://` in IndexedDB, not localStorage. The first run imports an existing web save from localStorage once.
+
+## Removed kinds
+
+Timeline, Explore (room) and Search (hidden) were removed with their models, drivers and tests. Their nine levels now use Stakeout (3), Screws (2), Arrows (2) and Jam (2). Boards come from `tools/gen_stakeout.py`, `gen_screws.py`, `gen_arrows.py` and `gen_jam.py`, each of which checks its boards with a solver before printing them.

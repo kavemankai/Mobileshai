@@ -118,7 +118,7 @@
    "ch": 0,
    "title": "The Night Register",
    "scene": "reception",
-   "task": "Search the reception desk. Find the four missing receipts, Nina’s spare key and the yellow sticky note.",
+   "task": "Clear the receipt pile. Tap a slip and it slides off the way it points, if nothing is in its path.",
    "intro": [
     [
      "NARRATOR",
@@ -168,74 +168,198 @@
     "text": "Room 17’s 11:18 PM checkout has no guest signature. Nina had flagged Room 17 as wrong. A guest in Room 12, “Bennett”, says Nina told her to wait."
    },
    "hints": [
-    "Receipts are small, curled and pale. There are four of them in different corners.",
-    "Check under the edges of things: one receipt is near the bottom left, one near the top right."
+    "Start with slips whose path to the edge is already clear.",
+    "Each slip you clear opens a path for the ones behind it. Work from the outside in."
    ],
    "puzzle": {
-    "kind": "hidden",
-    "scene": "reception",
-    "clutter": 55,
-    "clutterGlyphs": [
-     "☕",
-     "📎",
-     "🖊️",
-     "📚",
-     "🛎️",
-     "🗝️",
-     "🧴",
-     "📦",
-     "🪴",
-     "🗞️",
-     "💡",
-     "📞",
-     "🧷",
-     "✂️",
-     "📒",
-     "🗂️",
-     "🕯️",
-     "🧻",
-     "📄",
-     "💳"
-    ],
-    "targets": [
-     {
-      "id": "receipt",
-      "label": "Receipts",
-      "glyph": "🧾",
-      "x": 14,
-      "y": 84
-     },
-     {
-      "id": "key",
-      "label": "Nina’s spare key",
-      "glyph": "🔑",
-      "x": 62,
-      "y": 33
-     },
-     {
-      "id": "note",
-      "label": "Yellow sticky note",
-      "glyph": "📝",
-      "x": 40,
-      "y": 58
-     }
-    ],
-    "extra": {
-     "receipt": [
+    "kind": "arrows",
+    "caption": "NIGHT REGISTER · RECEIPT PILE",
+    "w": 6,
+    "h": 7,
+    "arrows": [
+     [
       [
-       85,
-       12
+       6,
+       2
       ],
       [
-       47,
-       26
+       6,
+       1
+      ]
+     ],
+     [
+      [
+       6,
+       0
       ],
       [
-       76,
-       71
+       5,
+       0
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       0
+      ],
+      [
+       4,
+       1
+      ]
+     ],
+     [
+      [
+       5,
+       4
+      ],
+      [
+       4,
+       4
+      ],
+      [
+       4,
+       3
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       3
+      ]
+     ],
+     [
+      [
+       4,
+       5
+      ],
+      [
+       3,
+       5
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       2,
+       4
+      ],
+      [
+       1,
+       4
+      ]
+     ],
+     [
+      [
+       6,
+       4
+      ],
+      [
+       6,
+       5
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       2
+      ],
+      [
+       1,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       5
+      ],
+      [
+       0,
+       5
+      ],
+      [
+       0,
+       4
+      ]
+     ],
+     [
+      [
+       5,
+       1
+      ],
+      [
+       5,
+       2
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       0,
+       2
+      ],
+      [
+       0,
+       1
+      ],
+      [
+       0,
+       0
+      ]
+     ],
+     [
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       2,
+       1
+      ],
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       2
+      ],
+      [
+       2,
+       3
       ]
      ]
-    }
+    ]
    }
   },
   {
@@ -472,7 +596,7 @@
    "ch": 0,
    "title": "The Tampered Reader",
    "scene": "service",
-   "task": "Search the service corridor and get the staff-door reader open.",
+   "task": "Strip the reader's cover plates. Each screw goes in the box of its colour; spares wait in the tray.",
    "intro": [
     [
      "NARRATOR",
@@ -506,84 +630,155 @@
     "text": "The staff door opened at 11:26 PM on the NIGHT SHIFT credential. That is your card, and you arrived at 11:43. Your card never left your pocket."
    },
    "hints": [
-    "Tap things to search them. Some things need something from your pockets first.",
-    "Torch from the fuse cupboard, use it on the dark alcove, then use the screwdriver on the reader."
+    "Look at which colour boxes are open before you tap. A screw with nowhere to go fills the tray.",
+    "Clear the top plates first: every plate that drops uncovers more screws to choose from."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "service",
-    "goal": "readerOpen",
-    "items": {
-     "torch": {
-      "label": "Torch",
-      "icon": "🔦"
+    "kind": "screws",
+    "caption": "STAFF-DOOR READER · COVER PLATES",
+    "plates": [
+     {
+      "rect": [
+       0.154,
+       0.408,
+       0.605,
+       0.304
+      ],
+      "screws": [
+       [
+        0.686,
+        0.457,
+        "G"
+       ],
+       [
+        0.456,
+        0.56,
+        "B"
+       ],
+       [
+        0.226,
+        0.663,
+        "R"
+       ]
+      ]
      },
-     "screwdriver": {
-      "label": "Screwdriver",
-      "icon": "🪛"
+     {
+      "rect": [
+       0.452,
+       0.346,
+       0.494,
+       0.318
+      ],
+      "screws": [
+       [
+        0.887,
+        0.397,
+        "R"
+       ],
+       [
+        0.512,
+        0.397,
+        "Y"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.315,
+       0.673,
+       0.383,
+       0.279
+      ],
+      "screws": [
+       [
+        0.361,
+        0.907,
+        "R"
+       ],
+       [
+        0.506,
+        0.813,
+        "B"
+       ],
+       [
+        0.652,
+        0.718,
+        "B"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.445,
+       0.389,
+       0.47,
+       0.24
+      ],
+      "screws": [
+       [
+        0.501,
+        0.427,
+        "G"
+       ],
+       [
+        0.501,
+        0.591,
+        "Y"
+       ],
+       [
+        0.858,
+        0.591,
+        "G"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.053,
+       0.453,
+       0.483,
+       0.307
+      ],
+      "screws": [
+       [
+        0.111,
+        0.502,
+        "R"
+       ],
+       [
+        0.478,
+        0.711,
+        "R"
+       ],
+       [
+        0.111,
+        0.711,
+        "R"
+       ],
+       [
+        0.478,
+        0.502,
+        "Y"
+       ]
+      ]
      }
-    },
-    "hotspots": [
-     {
-      "id": "fuse",
-      "label": "Fuse cupboard",
-      "icon": "🗄️",
-      "x": 4,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "text": "The door sticks, then gives. A torch is clipped inside.",
-      "doneText": "Fuses. One empty slot where the reception fuse should be.",
-      "gives": "torch"
-     },
-     {
-      "id": "alcove",
-      "label": "Dark alcove",
-      "icon": "🕸️",
-      "x": 62,
-      "y": 8,
-      "w": 32,
-      "h": 20,
-      "needs": "torch",
-      "needsText": "Too dark to see what’s back there.",
-      "text": "The torch finds a toolbox shoved under the pipes. Inside: a flat screwdriver.",
-      "doneText": "An empty toolbox.",
-      "gives": "screwdriver"
-     },
-     {
-      "id": "door",
-      "label": "Staff door",
-      "icon": "🚪",
-      "x": 36,
-      "y": 30,
-      "w": 26,
-      "h": 22,
-      "text": "Locked from this side. Fresh scuffs at the bottom, like something heavy was dragged through."
-     },
-     {
-      "id": "bucket",
-      "label": "Mop bucket",
-      "icon": "🪣",
-      "x": 6,
-      "y": 58,
-      "w": 28,
-      "h": 16,
-      "text": "Grey water. Someone mopped this floor tonight. Nobody mops the service corridor."
-     },
-     {
-      "id": "reader",
-      "label": "Access reader",
-      "icon": "📟",
-      "x": 60,
-      "y": 56,
-      "w": 32,
-      "h": 20,
-      "needs": "screwdriver",
-      "needsText": "The casing is hanging off one screw. You need something to undo it.",
-      "text": "Two turns and the casing swings open. The memory unit is intact.",
-      "sets": "readerOpen"
-     }
-    ]
+    ],
+    "boxes": [
+     "Y",
+     "G",
+     "R",
+     "B",
+     "R"
+    ],
+    "tray": 5,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
@@ -725,7 +920,7 @@
    "ch": 0,
    "title": "The Contradiction",
    "scene": "security",
-   "task": "Put tonight’s events in order. No times on the cards: use what you know.",
+   "task": "Mark the camera map: one watcher in every row, column and coloured zone. Watchers can't touch, not even at the corners.",
    "intro": [
     [
      "NARRATOR",
@@ -739,7 +934,7 @@
    "reveal": [
     [
      "NARRATOR",
-     "Laid out in order, there’s no room for Owen’s version. Nina was taken before you arrived. On your card."
+     "With every watcher placed, the map leaves no room for Owen’s version. Nina was taken before you arrived. On your card."
     ],
     [
      "NARRATOR",
@@ -763,51 +958,19 @@
     "text": "Your NIGHT SHIFT credential was used at 11:26 PM before you arrived, and again at 12:09 AM to enter Room 17 while you were in the security office. Someone has a copy of your card."
    },
    "hints": [
-    "Nina saw the checkout before she wrote the note. She was taken through the staff door.",
-    "Order: Nina enters security, the checkout, the note, the staff door, the van, you arrive."
+    "Start with the zone that has the fewest squares. A watcher crosses out its row, column, zone and every square around it.",
+    "If one zone fits entirely inside a single row, nobody else can use that row."
    ],
    "puzzle": {
-    "kind": "timeline",
-    "prompt": "Tonight, earliest at the top.",
-    "order": [
-     "a",
-     "b",
-     "c",
-     "d",
-     "e",
-     "f"
-    ],
-    "cards": [
-     {
-      "id": "a",
-      "title": "Nina walks into the security office",
-      "detail": "Corridor camera. She is carrying a folder and checking her watch."
-     },
-     {
-      "id": "b",
-      "title": "A maintenance jacket checks out Room 17",
-      "detail": "Reception camera. The terminal is still logged in as Nina."
-     },
-     {
-      "id": "c",
-      "title": "Nina writes you a note",
-      "detail": "“I watched it happen on the security monitor.”"
-     },
-     {
-      "id": "d",
-      "title": "The staff door opens on your card",
-      "detail": "The reader log. Nina’s recording ends around now."
-     },
-     {
-      "id": "e",
-      "title": "The grey van rolls toward the gate",
-      "detail": "Two people in the cab. One isn’t moving."
-     },
-     {
-      "id": "f",
-      "title": "You walk in, late",
-      "detail": "Rain, an empty desk, a handbag under it."
-     }
+    "kind": "stakeout",
+    "caption": "CORRIDOR CAMERA MAP",
+    "regions": [
+     "CCCBAA",
+     "CBBBDA",
+     "CCCBDD",
+     "CCEDDD",
+     "EEEEFD",
+     "EEEEFD"
     ]
    }
   },
@@ -815,7 +978,7 @@
    "ch": 1,
    "title": "Through the Door",
    "scene": "corridor17",
-   "task": "Find the staff override code for Room 17 somewhere in this corridor.",
+   "task": "Clear the carts jamming the corridor. Drag each one out through the gap of its own colour.",
    "intro": [
     [
      "NARRATOR",
@@ -827,13 +990,13 @@
     ],
     [
      "YOU",
-     "There’s a staff keypad. Nina would know the code. Nina’s not here."
+     "Housekeeping carts and laundry bags, wedged end to end. Nina would have had this cleared in a minute."
     ]
    ],
    "reveal": [
     [
      "NARRATOR",
-     "The lock clicks. Room 17 has been torn apart. Drawers pulled out and dumped, mattress shoved off the base."
+     "The last cart rolls clear and the door swings in on its own. Room 17 has been torn apart. Drawers pulled out and dumped, mattress shoved off the base."
     ],
     [
      "NARRATOR",
@@ -853,102 +1016,226 @@
     "text": "Room 17 was torn apart at 12:09 AM by whoever has your cloned card. The registered guest, Martin Hale, never slept there."
    },
    "hints": [
-    "Nina’s note on the back says how the override is built. Look for the room number, then the time the checkout lied.",
-    "Move the cart, read the board, check under the mat. Room 17, checkout 11:18: 1718."
+    "A cart only leaves through a gap of its colour that is at least as wide as it is.",
+    "Move the small carts out of the way first; the big ones need a clear run to their gap."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "corridor17",
-    "goal": "doorOpen",
-    "items": {},
-    "keypad": {
-     "code": "1718",
-     "sets": "doorOpen",
-     "label": "ROOM 17 · STAFF OVERRIDE"
-    },
-    "hotspots": [
+    "kind": "jam",
+    "caption": "CORRIDOR · ROOM 17",
+    "w": 5,
+    "h": 6,
+    "blocks": [
      {
-      "id": "note",
-      "label": "Back of Nina’s note",
-      "icon": "📝",
-      "x": 4,
-      "y": 6,
-      "w": 30,
-      "h": 16,
-      "text": "In pencil on the back: “Staff override = the room, then the minute it lied.”"
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       4,
+       0
+      ]
      },
      {
-      "id": "door",
-      "label": "Room door",
-      "icon": "🚪",
-      "x": 38,
-      "y": 10,
-      "w": 26,
-      "h": 26,
-      "text": "The brass number plate has been unscrewed. Two empty holes where it was."
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        2,
+        0
+       ]
+      ],
+      "pos": [
+       3,
+       2
+      ]
      },
      {
-      "id": "mat",
-      "label": "Door mat",
-      "icon": "🟫",
-      "x": 38,
-      "y": 40,
-      "w": 26,
-      "h": 12,
-      "text": "Under the mat: the brass plate from the door. 1 7."
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       1,
+       1
+      ]
      },
      {
-      "id": "cart",
-      "label": "Housekeeping cart",
-      "icon": "🧺",
-      "x": 66,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "text": "You roll the cart aside. Behind it, the housekeeping board.",
-      "doneText": "Towels, soap, a clipboard with nothing on it.",
-      "sets": "cartMoved"
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        0,
+        2
+       ]
+      ],
+      "pos": [
+       0,
+       0
+      ]
      },
      {
-      "id": "board",
-      "label": "Housekeeping board",
-      "icon": "📋",
-      "x": 66,
-      "y": 28,
-      "w": 30,
-      "h": 18,
-      "visibleIf": "cartMoved",
-      "text": "Chalk, smudged: “R17 · OUT 11:18 · N.S.” Nina’s initials. Except Nina didn’t do it."
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       4,
+       3
+      ]
      },
      {
-      "id": "ice",
-      "label": "Ice machine",
-      "icon": "🧊",
-      "x": 4,
-      "y": 58,
-      "w": 30,
-      "h": 16,
-      "text": "It rattles. A puddle under it, and wet footprints leading to 17 and back."
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       1,
+       3
+      ]
      },
      {
-      "id": "keypad",
-      "label": "Door keypad",
-      "icon": "🔢",
-      "x": 62,
-      "y": 58,
-      "w": 32,
-      "h": 16,
-      "text": "",
-      "keypad": true
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "pos": [
+       2,
+       3
+      ]
+     },
+     {
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       2,
+       0
+      ]
      }
-    ]
+    ],
+    "gates": [
+     {
+      "side": "S",
+      "at": 0,
+      "len": 2,
+      "color": "R"
+     },
+     {
+      "side": "E",
+      "at": 3,
+      "len": 3,
+      "color": "R"
+     },
+     {
+      "side": "N",
+      "at": 0,
+      "len": 2,
+      "color": "B"
+     },
+     {
+      "side": "W",
+      "at": 0,
+      "len": 3,
+      "color": "B"
+     },
+     {
+      "side": "N",
+      "at": 2,
+      "len": 3,
+      "color": "Y"
+     },
+     {
+      "side": "E",
+      "at": 0,
+      "len": 3,
+      "color": "Y"
+     },
+     {
+      "side": "S",
+      "at": 2,
+      "len": 3,
+      "color": "G"
+     },
+     {
+      "side": "W",
+      "at": 4,
+      "len": 2,
+      "color": "G"
+     }
+    ],
+    "par": 12,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
    "ch": 1,
    "title": "The Hidden Vent",
    "scene": "room17",
-   "task": "Search Room 17 for whatever the intruder was looking for.",
+   "task": "Get the vent grille off. Screws go in their colour's box; the tray only holds five.",
    "intro": [
     [
      "YOU",
@@ -956,7 +1243,7 @@
     ],
     [
      "NARRATOR",
-     "Nina knew this motel better than anyone. She’d have left a mark only staff would notice."
+     "Nina knew this motel better than anyone. The vent grille above the bed has been screwed back on by someone in a hurry."
     ]
    ],
    "reveal": [
@@ -982,108 +1269,223 @@
     "text": "Nina hid a microSD card marked “WARD · 18 OCT 2019” in Room 17’s air vent. Whoever searched the room missed it."
    },
    "hints": [
-    "Nina leaves marks. Look at the window, then find something to open the vent with.",
-    "The windowsill scratch points at the vent. The coin from the drawer turns the screws. The grille is painted shut: the bathroom cabinet has something to lever it."
+    "Plan two boxes ahead. Leave screws in place until their colour's box opens.",
+    "If the tray is filling up, use Undo and take a different screw first."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "room17",
-    "goal": "ventOpen",
-    "items": {
-     "coin": {
-      "label": "50c coin",
-      "icon": "🪙"
+    "kind": "screws",
+    "caption": "ROOM 17 · VENT GRILLE",
+    "plates": [
+     {
+      "rect": [
+       0.265,
+       0.09,
+       0.492,
+       0.251
+      ],
+      "screws": [
+       [
+        0.698,
+        0.13,
+        "R"
+       ],
+       [
+        0.324,
+        0.301,
+        "B"
+       ],
+       [
+        0.698,
+        0.301,
+        "R"
+       ],
+       [
+        0.324,
+        0.13,
+        "B"
+       ]
+      ]
      },
-     "screwdriver": {
-      "label": "Screwdriver",
-      "icon": "🪛"
+     {
+      "rect": [
+       0.145,
+       0.319,
+       0.417,
+       0.288
+      ],
+      "screws": [
+       [
+        0.513,
+        0.562,
+        "B"
+       ],
+       [
+        0.195,
+        0.366,
+        "Y"
+       ],
+       [
+        0.513,
+        0.366,
+        "R"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.463,
+       0.168,
+       0.468,
+       0.342
+      ],
+      "screws": [
+       [
+        0.519,
+        0.455,
+        "R"
+       ],
+       [
+        0.875,
+        0.455,
+        "Y"
+       ],
+       [
+        0.875,
+        0.223,
+        "R"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.369,
+       0.114,
+       0.54,
+       0.291
+      ],
+      "screws": [
+       [
+        0.433,
+        0.358,
+        "P"
+       ],
+       [
+        0.843,
+        0.358,
+        "P"
+       ],
+       [
+        0.638,
+        0.259,
+        "Y"
+       ],
+       [
+        0.843,
+        0.16,
+        "G"
+       ],
+       [
+        0.433,
+        0.16,
+        "R"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.339,
+       0.408,
+       0.537,
+       0.337
+      ],
+      "screws": [
+       [
+        0.403,
+        0.691,
+        "Y"
+       ],
+       [
+        0.403,
+        0.462,
+        "B"
+       ],
+       [
+        0.812,
+        0.691,
+        "G"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.431,
+       0.167,
+       0.404,
+       0.226
+      ],
+      "screws": [
+       [
+        0.633,
+        0.28,
+        "B"
+       ],
+       [
+        0.479,
+        0.203,
+        "B"
+       ],
+       [
+        0.786,
+        0.203,
+        "Y"
+       ],
+       [
+        0.479,
+        0.357,
+        "P"
+       ]
+      ]
+     },
+     {
+      "rect": [
+       0.217,
+       0.617,
+       0.42,
+       0.275
+      ],
+      "screws": [
+       [
+        0.267,
+        0.661,
+        "Y"
+       ],
+       [
+        0.587,
+        0.848,
+        "G"
+       ]
+      ]
      }
-    },
-    "hotspots": [
-     {
-      "id": "drawer",
-      "label": "Bedside drawer",
-      "icon": "🗄️",
-      "x": 4,
-      "y": 6,
-      "w": 28,
-      "h": 16,
-      "text": "Pulled out and dumped on the carpet. In the mess, a fifty-cent coin.",
-      "doneText": "Hotel notepad, a pen, a Bible with the bookmark ripped out.",
-      "gives": "coin"
-     },
-     {
-      "id": "sill",
-      "label": "Windowsill",
-      "icon": "🪟",
-      "x": 36,
-      "y": 6,
-      "w": 28,
-      "h": 16,
-      "text": "A pale scratch in the paint. Fresh. A tiny arrow pointing down and to the right.",
-      "sets": "arrow"
-     },
-     {
-      "id": "bed",
-      "label": "Bed",
-      "icon": "🛏️",
-      "x": 66,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "text": "Mattress half off. They checked under it, inside the pillowcases, under the base."
-     },
-     {
-      "id": "bin",
-      "label": "Bin",
-      "icon": "🗑️",
-      "x": 4,
-      "y": 56,
-      "w": 26,
-      "h": 16,
-      "text": "Empty, fresh liner. Someone cleaned this room before someone else wrecked it."
-     },
-     {
-      "id": "bath",
-      "label": "Bathroom cabinet",
-      "icon": "🚿",
-      "x": 34,
-      "y": 56,
-      "w": 26,
-      "h": 16,
-      "text": "Bleach smell. The cabinet hangs open, empty except for a maintenance screwdriver taped under the shelf.",
-      "doneText": "Bleach and an empty shelf.",
-      "gives": "screwdriver"
-     },
-     {
-      "id": "vent",
-      "label": "Air vent",
-      "icon": "🌀",
-      "x": 64,
-      "y": 56,
-      "w": 30,
-      "h": 16,
-      "visibleIf": "arrow",
-      "needs": "coin",
-      "needsText": "The vent screws are slotted, painted over. A coin would turn them.",
-      "text": "The screws give. The grille is still stuck, painted shut along every edge.",
-      "sets": "ventScrews"
-     },
-     {
-      "id": "grille",
-      "label": "Vent grille",
-      "icon": "🔳",
-      "x": 64,
-      "y": 34,
-      "w": 30,
-      "h": 16,
-      "visibleIf": "ventScrews",
-      "needs": "screwdriver",
-      "needsText": "Painted shut. You need something thin to lever it.",
-      "text": "The paint cracks and the grille swings open. Taped to the duct wall, a waterproof sleeve.",
-      "sets": "ventOpen"
-     }
-    ]
+    ],
+    "boxes": [
+     "R",
+     "Y",
+     "P",
+     "G",
+     "Y",
+     "B",
+     "B",
+     "R"
+    ],
+    "tray": 5,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
@@ -1554,7 +1956,7 @@
    "ch": 1,
    "title": "The Ward File",
    "scene": "records",
-   "task": "Search the records office for the five documents on Nina’s memory card list.",
+   "task": "Pull every file out of the jammed drawer. A file only slides out if nothing blocks the way it points.",
    "intro": [
     [
      "NARRATOR",
@@ -1596,70 +1998,257 @@
     "text": "Mara Ward was killed by a hit-and-run at Kestrel Bend on 18 October 2019. The motel logged damage, amended an insurance claim and destroyed the road camera archive. Claire Bennett is Mara’s sister, born Claire Ward."
    },
    "hints": [
-    "The documents are scattered through the whole room, including the edges.",
-    "The archive log is a tape near the top left. The photo is low on the right."
+    "Find the files pointing straight at the edge with nothing in front.",
+    "Look at what each blocked file is waiting for, and clear that first."
    ],
    "puzzle": {
-    "kind": "hidden",
-    "scene": "records",
-    "clutter": 60,
-    "clutterGlyphs": [
-     "📁",
-     "📂",
-     "🗂️",
-     "📦",
-     "📚",
-     "📄",
-     "📎",
-     "🖇️",
-     "🗃️",
-     "💾",
-     "📠",
-     "☕",
-     "🗒️",
-     "📰",
-     "✏️",
-     "🔩",
-     "📌",
-     "🕰️",
-     "🗄️"
-    ],
-    "targets": [
-     {
-      "id": "police",
-      "label": "Police report",
-      "glyph": "📋",
-      "x": 72,
-      "y": 22
-     },
-     {
-      "id": "insurance",
-      "label": "Insurance claim",
-      "glyph": "📑",
-      "x": 27,
-      "y": 47
-     },
-     {
-      "id": "maint",
-      "label": "Maintenance request",
-      "glyph": "🔧",
-      "x": 55,
-      "y": 64
-     },
-     {
-      "id": "archive",
-      "label": "Archive log",
-      "glyph": "📼",
-      "x": 12,
-      "y": 15
-     },
-     {
-      "id": "photo",
-      "label": "Photo of Mara",
-      "glyph": "🖼️",
-      "x": 86,
-      "y": 82
-     }
+    "kind": "arrows",
+    "caption": "RECORDS OFFICE · JAMMED DRAWER",
+    "w": 7,
+    "h": 8,
+    "arrows": [
+     [
+      [
+       2,
+       3
+      ],
+      [
+       2,
+       2
+      ],
+      [
+       3,
+       2
+      ],
+      [
+       3,
+       3
+      ],
+      [
+       3,
+       4
+      ]
+     ],
+     [
+      [
+       6,
+       4
+      ],
+      [
+       6,
+       5
+      ],
+      [
+       6,
+       6
+      ],
+      [
+       5,
+       6
+      ]
+     ],
+     [
+      [
+       1,
+       3
+      ],
+      [
+       1,
+       4
+      ],
+      [
+       0,
+       4
+      ],
+      [
+       0,
+       5
+      ]
+     ],
+     [
+      [
+       0,
+       3
+      ],
+      [
+       0,
+       2
+      ],
+      [
+       1,
+       2
+      ]
+     ],
+     [
+      [
+       2,
+       6
+      ],
+      [
+       2,
+       5
+      ],
+      [
+       2,
+       4
+      ]
+     ],
+     [
+      [
+       4,
+       4
+      ],
+      [
+       4,
+       3
+      ],
+      [
+       5,
+       3
+      ],
+      [
+       6,
+       3
+      ]
+     ],
+     [
+      [
+       3,
+       1
+      ],
+      [
+       3,
+       0
+      ],
+      [
+       4,
+       0
+      ],
+      [
+       5,
+       0
+      ],
+      [
+       5,
+       1
+      ]
+     ],
+     [
+      [
+       3,
+       5
+      ],
+      [
+       3,
+       6
+      ]
+     ],
+     [
+      [
+       1,
+       0
+      ],
+      [
+       0,
+       0
+      ],
+      [
+       0,
+       1
+      ]
+     ],
+     [
+      [
+       1,
+       6
+      ],
+      [
+       1,
+       5
+      ]
+     ],
+     [
+      [
+       7,
+       6
+      ],
+      [
+       7,
+       5
+      ]
+     ],
+     [
+      [
+       7,
+       4
+      ],
+      [
+       7,
+       3
+      ]
+     ],
+     [
+      [
+       6,
+       2
+      ],
+      [
+       6,
+       1
+      ],
+      [
+       7,
+       1
+      ],
+      [
+       7,
+       0
+      ]
+     ],
+     [
+      [
+       5,
+       4
+      ],
+      [
+       5,
+       5
+      ]
+     ],
+     [
+      [
+       4,
+       1
+      ],
+      [
+       4,
+       2
+      ]
+     ],
+     [
+      [
+       4,
+       5
+      ],
+      [
+       4,
+       6
+      ]
+     ],
+     [
+      [
+       2,
+       0
+      ],
+      [
+       2,
+       1
+      ],
+      [
+       1,
+       1
+      ]
+     ]
     ]
    }
   },
@@ -1950,7 +2539,7 @@
    "ch": 2,
    "title": "The Archived Film",
    "scene": "records",
-   "task": "Order the surviving frames from the 2019 road camera.",
+   "task": "Rebuild the road camera grid: one marker in every row, column and zone, none touching.",
    "intro": [
     [
      "NARRATOR",
@@ -1962,13 +2551,13 @@
     ],
     [
      "NARRATOR",
-     "Six frames, no timestamps."
+     "The camera grid survives, the frames don’t. One car per lane, one per post, one per zone."
     ]
    ],
    "reveal": [
     [
      "NARRATOR",
-     "In order, the frames show a motel company car taking Kestrel Bend too fast. The impact. The driver getting out and making a call."
+     "Laid on the grid, the surviving frames line up: a motel company car taking Kestrel Bend too fast. The impact. The driver getting out and making a call."
     ],
     [
      "NARRATOR",
@@ -2000,51 +2589,20 @@
     "text": "The 2019 frames show a motel company car hitting Mara Ward, the driver calling someone, and Owen arriving afterwards. The driver’s face is hidden by glare."
    },
    "hints": [
-    "Think about what has to happen before what. The second vehicle arrives after the phone call.",
-    "Empty road, the car, impact, the driver gets out, Owen arrives, the car backs away."
+    "Look for a zone squeezed into one row or column. That line belongs to it.",
+    "Two zones that only cover the same two columns own both columns. Cross out everything else there."
    ],
    "puzzle": {
-    "kind": "timeline",
-    "prompt": "18 October 2019, earliest at the top.",
-    "order": [
-     "a",
-     "b",
-     "c",
-     "d",
-     "e",
-     "f"
-    ],
-    "cards": [
-     {
-      "id": "a",
-      "title": "Headlights on a wet road",
-      "detail": "Nothing in frame but a woman walking on the shoulder."
-     },
-     {
-      "id": "b",
-      "title": "A car takes Kestrel Bend",
-      "detail": "Motel livery on the door. Too fast for the wet."
-     },
-     {
-      "id": "c",
-      "title": "Impact",
-      "detail": "The windscreen whites out in the glare."
-     },
-     {
-      "id": "d",
-      "title": "The driver gets out",
-      "detail": "Kneels on the road, then stands and makes a phone call."
-     },
-     {
-      "id": "e",
-      "title": "A second vehicle arrives",
-      "detail": "Owen’s ute. He walks to the car, not to her."
-     },
-     {
-      "id": "f",
-      "title": "The company car backs out of frame",
-      "detail": "One headlight broken. Owen stays behind with a torch."
-     }
+    "kind": "stakeout",
+    "caption": "ROUTE 9 · ROAD CAMERA GRID",
+    "regions": [
+     "AAAABBB",
+     "AAABBBB",
+     "CCCDDDB",
+     "CCFFDDB",
+     "CEFFDDD",
+     "EEGFFDD",
+     "EGGFFDD"
     ]
    }
   },
@@ -2471,7 +3029,7 @@
    "ch": 3,
    "title": "The Laundry Override",
    "scene": "laundry",
-   "task": "Find the missing digits of the override code and open the laundry door.",
+   "task": "Shift the laundry trolleys out through the gaps of their colour to reach the keypad. Its last two digits are on the board behind them.",
    "intro": [
     [
      "NARRATOR",
@@ -2505,122 +3063,249 @@
     "text": "The override code 6421 opened the outer laundry door. Nina is alive, past the boiler."
    },
    "hints": [
-    "The tag gives you two digits and the log gives you two more. Something in here will get you at the keypad.",
-    "Screwdriver from the toolbox for the keypad cover; gloves from the basket to lift the clipboard off the steam pipe. Then 6 4 2 1."
+    "Look at which gaps are wide enough for the long trolleys before you move anything.",
+    "Clear one side of the room completely before starting on the other."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "laundry",
-    "goal": "doorOpen",
-    "items": {
-     "gloves": {
-      "label": "Work gloves",
-      "icon": "🧤"
+    "kind": "jam",
+    "caption": "LAUNDRY · TROLLEY JAM",
+    "w": 6,
+    "h": 6,
+    "blocks": [
+     {
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "pos": [
+       2,
+       2
+      ]
      },
-     "screwdriver": {
-      "label": "Screwdriver",
-      "icon": "🪛"
+     {
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "pos": [
+       2,
+       3
+      ]
+     },
+     {
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       1,
+       4
+      ]
+     },
+     {
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       5,
+       5
+      ]
+     },
+     {
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "pos": [
+       0,
+       2
+      ]
+     },
+     {
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "pos": [
+       3,
+       5
+      ]
+     },
+     {
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       3,
+       0
+      ]
+     },
+     {
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       1,
+       0
+      ]
+     },
+     {
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "pos": [
+       4,
+       4
+      ]
+     },
+     {
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       5,
+       3
+      ]
      }
-    },
-    "keypad": {
-     "code": "6421",
-     "sets": "doorOpen",
-     "label": "LAUNDRY · MAINTENANCE OVERRIDE"
-    },
-    "hotspots": [
+    ],
+    "gates": [
      {
-      "id": "tag",
-      "label": "Override tag",
-      "icon": "🏷️",
-      "x": 4,
-      "y": 6,
-      "w": 30,
-      "h": 16,
-      "text": "From Daniel’s case. “LAUNDRY ACCESS · L-64”. The last two digits have melted."
+      "side": "N",
+      "at": 2,
+      "len": 2,
+      "color": "R"
      },
      {
-      "id": "basket",
-      "label": "Laundry basket",
-      "icon": "🧺",
-      "x": 36,
-      "y": 6,
-      "w": 28,
-      "h": 16,
-      "text": "Under a heap of mouldy towels: heavy work gloves.",
-      "doneText": "Towels. Nothing else.",
-      "gives": "gloves"
+      "side": "W",
+      "at": 0,
+      "len": 2,
+      "color": "R"
      },
      {
-      "id": "clip",
-      "label": "Clipboard on the steam pipe",
-      "icon": "📋",
-      "x": 66,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "needs": "gloves",
-      "needsText": "It’s hanging on a steam pipe. Far too hot to touch bare-handed.",
-      "text": "A scorched maintenance log. The last line: “Override reset, code ends …21.”"
+      "side": "S",
+      "at": 2,
+      "len": 3,
+      "color": "B"
      },
      {
-      "id": "toolbox",
-      "label": "Maintenance toolbox",
-      "icon": "🧰",
-      "x": 4,
-      "y": 32,
-      "w": 26,
-      "h": 18,
-      "text": "The padlock hangs open. Inside, a screwdriver and a stub of pencil.",
-      "doneText": "A pencil stub and a lot of rust.",
-      "gives": "screwdriver"
+      "side": "E",
+      "at": 0,
+      "len": 2,
+      "color": "B"
      },
      {
-      "id": "ext",
-      "label": "Fire extinguisher",
-      "icon": "🧯",
-      "x": 4,
-      "y": 56,
-      "w": 28,
-      "h": 16,
-      "text": "Last inspected 2019. Nobody has looked after this wing since."
+      "side": "N",
+      "at": 4,
+      "len": 2,
+      "color": "Y"
      },
      {
-      "id": "door",
-      "label": "Laundry door",
-      "icon": "🚪",
-      "x": 34,
-      "y": 34,
-      "w": 28,
-      "h": 20,
-      "text": "Steel, warm to the touch. You can hear someone breathing on the other side."
+      "side": "W",
+      "at": 3,
+      "len": 3,
+      "color": "Y"
      },
      {
-      "id": "cover",
-      "label": "Keypad cover",
-      "icon": "🔲",
-      "x": 64,
-      "y": 56,
-      "w": 30,
-      "h": 16,
-      "hiddenIf": "coverOff",
-      "needs": "screwdriver",
-      "needsText": "A steel cover, four screws. You need a screwdriver.",
-      "text": "The cover comes off. The keypad underneath is warm to the touch.",
-      "sets": "coverOff"
+      "side": "N",
+      "at": 0,
+      "len": 2,
+      "color": "G"
      },
      {
-      "id": "keypad",
-      "label": "Door keypad",
-      "icon": "🔢",
-      "x": 64,
-      "y": 56,
-      "w": 30,
-      "h": 16,
-      "visibleIf": "coverOff",
-      "text": "",
-      "keypad": true
+      "side": "E",
+      "at": 3,
+      "len": 3,
+      "color": "G"
      }
-    ]
+    ],
+    "par": 12,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
@@ -2956,7 +3641,7 @@
    "ch": 3,
    "title": "The Final Account",
    "scene": "security",
-   "task": "Give the dispatcher the whole chronology, earliest first.",
+   "task": "Post the officers: one in every row, column and wing of the floor plan, none side by side.",
    "intro": [
     [
      "NARRATOR",
@@ -2964,11 +3649,11 @@
     ],
     [
      "DISPATCH",
-     "For the statement: walk me through it in order. The crash, the cover-up, tonight."
+     "Before the statement: I need officers on every row of the floor plan, one per wing, nobody side by side."
     ],
     [
      "YOU",
-     "All of it. In order."
+     "Give me the plan."
     ]
    ],
    "reveal": [
@@ -3010,63 +3695,21 @@
     "text": "Nina is safe. Daniel Price is in custody for the abduction and the 2019 death of Mara Ward. Owen Mercer is being questioned over the cover-up. The evidence is safe off-site."
    },
    "hints": [
-    "The evidence board has every time you need. Seven years ago comes first, tonight comes last.",
-    "Crash, insurance change, first payment, card cloned, checkout, Nina taken, Room 17 searched, upload."
+    "Find zones trapped in a single row or column first, then pairs of zones sharing two rows.",
+    "If placing a marker on a square would leave some zone with no room at all, that square is out."
    ],
    "puzzle": {
-    "kind": "timeline",
-    "prompt": "The whole case, earliest at the top.",
-    "order": [
-     "a",
-     "b",
-     "c",
-     "d",
-     "e",
-     "f",
-     "g",
-     "h"
-    ],
-    "cards": [
-     {
-      "id": "a",
-      "title": "Mara Ward dies at Kestrel Bend",
-      "detail": "The road camera was still working that night."
-     },
-     {
-      "id": "b",
-      "title": "Owen changes the insurance paperwork",
-      "detail": "“You told me nobody was hurt.”"
-     },
-     {
-      "id": "c",
-      "title": "The first retainer payment",
-      "detail": "The first October after the crash."
-     },
-     {
-      "id": "d",
-      "title": "Daniel clones your NIGHT SHIFT card",
-      "detail": "The encoder’s own clock: 22:57."
-     },
-     {
-      "id": "e",
-      "title": "Room 17 is checked out on Nina’s login",
-      "detail": "The checkout she watched on the monitor."
-     },
-     {
-      "id": "f",
-      "title": "Nina is taken through the staff door",
-      "detail": "Your cloned card opens it."
-     },
-     {
-      "id": "g",
-      "title": "Room 17 is searched",
-      "detail": "Your card again, while you sat in security."
-     },
-     {
-      "id": "h",
-      "title": "The evidence reaches the police server",
-      "detail": "Before dawn."
-     }
+    "kind": "stakeout",
+    "caption": "MARINER FLOOR PLAN · OFFICER POSTS",
+    "regions": [
+     "AAAAABBC",
+     "AAAABBBC",
+     "DDABBCCC",
+     "DDBBBCEF",
+     "DDBBHEEF",
+     "DHBBHHEF",
+     "GHHBHHFF",
+     "GHHHHHFF"
     ]
    }
   }

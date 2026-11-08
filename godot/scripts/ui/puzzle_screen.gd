@@ -173,10 +173,26 @@ func _mount() -> void:
 	_board.add_child(view)
 	view.setup(l["puzzle"], (int(Game.save["level"]) + 1) * 7919, Game.earned_clues())
 	view.set_landscape(_is_land)
+	_teach_once(String(l["puzzle"]["kind"]))
 	view.minimum_size_changed.connect(_fit_frame)
 	_fit_frame()
 	if Fx.motion():
 		Fx.fade_in(view, 0.3)
+
+
+## The first time a kind of puzzle appears in this save, its view demonstrates one move.
+func _teach_once(kind: String) -> void:
+	var taught: Dictionary = Game.save.get("taught", {})
+	if taught.has(kind):
+		return
+	taught[kind] = true
+	Game.save["taught"] = taught
+	Game.write_save()
+	# wait until the board is laid out so the hand lands on the right squares
+	for _f in 4:
+		await get_tree().process_frame
+	if view and is_instance_valid(view):
+		view.show_ghost()
 
 
 ## A puzzle that needs more height than the window gives sets its own minimum; the page then scrolls.
