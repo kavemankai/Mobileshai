@@ -64,6 +64,9 @@ func _show() -> void:
 		_stage.queue_free()
 	_stage = BoxStages.make(st, clues)
 	_stage.status.connect(say)
+	if _stage.hint != "":
+		_clue.text += ("\n" if _clue.text != "" else "") + _stage.hint
+		_clue.visible = true
 	_stage.done.connect(_stage_done.bind(st))
 	_holder.add_child(_stage)
 	UI.qa(_stage, "box.stage")

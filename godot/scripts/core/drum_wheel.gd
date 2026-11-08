@@ -101,6 +101,14 @@ func _done(t: float) -> void:
 	_tick = int(off)
 	settled.emit(idx, int(off))
 
+## Turn to a value by the shortest way round (used when another wheel drags this one along).
+func set_value(p: int) -> void:
+	var L := letters.length()
+	var cur := posmod(roundi(off), L)
+	var d := posmod(p - cur + L / 2, L) - L / 2
+	_snap(roundf(off) + float(d))
+
+
 func celebrate(delay: float) -> void:
 	if not Fx.motion():
 		glow = 1.0
