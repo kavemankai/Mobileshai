@@ -82,6 +82,22 @@ jobs:
         with:
           name: godot-web
           path: game/dist/godot
+      - name: Point the site root at the Godot build
+        # The web build is frozen; the root now forwards to /godot/ and retires the old service worker.
+        run: |
+          cat > dist/index.html <<'HTML'
+          <!doctype html>
+          <html lang="en"><head><meta charset="utf-8">
+          <meta name="viewport" content="width=device-width,initial-scale=1">
+          <title>The Last Check-In</title>
+          <meta http-equiv="refresh" content="0; url=./godot/">
+          <style>body{background:#0b1520;color:#e9e4d8;font-family:sans-serif;display:grid;place-items:center;height:100vh;margin:0}a{color:#e8b877}</style>
+          <script>
+          if (navigator.serviceWorker) navigator.serviceWorker.getRegistrations().then(rs => rs.forEach(r => { if (!r.scope.includes('/godot/')) r.unregister(); }));
+          location.replace('./godot/');
+          </script></head>
+          <body><p>Opening <a href="./godot/">The Last Check-In</a>…</p></body></html>
+          HTML
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:

@@ -34,7 +34,7 @@ const server = http.createServer((req, res) => {
 await new Promise((r) => server.listen(0, r));
 const base = `http://localhost:${server.address().port}/index.html?debug=1`;
 
-const KINDS = ['zip', 'hidden', 'panels', 'match3', 'timeline', 'logic', 'cryptex', 'goods', 'water', 'blockfit', 'tilt', 'box', 'room'];
+const KINDS = ['zip', 'arrows', 'panels', 'match3', 'stakeout', 'logic', 'cryptex', 'goods', 'water', 'blockfit', 'tilt', 'box', 'screws', 'jam'];
 
 async function session(width, height, extra = {}) {
   const browser = await chromium.launch({ args: ['--use-gl=swiftshader', '--enable-unsafe-swiftshader', '--ignore-gpu-blocklist'] });

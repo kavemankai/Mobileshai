@@ -14,12 +14,12 @@ func _init() -> void:
 	test_match3(levels)
 	test_blockfit_tilt(levels)
 	test_panels(levels)
-	test_rooms(levels)
 	test_box(levels)
 	test_hint_planners(levels)
 	test_stakeout(levels)
 	test_screws(levels)
 	test_arrows(levels)
+	test_jam(levels)
 	print("model tests: %s" % ("ALL PASS" if fails == 0 else "%d FAILED" % fails))
 	quit(1 if fails else 0)
 
@@ -242,16 +242,6 @@ func test_panels(levels: Array) -> void:
 		check(not PanelsModel.solved(d, st["slots"], st["views"]), "panels level %d starts solved" % i)
 
 
-func test_rooms(levels: Array) -> void:
-	for i in levels.size():
-		var d: Dictionary = levels[i]["puzzle"]
-		if d["kind"] != "room":
-			continue
-		var steps := RoomModel.auto_solve(d)
-		check(not steps.is_empty(), "room level %d cannot be completed" % i)
-		print("room level %d solved in %d steps" % [i, steps.size()])
-
-
 func test_box(levels: Array) -> void:
 	for i in levels.size():
 		var d: Dictionary = levels[i]["puzzle"]
@@ -281,8 +271,6 @@ func test_hint_planners(levels: Array) -> void:
 			check(not WaterModel.first_move(d["tubes"].duplicate(), int(d["capacity"])).is_empty(), "water level %d: no hint from the start" % i)
 		if d["kind"] == "goods":
 			check(not GoodsModel.suggest(d, GoodsModel.init_racks(d)).is_empty(), "goods level %d: no hint from the start" % i)
-		if d["kind"] == "room":
-			check(not RoomModel.next_step(d, RoomModel.new()).is_empty(), "room level %d: no hint from the start" % i)
 		if d["kind"] == "tilt":
 			check(not TiltModel.solve(d["rows"], TiltModel.find(d["rows"], "S")).is_empty(), "tilt level %d: no hint from the start" % i)
 
@@ -362,3 +350,27 @@ func test_arrows(levels: Array) -> void:
 		check(m.won(), "arrows level %d cannot be cleared" % i)
 		print("arrows level %d: %dx%d, %d arrows" % [i, m.w, m.h, m.arrows.size()])
 	check(n == 2, "expected 2 arrows levels, found %d" % n)
+
+
+func test_jam(levels: Array) -> void:
+	var n := 0
+	for i in levels.size():
+		var d: Dictionary = levels[i]["puzzle"]
+		if d["kind"] != "jam":
+			continue
+		n += 1
+		var m := JamModel.from_def(d)
+		var occ := {}
+		for b in m.blocks.size():
+			for c in m.cells_at(b, m.pos[b]):
+				check(not occ.has(c), "jam level %d: blocks overlap" % i)
+				occ[c] = true
+		var path := m.solve(200000)
+		check(not path.is_empty(), "jam level %d cannot be solved" % i)
+		check(path.size() == int(d["par"]), "jam level %d: par %d but the solver finds %d" % [i, int(d["par"]), path.size()])
+		for mv in path:
+			var r := m.slide(mv[0], mv[1])
+			m.pos[mv[0]] = null if r["out"] else r["end"]
+		check(m.won(), "jam level %d: replaying the solution does not clear the board" % i)
+		print("jam level %d: %dx%d, %d blocks, par %d" % [i, m.w, m.h, m.blocks.size(), path.size()])
+	check(n == 2, "expected 2 jam levels, found %d" % n)

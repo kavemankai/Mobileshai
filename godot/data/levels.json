@@ -978,7 +978,7 @@
    "ch": 1,
    "title": "Through the Door",
    "scene": "corridor17",
-   "task": "Find the staff override code for Room 17 somewhere in this corridor.",
+   "task": "Clear the carts jamming the corridor. Drag each one out through the gap of its own colour.",
    "intro": [
     [
      "NARRATOR",
@@ -990,13 +990,13 @@
     ],
     [
      "YOU",
-     "There’s a staff keypad. Nina would know the code. Nina’s not here."
+     "Housekeeping carts and laundry bags, wedged end to end. Nina would have had this cleared in a minute."
     ]
    ],
    "reveal": [
     [
      "NARRATOR",
-     "The lock clicks. Room 17 has been torn apart. Drawers pulled out and dumped, mattress shoved off the base."
+     "The last cart rolls clear and the door swings in on its own. Room 17 has been torn apart. Drawers pulled out and dumped, mattress shoved off the base."
     ],
     [
      "NARRATOR",
@@ -1016,95 +1016,219 @@
     "text": "Room 17 was torn apart at 12:09 AM by whoever has your cloned card. The registered guest, Martin Hale, never slept there."
    },
    "hints": [
-    "Nina’s note on the back says how the override is built. Look for the room number, then the time the checkout lied.",
-    "Move the cart, read the board, check under the mat. Room 17, checkout 11:18: 1718."
+    "A cart only leaves through a gap of its colour that is at least as wide as it is.",
+    "Move the small carts out of the way first; the big ones need a clear run to their gap."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "corridor17",
-    "goal": "doorOpen",
-    "items": {},
-    "keypad": {
-     "code": "1718",
-     "sets": "doorOpen",
-     "label": "ROOM 17 · STAFF OVERRIDE"
-    },
-    "hotspots": [
+    "kind": "jam",
+    "caption": "CORRIDOR · ROOM 17",
+    "w": 5,
+    "h": 6,
+    "blocks": [
      {
-      "id": "note",
-      "label": "Back of Nina’s note",
-      "icon": "📝",
-      "x": 4,
-      "y": 6,
-      "w": 30,
-      "h": 16,
-      "text": "In pencil on the back: “Staff override = the room, then the minute it lied.”"
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       4,
+       0
+      ]
      },
      {
-      "id": "door",
-      "label": "Room door",
-      "icon": "🚪",
-      "x": 38,
-      "y": 10,
-      "w": 26,
-      "h": 26,
-      "text": "The brass number plate has been unscrewed. Two empty holes where it was."
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        2,
+        0
+       ]
+      ],
+      "pos": [
+       3,
+       2
+      ]
      },
      {
-      "id": "mat",
-      "label": "Door mat",
-      "icon": "🟫",
-      "x": 38,
-      "y": 40,
-      "w": 26,
-      "h": 12,
-      "text": "Under the mat: the brass plate from the door. 1 7."
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       1,
+       1
+      ]
      },
      {
-      "id": "cart",
-      "label": "Housekeeping cart",
-      "icon": "🧺",
-      "x": 66,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "text": "You roll the cart aside. Behind it, the housekeeping board.",
-      "doneText": "Towels, soap, a clipboard with nothing on it.",
-      "sets": "cartMoved"
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        0,
+        2
+       ]
+      ],
+      "pos": [
+       0,
+       0
+      ]
      },
      {
-      "id": "board",
-      "label": "Housekeeping board",
-      "icon": "📋",
-      "x": 66,
-      "y": 28,
-      "w": 30,
-      "h": 18,
-      "visibleIf": "cartMoved",
-      "text": "Chalk, smudged: “R17 · OUT 11:18 · N.S.” Nina’s initials. Except Nina didn’t do it."
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       4,
+       3
+      ]
      },
      {
-      "id": "ice",
-      "label": "Ice machine",
-      "icon": "🧊",
-      "x": 4,
-      "y": 58,
-      "w": 30,
-      "h": 16,
-      "text": "It rattles. A puddle under it, and wet footprints leading to 17 and back."
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       1,
+       3
+      ]
      },
      {
-      "id": "keypad",
-      "label": "Door keypad",
-      "icon": "🔢",
-      "x": 62,
-      "y": 58,
-      "w": 32,
-      "h": 16,
-      "text": "",
-      "keypad": true
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "pos": [
+       2,
+       3
+      ]
+     },
+     {
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       2,
+       0
+      ]
      }
-    ]
+    ],
+    "gates": [
+     {
+      "side": "S",
+      "at": 0,
+      "len": 2,
+      "color": "R"
+     },
+     {
+      "side": "E",
+      "at": 3,
+      "len": 3,
+      "color": "R"
+     },
+     {
+      "side": "N",
+      "at": 0,
+      "len": 2,
+      "color": "B"
+     },
+     {
+      "side": "W",
+      "at": 0,
+      "len": 3,
+      "color": "B"
+     },
+     {
+      "side": "N",
+      "at": 2,
+      "len": 3,
+      "color": "Y"
+     },
+     {
+      "side": "E",
+      "at": 0,
+      "len": 3,
+      "color": "Y"
+     },
+     {
+      "side": "S",
+      "at": 2,
+      "len": 3,
+      "color": "G"
+     },
+     {
+      "side": "W",
+      "at": 4,
+      "len": 2,
+      "color": "G"
+     }
+    ],
+    "par": 12,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
@@ -2905,7 +3029,7 @@
    "ch": 3,
    "title": "The Laundry Override",
    "scene": "laundry",
-   "task": "Find the missing digits of the override code and open the laundry door.",
+   "task": "Shift the laundry trolleys out through the gaps of their colour to reach the keypad. Its last two digits are on the board behind them.",
    "intro": [
     [
      "NARRATOR",
@@ -2939,122 +3063,249 @@
     "text": "The override code 6421 opened the outer laundry door. Nina is alive, past the boiler."
    },
    "hints": [
-    "The tag gives you two digits and the log gives you two more. Something in here will get you at the keypad.",
-    "Screwdriver from the toolbox for the keypad cover; gloves from the basket to lift the clipboard off the steam pipe. Then 6 4 2 1."
+    "Look at which gaps are wide enough for the long trolleys before you move anything.",
+    "Clear one side of the room completely before starting on the other."
    ],
    "puzzle": {
-    "kind": "room",
-    "scene": "laundry",
-    "goal": "doorOpen",
-    "items": {
-     "gloves": {
-      "label": "Work gloves",
-      "icon": "🧤"
+    "kind": "jam",
+    "caption": "LAUNDRY · TROLLEY JAM",
+    "w": 6,
+    "h": 6,
+    "blocks": [
+     {
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "pos": [
+       2,
+       2
+      ]
      },
-     "screwdriver": {
-      "label": "Screwdriver",
-      "icon": "🪛"
+     {
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "pos": [
+       2,
+       3
+      ]
+     },
+     {
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       1,
+       4
+      ]
+     },
+     {
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       5,
+       5
+      ]
+     },
+     {
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ]
+      ],
+      "pos": [
+       0,
+       2
+      ]
+     },
+     {
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "pos": [
+       3,
+       5
+      ]
+     },
+     {
+      "color": "Y",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       3,
+       0
+      ]
+     },
+     {
+      "color": "G",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        0,
+        1
+       ],
+       [
+        1,
+        0
+       ],
+       [
+        1,
+        1
+       ]
+      ],
+      "pos": [
+       1,
+       0
+      ]
+     },
+     {
+      "color": "R",
+      "shape": [
+       [
+        0,
+        0
+       ],
+       [
+        1,
+        0
+       ]
+      ],
+      "pos": [
+       4,
+       4
+      ]
+     },
+     {
+      "color": "B",
+      "shape": [
+       [
+        0,
+        0
+       ]
+      ],
+      "pos": [
+       5,
+       3
+      ]
      }
-    },
-    "keypad": {
-     "code": "6421",
-     "sets": "doorOpen",
-     "label": "LAUNDRY · MAINTENANCE OVERRIDE"
-    },
-    "hotspots": [
+    ],
+    "gates": [
      {
-      "id": "tag",
-      "label": "Override tag",
-      "icon": "🏷️",
-      "x": 4,
-      "y": 6,
-      "w": 30,
-      "h": 16,
-      "text": "From Daniel’s case. “LAUNDRY ACCESS · L-64”. The last two digits have melted."
+      "side": "N",
+      "at": 2,
+      "len": 2,
+      "color": "R"
      },
      {
-      "id": "basket",
-      "label": "Laundry basket",
-      "icon": "🧺",
-      "x": 36,
-      "y": 6,
-      "w": 28,
-      "h": 16,
-      "text": "Under a heap of mouldy towels: heavy work gloves.",
-      "doneText": "Towels. Nothing else.",
-      "gives": "gloves"
+      "side": "W",
+      "at": 0,
+      "len": 2,
+      "color": "R"
      },
      {
-      "id": "clip",
-      "label": "Clipboard on the steam pipe",
-      "icon": "📋",
-      "x": 66,
-      "y": 6,
-      "w": 30,
-      "h": 18,
-      "needs": "gloves",
-      "needsText": "It’s hanging on a steam pipe. Far too hot to touch bare-handed.",
-      "text": "A scorched maintenance log. The last line: “Override reset, code ends …21.”"
+      "side": "S",
+      "at": 2,
+      "len": 3,
+      "color": "B"
      },
      {
-      "id": "toolbox",
-      "label": "Maintenance toolbox",
-      "icon": "🧰",
-      "x": 4,
-      "y": 32,
-      "w": 26,
-      "h": 18,
-      "text": "The padlock hangs open. Inside, a screwdriver and a stub of pencil.",
-      "doneText": "A pencil stub and a lot of rust.",
-      "gives": "screwdriver"
+      "side": "E",
+      "at": 0,
+      "len": 2,
+      "color": "B"
      },
      {
-      "id": "ext",
-      "label": "Fire extinguisher",
-      "icon": "🧯",
-      "x": 4,
-      "y": 56,
-      "w": 28,
-      "h": 16,
-      "text": "Last inspected 2019. Nobody has looked after this wing since."
+      "side": "N",
+      "at": 4,
+      "len": 2,
+      "color": "Y"
      },
      {
-      "id": "door",
-      "label": "Laundry door",
-      "icon": "🚪",
-      "x": 34,
-      "y": 34,
-      "w": 28,
-      "h": 20,
-      "text": "Steel, warm to the touch. You can hear someone breathing on the other side."
+      "side": "W",
+      "at": 3,
+      "len": 3,
+      "color": "Y"
      },
      {
-      "id": "cover",
-      "label": "Keypad cover",
-      "icon": "🔲",
-      "x": 64,
-      "y": 56,
-      "w": 30,
-      "h": 16,
-      "hiddenIf": "coverOff",
-      "needs": "screwdriver",
-      "needsText": "A steel cover, four screws. You need a screwdriver.",
-      "text": "The cover comes off. The keypad underneath is warm to the touch.",
-      "sets": "coverOff"
+      "side": "N",
+      "at": 0,
+      "len": 2,
+      "color": "G"
      },
      {
-      "id": "keypad",
-      "label": "Door keypad",
-      "icon": "🔢",
-      "x": 64,
-      "y": 56,
-      "w": 30,
-      "h": 16,
-      "visibleIf": "coverOff",
-      "text": "",
-      "keypad": true
+      "side": "E",
+      "at": 3,
+      "len": 3,
+      "color": "G"
      }
-    ]
+    ],
+    "par": 12,
+    "colors": {
+     "R": "#d0574a",
+     "B": "#4a8fd0",
+     "Y": "#e5c34a",
+     "G": "#5fae5a",
+     "P": "#9b6ad0",
+     "O": "#e08a3c"
+    }
    }
   },
   {
